@@ -26,7 +26,7 @@ class _Selected_carState extends State<Selected_car> {
   Widget build(BuildContext context) {
     return DefaultTabController(length: 2, child:Scaffold(appBar:AppBar(
      backgroundColor: Colors.black,
-     title: Text('Selected car',style: TextStyle(color: Colors.white,fontSize: 23),),
+     title: Text('Selected vehicle',style: TextStyle(color: Colors.white,fontSize: 23),),
      centerTitle: true,
     ),
 
@@ -82,13 +82,16 @@ class _Selected_carState extends State<Selected_car> {
                                   borderRadius: BorderRadius.circular(10)
                                 ),
                               ),
-                              keyboardType: TextInputType.datetime,
+                              readOnly: true,
                               validator: (value) {
                                 if(value==null || value.isEmpty){
                                   return 'Provide a Pick up date';
                                 }else{
                                   return null;
                                 }
+                              },
+                              onTap: (){
+                                _selectedpickupDate();
                               },
                             ),
                           ),
@@ -106,13 +109,16 @@ class _Selected_carState extends State<Selected_car> {
                               borderRadius: BorderRadius.circular(10)
                             ),
                           ),
-                          keyboardType: TextInputType.datetime,
+                          readOnly: true,
                           validator: (value) {
                                 if(value==null || value.isEmpty){
                                   return 'Provide a Drop off date';
                                 }else{
                                   return null;
                                 }
+                              },
+                              onTap: (){
+                                _selecteddropoffDate();
                               },
                         ),
                       ),
@@ -199,7 +205,7 @@ class _Selected_carState extends State<Selected_car> {
                         ),
                       ),
                          
-                  SizedBox(height: 50,),
+                  SizedBox(height: 30,),
                        
                   // Button >>>>>>>
                        
@@ -225,24 +231,26 @@ class _Selected_carState extends State<Selected_car> {
       
                  Padding(
                    padding: const EdgeInsets.only(left: 20,right: 27),
-                   child: TextFormField(
-                    controller: _customername,
-                    decoration: InputDecoration(
-                      filled: true,
-                      icon: Icon(Icons.person),
-                      hintText: 'Customer Name :',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10)
-                      )
-                    ),
-                    keyboardType: TextInputType.name,
-                    validator: (value) {
-                      if(value==null || value.isEmpty){
-                        return 'Enter the customer name';
-                      }else{
-                        return null;
-                      }
-                    },
+                   child: SingleChildScrollView(
+                     child: TextFormField(
+                      controller: _customername,
+                      decoration: InputDecoration(
+                        filled: true,
+                        icon: Icon(Icons.person),
+                        hintText: 'Customer Name :',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10)
+                        )
+                      ),
+                      keyboardType: TextInputType.name,
+                      validator: (value) {
+                        if(value==null || value.isEmpty){
+                          return 'Enter the customer name';
+                        }else{
+                          return null;
+                        }
+                      },
+                     ),
                    ),
                  ),
                  
@@ -289,7 +297,7 @@ class _Selected_carState extends State<Selected_car> {
                       )
                     ),
                     minLines: 1,
-                    maxLines: 10,
+                    maxLines: 6,
                     validator: (value) {
                       if(value==null || value.isEmpty){
                         return 'Enter the Address';
@@ -302,7 +310,7 @@ class _Selected_carState extends State<Selected_car> {
        
                 // Botton>>>>>>>>>>>>>
        
-                SizedBox(height: 50,),
+                SizedBox(height: 30,),
                 Row(
                     children: [
                       SizedBox(width: 235,),
@@ -322,9 +330,27 @@ class _Selected_carState extends State<Selected_car> {
      ),
     )
     );
-   
-    
-    
-    
   }
+
+
+  Future<void> _selecteddropoffDate()async {
+    DateTime?pickeded = await showDatePicker(context: context, firstDate: DateTime(2000), lastDate: DateTime(2100));
+
+    if(pickeded!= null){
+      setState(() {
+        _dropoffdate.text = pickeded.toString().split(" ")[0];
+      });
+    }
+  }
+
+  Future<void> _selectedpickupDate()async {
+   DateTime? picked = await showDatePicker(context: context, firstDate: DateTime(2000), lastDate: DateTime(2100));
+
+   if( picked!= null){
+    setState(() {
+      _pickupdate.text = picked.toString().split(" ")[0];
+    });
+   }
+  }
+  
 }

@@ -1,4 +1,4 @@
-import 'package:car_rental/screens/rented_cars_details.dart';
+import 'package:car_rental/screens/car_details.dart';
 import 'package:car_rental/screens/selected_car.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +19,7 @@ class _Home_screenState extends State<Home_screen> {
           child: Padding(
             padding: const EdgeInsets.only(right: 10),
             child: IconButton(onPressed: (){
-              Navigator.of(context).push(MaterialPageRoute(builder: ((context) => Rented_car_details())));
+              Navigator.of(context).push(MaterialPageRoute(builder: ((context) => Car_details())));
             }, icon: Icon(Icons.notifications,color: Colors.lightGreen[400],size: 30,)),
           ),
         )],

@@ -9,6 +9,7 @@ class Rented_car_details extends StatelessWidget {
     return DefaultTabController(length: 2, child:
     Scaffold(
       appBar:AppBar(
+        iconTheme: IconThemeData(color: Colors.lightGreen[400]),
         backgroundColor:Colors.black,
         title: Text('Rented Cars',style: TextStyle(color: Colors.white,fontSize: 23),),
         centerTitle: true,
@@ -28,7 +29,7 @@ class Rented_car_details extends StatelessWidget {
             Container(
               child: Column(
                 children: [
-                  Text('hello world'),
+                  
                 ],
               ),
             ),
