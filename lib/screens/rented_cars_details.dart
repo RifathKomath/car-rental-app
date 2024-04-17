@@ -9,8 +9,8 @@ class Rented_car_details extends StatelessWidget {
     return DefaultTabController(length: 2, child:
     Scaffold(
       appBar:AppBar(
-        iconTheme: IconThemeData(color: Colors.lightGreen[400]),
-        backgroundColor:Colors.black,
+        iconTheme: IconThemeData(color: Colors.white),
+        backgroundColor:Colors.blueGrey[900],
         title: Text('Rented Cars',style: TextStyle(color: Colors.white,fontSize: 23),),
         centerTitle: true,
 
@@ -21,8 +21,7 @@ class Rented_car_details extends StatelessWidget {
           ),
           Tab(text: 'Customer details',)
         ],
-        labelColor: Colors.lightGreen[400],
-        unselectedLabelColor: Colors.black,
+        labelColor: Colors.black,
         ),
         Expanded(
           child: TabBarView(children: [
