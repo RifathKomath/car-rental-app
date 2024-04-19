@@ -1,6 +1,8 @@
+import 'package:car_rental/db_helper/signup_service.dart';
 import 'package:car_rental/screens/bottom_navigation.dart';
 import 'package:car_rental/screens/signup_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Login_screen extends StatefulWidget {
   const Login_screen({super.key});
@@ -17,6 +19,9 @@ class _Login_screenState extends State<Login_screen> {
  final _formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    
+    final Signupservice = Provider.of<signupservice>(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey[900],
@@ -62,7 +67,7 @@ class _Login_screenState extends State<Login_screen> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25)
                         ),
-                        label: Text('User name/Email:'),
+                        label: Text('User name'),
                         labelStyle: TextStyle(color: Colors.black,fontSize: 13)
                       ),
                       validator: (value) {
@@ -105,9 +110,27 @@ class _Login_screenState extends State<Login_screen> {
 
                   //  button>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                               
-                   ElevatedButton(onPressed: (){
-                      _formkey.currentState!.validate();
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Bottom_navigation()));
+                   ElevatedButton(onPressed: ()async{
+                      if(_formkey.currentState!.validate()){
+
+                         showDialog(context: context,
+                        barrierDismissible: false,
+                         builder: (context){
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                         });
+
+                        
+                        final user = await Signupservice.loginUser(_username.text.trim(), _password.text.trim());
+
+                      Navigator.pop(context);
+                        if(user!=null){
+                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>Bottom_navigation()), (route) => false);
+
+                        }
+                      }
+                    
                    }, child: Text('Log in',style: TextStyle(color: Colors.white),),style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.blueGrey[900]),shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),),),
                               
                     SizedBox(height: 15),

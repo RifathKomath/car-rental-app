@@ -3,9 +3,16 @@ import 'package:car_rental/screens/selected_car.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Car_details extends StatelessWidget {
+class Car_details extends StatefulWidget {
   const Car_details({super.key});
 
+  @override
+  State<Car_details> createState() => _Car_detailsState();
+}
+
+class _Car_detailsState extends State<Car_details> {
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +23,9 @@ class Car_details extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
+
              
 
               SizedBox(height: 450,),

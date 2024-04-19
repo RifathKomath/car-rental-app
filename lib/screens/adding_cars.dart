@@ -1,5 +1,6 @@
 import 'package:car_rental/models/carrental.dart';
 import 'package:car_rental/db_helper/carrental_service.dart';
+import 'package:car_rental/screens/bottom_navigation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -32,32 +33,35 @@ final carrentalservice _carrentalsevice = carrentalservice();
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:  AppBar(
-        backgroundColor: Colors.blueGrey[900],     
+        backgroundColor: Colors.blueGrey[900], 
+        automaticallyImplyLeading: false,    
         iconTheme: IconThemeData(color: Colors.white),
         actions: [Padding(
           padding: const EdgeInsets.only(right: 20,top: 10,bottom: 10),
-          child: ElevatedButton(onPressed: ()async{
-           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          child: ElevatedButton(onPressed: (){
+
+            if (_nameController.text.isNotEmpty ||
+                            _brandController.text.isNotEmpty ||
+                            _modelController.text.isNotEmpty ||
+                            _fuelController.text.isNotEmpty||
+                            _seatController.text.isNotEmpty||
+                            _regnumberController.text.isNotEmpty||
+                            _insuranceController.text.isNotEmpty||
+                            _pollutionController.text.isNotEmpty||
+                            _amountController.text.isNotEmpty) {
+                          
+                          validator();
+
+                        } else {
+
+                          _formkey.currentState!.validate();
+                           
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor:Colors.black ,
         behavior: SnackBarBehavior.floating,
         margin: EdgeInsets.all(10),
-        content: Text('Details successfully added')),);
-            _formkey.currentState!.validate();
-
-            final newcar = carrental(imagex: null, car: _nameController.text, brand: _brandController.text, model:_modelController.text, fuel: _fuelController.text, capacity: _seatController.text, number: _regnumberController.text, insurance: _insuranceController.text, pollution: _pollutionController.text, amount: _amountController.text);
-
-            await _carrentalsevice.addCar(newcar);
-
-            _nameController.clear();
-            _brandController.clear();
-            _modelController.clear();
-            _fuelController.clear();
-            _seatController.clear();
-            _regnumberController.clear();
-            _insuranceController.clear();
-            _pollutionController.clear();
-            _amountController.clear();
-
+        content: Text('Please fill the fields')),);
+                        }
 
           }, child: Text('Save',style: TextStyle(color:Colors.white,fontSize: 17 ),),style:ButtonStyle(shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),backgroundColor: MaterialStatePropertyAll(Colors.white24)) ,),
         )],
@@ -319,4 +323,29 @@ final carrentalservice _carrentalsevice = carrentalservice();
       ),
     );
   }
+    validator()async{
+
+      if(_formkey.currentState!.validate()){
+
+final newcar = carrental(imagex: null, car: _nameController.text, brand: _brandController.text, model:_modelController.text, fuel: _fuelController.text, capacity: _seatController.text, number: _regnumberController.text, insurance: _insuranceController.text, pollution: _pollutionController.text, amount: _amountController.text);
+
+            await _carrentalsevice.addCar(newcar);
+
+            _nameController.clear();
+            _brandController.clear();
+            _modelController.clear();
+            _fuelController.clear();
+            _seatController.clear();
+            _regnumberController.clear();
+            _insuranceController.clear();
+            _pollutionController.clear();
+            _amountController.clear();
+
+            
+
+             Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Bottom_navigation()));
+
+      }
+    }
 }
+

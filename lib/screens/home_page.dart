@@ -18,7 +18,7 @@ class _Home_screenState extends State<Home_screen> {
   List<carrental> _list = [];
 
 
-  // fetching all datas for bd
+  // fetching all datas from bd
 
   Future<void> _loaddetails ()async{
     _list = await _carrentalsevice.getdetails();
@@ -88,22 +88,36 @@ class _Home_screenState extends State<Home_screen> {
                 child: Text("No avialable cars"),
               )
             : ListView.builder(
+
                 itemCount: _list.length,
                 itemBuilder: (context, index) {
                   final info = _list[index];
                   return Card(
-                    elevation: 5.0,
+                    margin: EdgeInsets.symmetric(vertical: 10.0),
+                    elevation: 30.0,
                     child: ListTile(
                       leading: CircleAvatar(
                         child: Text("${index + 1}"),
                       ),
-                      title: Text("${info.car}"),
-                      subtitle: Text("${info.brand}"),
+                      title: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text("Car name :${info.car}",),
+                          Text("Brand :${info.brand}",),
+                          Text("Model :${info.model}")
+                        ],
+                        
+                      ),
+                      // subtitle: Column(
+                      //   children: [
+                      //     Text("Brand :${info.brand}",),
+                      //     Text("Model :${info.model}")
+                      //   ],
+                      // ),
                       trailing: Container(
-                        width: 100,
+                         width: 50,
                         child: Row(
                           children: [
-                              SizedBox(width: 50,),
                             IconButton(
                                 onPressed: () async {
                                    await _carrentalsevice.deletedetails(index);
@@ -112,7 +126,7 @@ class _Home_screenState extends State<Home_screen> {
                                 },
                                 icon: Icon(
                                   Icons.delete,
-                                  color: Colors.red[400],
+                                  color: Colors.blueGrey[900],
                                 ))
                           ],
                     
@@ -120,6 +134,7 @@ class _Home_screenState extends State<Home_screen> {
                   ),
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Car_details()));
+
                   },
                   )
                   );

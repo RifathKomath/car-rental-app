@@ -1,5 +1,10 @@
+import 'package:car_rental/db_helper/signup_service.dart';
+import 'package:car_rental/models/signup.dart';
 import 'package:car_rental/screens/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+
 
 class Signup_screen extends StatefulWidget {
   const Signup_screen({super.key});
@@ -18,8 +23,12 @@ class _Signup_screenState extends State<Signup_screen> {
 
   @override
   Widget build(BuildContext context) {
+
+    final Signupservice = Provider.of<signupservice>(context);
+
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: true,
         backgroundColor: Colors.blueGrey[900],
       ),
 
@@ -128,9 +137,37 @@ class _Signup_screenState extends State<Signup_screen> {
 
                   //  button>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                               
-                   ElevatedButton(onPressed: (){
-                    _formkey.currentState!.validate();
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>Login_screen()));
+                   ElevatedButton(onPressed: ()async{
+
+                    if(_formkey.currentState!.validate()){
+                        showDialog(context: context,
+                        barrierDismissible: false,
+                         builder: (context){
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                         });
+
+                         signup user = signup(username: _signupuser.text.trim(),
+                          emailid: _signupemail.text.trim(),
+                           passoword: _signuppassword.text.trim()
+                           );
+
+                           final res= await Signupservice.registerUser(user);
+
+                           Navigator.pop(context);
+
+                           if ((res==true)) {
+
+                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor:Colors.black ,
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.all(10),
+        content: Text('Signed up successfully')),);
+                            
+                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>Login_screen()), (route) => false);
+                           }
+                    }
                    }, child: Text('Sign Up',style: TextStyle(color: Colors.white),),style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.grey[900]),shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),),),
                               
                     SizedBox(height: 10),
@@ -154,4 +191,10 @@ class _Signup_screenState extends State<Signup_screen> {
       )
        );
   }
+
+//   void navigateToLoginScreen(BuildContext context) {
+//   Future.delayed(Duration(seconds: 2), () {
+//     Navigator.of(context).push(MaterialPageRoute(builder: (context) => Login_screen()));
+//   });
+// }
 }

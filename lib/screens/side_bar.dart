@@ -13,17 +13,9 @@ class Side_bar extends StatelessWidget {
       UserAccountsDrawerHeader(accountName: Text('Username',style: TextStyle(fontSize: 25),), accountEmail:Text('username@gmail.com'),
       decoration: BoxDecoration(color: Colors.blueGrey[900]), ),
       ListTile(
-        title: Text('About Us'),
-        leading: Icon(Icons.note),
-        splashColor: Colors.black12,
-        onTap: () {
-          
-        },
-      ),
-      ListTile(
         title: Text('History of cars'),
-        splashColor: Colors.black12,
         leading: Icon(Icons.history),
+        splashColor: Colors.black12,
         onTap: () {
           
         },
@@ -32,6 +24,14 @@ class Side_bar extends StatelessWidget {
         title: Text('Revenue'),
         splashColor: Colors.black12,
         leading: Icon(Icons.currency_rupee_outlined),
+        onTap: () {
+          
+        },
+      ),
+      ListTile(
+        title: Text('settings'),
+        splashColor: Colors.black12,
+        leading: Icon(Icons.settings),
         onTap: () {
           
         },
