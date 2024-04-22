@@ -1,9 +1,10 @@
+import 'dart:io';
 import 'package:car_rental/models/carrental.dart';
 import 'package:car_rental/db_helper/carrental_service.dart';
 import 'package:car_rental/screens/bottom_navigation.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:image_picker/image_picker.dart';
+
 
 
 class Adding_cars extends StatefulWidget {
@@ -14,6 +15,9 @@ class Adding_cars extends StatefulWidget {
 }
 
 class _Adding_carsState extends State<Adding_cars> {
+
+  File? image25;
+  String? imagepath;
 
   final _nameController = TextEditingController();
   final _brandController = TextEditingController();
@@ -72,6 +76,32 @@ final carrentalservice _carrentalsevice = carrentalservice();
           key: _formkey,
           child: Column(
           children: [
+            SizedBox(height: 20,),
+            Stack(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.black12,
+                        backgroundImage: image25 != null
+                            ? FileImage(image25!)
+                            : const AssetImage('')
+                                as ImageProvider,
+                        radius: 99),
+                    Positioned(
+                      bottom: 20,
+                      right: 5,
+                      child: IconButton(
+                        onPressed: () {
+                          // addphoto(context);
+                          getimage(ImageSource.gallery);
+                          // Navigator.of(context).pop();
+                        },
+                        icon: const Icon(Icons.add_a_photo_outlined,color: Colors.black,),
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        iconSize: 30,
+                      ),
+                    ),
+                  ],
+                ),
               
           // Name>>>>>>>>>>>>>>>>
 
@@ -158,8 +188,19 @@ final carrentalservice _carrentalsevice = carrentalservice();
             SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.only(left: 20,right: 27,),
-              child: TextFormField(
-                controller: _fuelController,
+               child:DropdownButtonFormField(items: [
+            
+                DropdownMenuItem(child: Text('Diesel',),
+                value: -1,),
+                DropdownMenuItem(child: Text('Petrol',),
+                value: 1,),
+                DropdownMenuItem(child: Text('Electric',),
+                value: 2,),
+                 DropdownMenuItem(child: Text('CNG',),
+                value: 3,),
+                
+               ], onChanged: (v){},
+                
                 decoration: InputDecoration(
                     filled: true,
                   icon: Icon(Icons.local_gas_station_sharp),
@@ -169,14 +210,15 @@ final carrentalservice _carrentalsevice = carrentalservice();
                borderRadius: BorderRadius.circular(25)
                   )
                 ),
+
                 validator: (value) {
-                  if(value==null || value.isEmpty){
-                    return 'Fuel type is Empty';
+                  if(value==null){
+                    return 'Please select one item';
                   }else{
                     return null;
                   }
                 },
-              ),
+               )
             ),
           
             // Seat capacity>>>>>>>>>>>>>>>>>>>
@@ -184,9 +226,21 @@ final carrentalservice _carrentalsevice = carrentalservice();
               SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.only(left: 20,right: 27,),
-              child: TextFormField(
-                controller: _seatController,
-                decoration: InputDecoration(
+              child: 
+              DropdownButtonFormField(items: [
+                DropdownMenuItem(child: Text('4'),
+                value: -1,),
+                  DropdownMenuItem(child: Text('5'),
+                value: 1,),
+                  DropdownMenuItem(child: Text('6'),
+                value:2,),
+                 DropdownMenuItem(child: Text('7'),
+                value:3,),
+                 DropdownMenuItem(child: Text('8'),
+                value:4,),
+              ], onChanged: (v){},
+
+               decoration: InputDecoration(
                     filled: true,
                   icon: Icon(Icons.airline_seat_recline_extra_sharp),
                   label: Text('Seat capacity :'),
@@ -195,15 +249,14 @@ final carrentalservice _carrentalsevice = carrentalservice();
               borderRadius: BorderRadius.circular(25)
                   )
                 ),
-                keyboardType: TextInputType.number,
-                 validator: (value) {
-                  if(value==null || value.isEmpty){
-                    return 'Seat capacity is Empty';
-                  }else{
-                    return null;
-                  }
-                },
-              ),
+              
+              validator: (value) {
+                if(value==null){
+                    return 'Please select one item';
+                }else{
+                  return null;
+                }
+              },)
             ),
           
             // Reg number>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -239,6 +292,7 @@ final carrentalservice _carrentalsevice = carrentalservice();
               padding: const EdgeInsets.only(left: 20,right: 27,),
               child: TextFormField(
                 controller: _insuranceController,
+                readOnly: true,
                 decoration: InputDecoration(
                     filled: true,
                   icon: Icon(Icons.note),
@@ -248,13 +302,17 @@ final carrentalservice _carrentalsevice = carrentalservice();
                   borderRadius: BorderRadius.circular(25)
                   )
                 ),
-                keyboardType: TextInputType.datetime,
+               
                  validator: (value) {
                   if(value==null || value.isEmpty){
-                    return 'Insurance is Empty';
+                    return 'Insurance is Emepty';
                   }else{
                     return null;
                   }
+                  
+                },
+                onTap: (){
+                    _selectedinsuranceDate();
                 },
               ),
             ), 
@@ -266,6 +324,7 @@ final carrentalservice _carrentalsevice = carrentalservice();
               padding: const EdgeInsets.only(left: 20,right: 27,),
               child: TextFormField(
                 controller: _pollutionController,
+                readOnly: true,
                 decoration: InputDecoration(
                     filled: true,
                   icon: Icon(Icons.note),
@@ -282,6 +341,10 @@ final carrentalservice _carrentalsevice = carrentalservice();
                   }else{
                     return null;
                   }
+                },
+                onTap: () {
+                  
+                  _selectedpollutionDate();
                 },
               ),
             ),
@@ -325,12 +388,20 @@ final carrentalservice _carrentalsevice = carrentalservice();
   }
     validator()async{
 
-      if(_formkey.currentState!.validate()){
+      if(_formkey.currentState!.validate()&& image25 != null){
 
-final newcar = carrental(imagex: null, car: _nameController.text, brand: _brandController.text, model:_modelController.text, fuel: _fuelController.text, capacity: _seatController.text, number: _regnumberController.text, insurance: _insuranceController.text, pollution: _pollutionController.text, amount: _amountController.text);
+ 
+         
+
+final newcar = carrental(imagex: imagepath!, car: _nameController.text.trim(), 
+brand: _brandController.text.trim(), model:_modelController.text.trim(), 
+fuel: _fuelController.text.trim(), capacity: _seatController.text.trim(), number: _regnumberController.text.trim(),
+ insurance: _insuranceController.text.trim(), pollution: _pollutionController.text.trim(), 
+ amount: _amountController.text.trim());
 
             await _carrentalsevice.addCar(newcar);
 
+             image25 = null;
             _nameController.clear();
             _brandController.clear();
             _modelController.clear();
@@ -347,5 +418,36 @@ final newcar = carrental(imagex: null, car: _nameController.text, brand: _brandC
 
       }
     }
+
+    Future<void> getimage(ImageSource source) async {
+    final image = await ImagePicker().pickImage(source: source);
+    if (image == null) {
+      return;
+    }
+    setState(() {
+      image25 = File(image.path);
+      imagepath = image.path.toString();
+    });
+  }
+
+  Future<void> _selectedinsuranceDate()async {
+    DateTime?pickeded = await showDatePicker(context: context, firstDate: DateTime(2000), lastDate: DateTime(2100),initialDate: DateTime.now());
+
+    if(pickeded!= null){
+      setState(() {
+        _insuranceController.text = pickeded.toString().split(" ")[0];
+      });
+    }
+  }
+
+  Future<void> _selectedpollutionDate()async {
+    DateTime?pickeded = await showDatePicker(context: context, firstDate: DateTime(2000), lastDate: DateTime(2100),initialDate: DateTime.now());
+
+    if(pickeded!= null){
+      setState(() {
+       _pollutionController.text = pickeded.toString().split(" ")[0];
+      });
+    }
+  }
 }
 

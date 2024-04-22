@@ -15,9 +15,12 @@ class Signup_screen extends StatefulWidget {
 
 class _Signup_screenState extends State<Signup_screen> {
 
+  bool _passwordsecured = true;
+  bool _passwordunsecured = true;
+
   final _signupuser = TextEditingController();
-  final _signupemail = TextEditingController();
   final _signuppassword = TextEditingController();
+  final _confirmppassword = TextEditingController();
 
   final _formkey = GlobalKey<FormState>();
 
@@ -36,12 +39,12 @@ class _Signup_screenState extends State<Signup_screen> {
         child: Form(
           key: _formkey,
           child: Padding(
-            padding: const EdgeInsets.only(left: 30,top: 80),
+            padding: const EdgeInsets.only(left: 30,top: 50),
             child: Row(
               children: [
                 Container(
                   width: 300,
-                  height: 520,
+                  height: 550,
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),
                   color: Colors.white,
                   border: Border.all()
@@ -86,43 +89,22 @@ class _Signup_screenState extends State<Signup_screen> {
                      ),
                    ),
           
-                  // email>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-                   Padding(
-                     padding: const EdgeInsets.only(left: 15,right: 15,top: 15),
-                     child: TextFormField(
-                      controller: _signupemail,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25)
-                        ),
-                        label: Text('Email:'),
-                        labelStyle: TextStyle(color: Colors.black,fontSize: 13)
-                      ),
-                      validator: (value) {
-                        if(value == null || value.isEmpty){
-                          return 'Please enter the Email';
-                        }else{
-                          return null;
-                        }
-                      },
-                     ),
-                   ),
                                              
                     // password>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
                      Padding(
-                     padding: const EdgeInsets.only(left: 15,right: 15,top: 15),
+                     padding: const EdgeInsets.only(left: 15,right: 15,top: 20),
                      child: TextFormField(
                       controller: _signuppassword,
                       decoration: InputDecoration(
+                        suffixIcon: togglesignPassord(),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25),
                         ),
                         label: Text('Password:'),
                         labelStyle: TextStyle(color: Colors.black,fontSize: 13),
                       ),
-                      obscureText: true,
+                      obscureText: _passwordsecured,
                       validator: (value) {
                         if(value == null || value.isEmpty){
                           return 'Please enter the Password';
@@ -132,8 +114,33 @@ class _Signup_screenState extends State<Signup_screen> {
                       },
                      ),  
                    ),
-                              
-                   SizedBox(height: 25),
+
+                    Padding(
+                     padding: const EdgeInsets.only(left: 15,right: 15,top: 20),
+                     child: TextFormField(
+                      controller: _confirmppassword,
+                      decoration: InputDecoration(
+                        suffixIcon: togglesignconfirmPassord(),
+                        border: OutlineInputBorder(
+                          
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        label: Text('Confirm password:'),
+                        labelStyle: TextStyle(color: Colors.black,fontSize: 13),
+                      ),
+                      obscureText: _passwordunsecured,
+                      validator: (value) {
+                        if(value == null || value.isEmpty){
+                          return 'Please confirm the Password';
+                        }else{
+                          return null;
+                        }
+                      },
+                     ),  
+                   ),
+
+                   
+                   SizedBox(height: 20,),
 
                   //  button>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                               
@@ -149,8 +156,8 @@ class _Signup_screenState extends State<Signup_screen> {
                          });
 
                          signup user = signup(username: _signupuser.text.trim(),
-                          emailid: _signupemail.text.trim(),
-                           passoword: _signuppassword.text.trim()
+                          password: _signuppassword.text.trim(),
+                           confirmpassword: _confirmppassword.text.trim()
                            );
 
                            final res= await Signupservice.registerUser(user);
@@ -197,4 +204,23 @@ class _Signup_screenState extends State<Signup_screen> {
 //     Navigator.of(context).push(MaterialPageRoute(builder: (context) => Login_screen()));
 //   });
 // }
+
+
+ Widget togglesignPassord (){
+          return IconButton(onPressed: (){
+            setState(() {
+               _passwordsecured = !_passwordsecured;
+            });
+           
+          }, icon:_passwordsecured?Icon(Icons.visibility,size: 24,):Icon(Icons.visibility_off,size: 24,),color: Colors.black,);
+  }
+
+   Widget togglesignconfirmPassord (){
+          return IconButton(onPressed: (){
+            setState(() {
+              _passwordunsecured = !_passwordunsecured;
+            });
+           
+          }, icon:_passwordunsecured?Icon(Icons.visibility,size: 24,):Icon(Icons.visibility_off,size: 24,),color: Colors.black,);
+  }
 }

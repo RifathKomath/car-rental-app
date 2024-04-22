@@ -26,7 +26,7 @@ class Myapp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context)=>signupservice())
       ],
-      child: 
+      child:
       MaterialApp(
         theme: ThemeData(primaryColor: Colors.blue),
         title: 'car_rental',

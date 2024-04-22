@@ -10,16 +10,16 @@ class signup extends HiveObject{
  late String username;
 
  @HiveField(1)
- late String emailid;
+ late String password;
 
  @HiveField(2)
- late String passoword;
+ late String confirmpassword;
 
 signup ({
 
   required this.username,
-  required this.emailid,
-  required this.passoword
+  required this.password,
+  required this.confirmpassword
 });
 
   registerUser(signup user) {}

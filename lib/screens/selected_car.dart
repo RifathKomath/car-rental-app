@@ -344,7 +344,7 @@ class _Selected_carState extends State<Selected_car> {
 
 
   Future<void> _selecteddropoffDate()async {
-    DateTime?pickeded = await showDatePicker(context: context, firstDate: DateTime(2000), lastDate: DateTime(2100));
+    DateTime?pickeded = await showDatePicker(context: context, firstDate: DateTime(2000), lastDate: DateTime(2100),initialDate: DateTime.now());
 
     if(pickeded!= null){
       setState(() {
@@ -354,7 +354,7 @@ class _Selected_carState extends State<Selected_car> {
   }
 
   Future<void> _selectedpickupDate()async {
-   DateTime? picked = await showDatePicker(context: context, firstDate: DateTime(2000), lastDate: DateTime(2100));
+   DateTime? picked = await showDatePicker(context: context, firstDate: DateTime(2000), lastDate: DateTime(2100),initialDate: DateTime.now());
 
    if( picked!= null){
     setState(() {

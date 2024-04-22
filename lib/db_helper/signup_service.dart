@@ -36,7 +36,7 @@ class signupservice with ChangeNotifier{
 
       // check email password combination
 
-      if (user.username==username && user.passoword==password){
+      if (user.username==username && user.password==password){
 
         return user;
       }

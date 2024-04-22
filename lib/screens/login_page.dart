@@ -13,10 +13,14 @@ class Login_screen extends StatefulWidget {
 
 class _Login_screenState extends State<Login_screen> {
 
+  bool _securepassword = true;
+
  final _username = TextEditingController();
+
  final _password = TextEditingController();
 
  final _formkey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     
@@ -89,13 +93,14 @@ class _Login_screenState extends State<Login_screen> {
                      child: TextFormField(
                       controller: _password,
                       decoration: InputDecoration(
+                        suffixIcon: togglePassord(),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25),
                         ),
                         label: Text('Password:'),
                         labelStyle: TextStyle(color: Colors.black,fontSize: 13),
                       ),
-                      obscureText: true,
+                      obscureText: _securepassword,
                     validator: (value) {
                       if(value == null || value.isEmpty){
                         return 'Please enter the Password';
@@ -124,6 +129,7 @@ class _Login_screenState extends State<Login_screen> {
                         
                         final user = await Signupservice.loginUser(_username.text.trim(), _password.text.trim());
 
+                                    
                       Navigator.pop(context);
                         if(user!=null){
                           Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>Bottom_navigation()), (route) => false);
@@ -154,4 +160,15 @@ class _Login_screenState extends State<Login_screen> {
       )
     );
   }
+
+  Widget togglePassord (){
+          return IconButton(onPressed: (){
+            setState(() {
+               _securepassword = !_securepassword;
+            });
+           
+          }, icon:_securepassword?Icon(Icons.visibility,size: 24,):Icon(Icons.visibility_off,size: 24,),color: Colors.black,);
+  }
+
+  
 }

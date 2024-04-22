@@ -18,8 +18,8 @@ class signupAdapter extends TypeAdapter<signup> {
     };
     return signup(
       username: fields[0] as String,
-      emailid: fields[1] as String,
-      passoword: fields[2] as String,
+      password: fields[1] as String,
+      confirmpassword: fields[2] as String,
     );
   }
 
@@ -30,9 +30,9 @@ class signupAdapter extends TypeAdapter<signup> {
       ..writeByte(0)
       ..write(obj.username)
       ..writeByte(1)
-      ..write(obj.emailid)
+      ..write(obj.password)
       ..writeByte(2)
-      ..write(obj.passoword);
+      ..write(obj.confirmpassword);
   }
 
   @override

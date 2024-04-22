@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:car_rental/models/carrental.dart';
 import 'package:car_rental/screens/car_details.dart';
 import 'package:car_rental/screens/side_bar.dart';
@@ -80,6 +82,7 @@ class _Home_screenState extends State<Home_screen> {
 
 
     body:Container(
+      
         height: double.infinity,
         width: double.infinity,
         padding: EdgeInsets.all(20),
@@ -92,51 +95,85 @@ class _Home_screenState extends State<Home_screen> {
                 itemCount: _list.length,
                 itemBuilder: (context, index) {
                   final info = _list[index];
-                  return Card(
-                    margin: EdgeInsets.symmetric(vertical: 10.0),
-                    elevation: 30.0,
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        child: Text("${index + 1}"),
-                      ),
-                      title: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text("Car name :${info.car}",),
-                          Text("Brand :${info.brand}",),
-                          Text("Model :${info.model}")
-                        ],
+                  return Container(
+                    height: 125,
+                    child: Card(
+                      margin: EdgeInsets.symmetric(vertical: 8.0),
+                      // elevation: 30.0,
+                                    shape: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15)
+                                    ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 22,),
+                        child: ListTile(
+                        leading: SizedBox(
+                            height: 200, 
+                            width: 120,  
+                            child: Container(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: Image.file(
+                                  File(info.imagex),
+                                   fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ),
+                          title:Padding(
+                            padding: const EdgeInsets.only(top: 8,left: 5),
+                            child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start, 
+                                    crossAxisAlignment: CrossAxisAlignment.start, 
+                                    children: [
+                                          Text(
+                                            "Car Name: ${info.car}",
+                                            textAlign: TextAlign.start,
+                                             
+                                          ),
+                                          Text(
+                                            "Brand: ${info.brand}",
+                                            textAlign: TextAlign.start, 
+                                             
+                                          ),
+                                          Text(
+                                            "Model: ${info.model}",
+                                            textAlign: TextAlign.start, 
+                                             
+                                          ),
+                                        ],
+                                        ),
+                          ),
+                          // subtitle: Column(
+                          //   children: [
+                          //     Text("Brand :${info.brand}",),
+                          //     Text("Model :${info.model}")
+                          //   ],
+                          // ),
+                          //                       trailing: Container(
+                          //                          width: 50,
+                          //                         child: Row(
+                          //                           children: [
+                          //                             IconButton(
+                          //                                 onPressed: () async {
+                          //                                    await _carrentalsevice.deletedetails(index);
+                                            
+                          //                                   _loaddetails();
+                          //                                 },
+                          //                                 icon: Icon(
+                          //                                   Icons.delete,
+                          //                                   color: Colors.blueGrey[900],
+                          //                                 ))
+                          //                           ],
                         
-                      ),
-                      // subtitle: Column(
-                      //   children: [
-                      //     Text("Brand :${info.brand}",),
-                      //     Text("Model :${info.model}")
-                      //   ],
-                      // ),
-                      trailing: Container(
-                         width: 50,
-                        child: Row(
-                          children: [
-                            IconButton(
-                                onPressed: () async {
-                                   await _carrentalsevice.deletedetails(index);
-
-                                  _loaddetails();
-                                },
-                                icon: Icon(
-                                  Icons.delete,
-                                  color: Colors.blueGrey[900],
-                                ))
-                          ],
-                    
-                    ), 
-                  ),
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Car_details()));
-
-                  },
-                  )
+                          //                     ), 
+                          //                   ),
+                                            onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Car_details()));
+                                            
+                                            },
+                                            ),
+                      )
+                    ),
                   );
                 }),
       ),

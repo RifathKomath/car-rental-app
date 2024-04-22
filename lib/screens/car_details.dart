@@ -1,4 +1,4 @@
-import 'package:car_rental/screens/Editing_page.dart';
+import 'package:car_rental/screens/editing_page.dart';
 import 'package:car_rental/screens/selected_car.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
