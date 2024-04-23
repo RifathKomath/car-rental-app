@@ -1,8 +1,8 @@
 import 'package:car_rental/db_helper/signup_service.dart';
 import 'package:car_rental/models/carrental.dart';
 import 'package:car_rental/models/signup.dart';
-import 'package:car_rental/screens/login_page.dart';
 import 'package:car_rental/db_helper/carrental_service.dart';
+import 'package:car_rental/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +31,7 @@ class Myapp extends StatelessWidget {
         theme: ThemeData(primaryColor: Colors.blue),
         title: 'car_rental',
         debugShowCheckedModeBanner: false,
-        home: Login_screen(),    
+        home: Splash_screen(),    
       ),
     );
   }

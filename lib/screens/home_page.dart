@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:car_rental/models/carrental.dart';
 import 'package:car_rental/screens/car_details.dart';
 import 'package:car_rental/screens/side_bar.dart';
@@ -15,9 +14,38 @@ class Home_screen extends StatefulWidget {
 
 class _Home_screenState extends State<Home_screen> {
 
+// final _search_controller = TextEditingController();
+
   final carrentalservice _carrentalsevice = carrentalservice();
 
   List<carrental> _list = [];
+
+// String reg= '';
+
+
+  // search filter
+
+  //  void _runFilter(String enteredKeyword) {
+  //   List<carrental> result = [];
+  //   if (enteredKeyword.isEmpty) {
+  //     result = _list;
+  //     // Reset to the original list if the search is empty
+  //   } else {
+  //     // Filter based on student properties
+  //     result = _list
+  //         .where((car) =>
+  //             car.car
+  //                 .toLowerCase()
+  //                 .contains(enteredKeyword.toLowerCase()) ||
+  //             car.brand
+  //                 .toLowerCase()
+  //                 .contains(enteredKeyword.toLowerCase()))
+  //         .toList();
+  //   }
+  //   setState(() {
+  //     _list = result;
+  //   });
+  // }
 
 
   // fetching all datas from bd
@@ -46,7 +74,7 @@ class _Home_screenState extends State<Home_screen> {
           child: Padding(
             padding: const EdgeInsets.only(right: 10),
             child: IconButton(onPressed: (){
-              Navigator.of(context).push(MaterialPageRoute(builder: ((context) => Car_details())));
+              // Navigator.of(context).push(MaterialPageRoute(builder: ((context) => Splash_screen())));
               
             }, icon: Icon(Icons.notifications,color: Colors.white,size:25 ,)),
           )
@@ -57,15 +85,26 @@ class _Home_screenState extends State<Home_screen> {
           child: Row(
             children: [
               SizedBox(height: 45,width: 250,
-                child: TextFormField(
+                child: 
+                TextFormField(
+
+                  // controller: _search_controller,
+                 
                   style: TextStyle(color: Colors.white),
+                  // onChanged: (value) {
+                  //   setState(() {
+                  //     _runFilter(value);
+                  //     reg = _search_controller.text;
+                  //   });
+                  // },
                           decoration: InputDecoration(
                             labelText: 'Search',
                             labelStyle: TextStyle(color: Colors.white),
                             suffixIcon: Icon(Icons.search, color: Colors.white),
                             border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(15))),
-                )),
+                ),
+                ),
               ),
               SizedBox(width: 15,),
               ElevatedButton(onPressed: (){}, child: Icon(Icons.filter_alt_outlined,color: Colors.white,),style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.white24),shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))))
