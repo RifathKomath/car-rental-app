@@ -3,18 +3,19 @@ import 'package:car_rental/models/carrental.dart';
 import 'package:car_rental/db_helper/carrental_service.dart';
 import 'package:car_rental/screens/bottom_navigation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 
 
-class Adding_cars extends StatefulWidget {
-  const Adding_cars({super.key});
+class Adding_Cars extends StatefulWidget {
+  const Adding_Cars({super.key});
 
   @override
-  State<Adding_cars> createState() => _Adding_carsState();
+  State<Adding_Cars> createState() => _Adding_carsState();
 }
 
-class _Adding_carsState extends State<Adding_cars> {
+class _Adding_carsState extends State<Adding_Cars> {
 
   File? image25;
   String? imagepath;
@@ -31,7 +32,7 @@ class _Adding_carsState extends State<Adding_cars> {
 
   final _formkey =GlobalKey<FormState>();
 
-final carrentalservice _carrentalsevice = carrentalservice();
+final CarrentalService _carRentalSevice = CarrentalService();
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +59,7 @@ final carrentalservice _carrentalsevice = carrentalservice();
 
                         } else {
 
-                          _formkey.currentState!.validate();
+                          // _formkey.currentState!.validate() && image25 !=null;
                            
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor:Colors.black ,
@@ -137,6 +138,7 @@ final carrentalservice _carrentalsevice = carrentalservice();
               padding: const EdgeInsets.only(left: 20,right: 27,),
               child: TextFormField(
                  controller: _brandController,
+                 inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[a-z],[A-Z]'))],
                 decoration: InputDecoration(
                   icon: Icon(Icons.directions_car_filled),
                   label: Text('Brand :'),
@@ -173,6 +175,9 @@ final carrentalservice _carrentalsevice = carrentalservice();
                   )
                 ),
                 keyboardType: TextInputType.number,
+                inputFormatters:[
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')), 
+  ],
                 validator: (value) {
                   if(value==null || value.isEmpty){
                     return 'Car Model is Empty ';
@@ -367,6 +372,7 @@ final carrentalservice _carrentalsevice = carrentalservice();
                   )
                 ),
                 keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))],
                  validator: (value) {
                   if(value==null || value.isEmpty){
                     return 'Car amount is Empty';
@@ -387,20 +393,25 @@ final carrentalservice _carrentalsevice = carrentalservice();
       ),
     );
   }
-    validator()async{
+    Future <void> validator()async{
 
       if(_formkey.currentState!.validate()&& image25 != null){
 
- 
-         
 
-final newcar = carrental(imagex: imagepath!, car: _nameController.text.trim(), 
-brand: _brandController.text.trim(), model:_modelController.text.trim(), 
-fuel: _fuelController.text.trim(), capacity: _seatController.text.trim(), number: _regnumberController.text.trim(),
- insurance: _insuranceController.text.trim(), pollution: _pollutionController.text.trim(), 
- amount: _amountController.text.trim());
+        final car = _nameController.text.trim();
+        final brand = _brandController.text.trim();
+        final model = _modelController.text.trim().toString();
+        final fuel = _fuelController.text.trim();
+        final seat = _seatController.text.trim().toString();
+        final reg_num = _regnumberController.text.trim().toUpperCase().toString();
+        final insurance = _insuranceController.text.trim();
+        final pollution = _pollutionController.text.trim();
+        final amount = _amountController.text.trim().toString();
 
-            await _carrentalsevice.addCar(newcar);
+
+        final newcar = CarRental(imagex: imagepath!, car: car, brand: brand, model: model, fuel: fuel, capacity: seat, number: reg_num, insurance: insurance, pollution: pollution, amount: amount);
+
+            await _carRentalSevice.addCar(newcar);
 
              image25 = null;
             _nameController.clear();
@@ -415,8 +426,14 @@ fuel: _fuelController.text.trim(), capacity: _seatController.text.trim(), number
 
             
 
-             Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Bottom_navigation()));
+             Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Bottom_Navigation()));
 
+      }else{
+         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor:Colors.black ,
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.all(10),
+        content: Text('Please fill the fields')),);
       }
     }
 

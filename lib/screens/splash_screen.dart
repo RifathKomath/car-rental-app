@@ -2,14 +2,14 @@ import 'package:car_rental/screens/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-class Splash_screen extends StatefulWidget {
-  const Splash_screen({super.key});
+class Splash_Screen extends StatefulWidget {
+  const Splash_Screen({super.key});
 
   @override
-  State<Splash_screen> createState() => _Splash_screenState();
+  State<Splash_Screen> createState() => _Splash_screenState();
 }
 
-class _Splash_screenState extends State<Splash_screen> {
+class _Splash_screenState extends State<Splash_Screen> {
 
 @override
   void initState() {
@@ -41,8 +41,8 @@ class _Splash_screenState extends State<Splash_screen> {
   }
 
   Future<void> gotoLogin () async{
-      await Future.delayed(Duration(seconds: 3));
-  Navigator.of(context).pushReplacement(MaterialPageRoute(builder:(ctx)=>Login_screen(),
+      await Future.delayed(Duration(seconds: 5));
+  Navigator.of(context).pushReplacement(MaterialPageRoute(builder:(ctx)=>Login_Screen(),
   ),
   );
   }

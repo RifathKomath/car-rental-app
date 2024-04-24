@@ -6,17 +6,17 @@ part of 'carrental.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class carrentalAdapter extends TypeAdapter<carrental> {
+class carrentalAdapter extends TypeAdapter<CarRental> {
   @override
   final int typeId = 0;
 
   @override
-  carrental read(BinaryReader reader) {
+  CarRental read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return carrental(
+    return CarRental(
       imagex: fields[0] as dynamic,
       car: fields[1] as String,
       brand: fields[2] as String,
@@ -31,7 +31,7 @@ class carrentalAdapter extends TypeAdapter<carrental> {
   }
 
   @override
-  void write(BinaryWriter writer, carrental obj) {
+  void write(BinaryWriter writer, CarRental obj) {
     writer
       ..writeByte(10)
       ..writeByte(0)

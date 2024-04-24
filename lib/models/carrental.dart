@@ -5,7 +5,7 @@ import 'package:hive_flutter/adapters.dart';
 part 'carrental.g.dart';
 
 @HiveType(typeId: 0)
-class carrental{
+class CarRental{
 
   @HiveField(0)
   final imagex;
@@ -39,7 +39,7 @@ class carrental{
 
 
   
-  carrental({
+  CarRental({
     required this.imagex,
     required this.car,
     required this.brand,

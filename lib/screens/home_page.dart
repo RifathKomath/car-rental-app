@@ -5,20 +5,20 @@ import 'package:car_rental/screens/side_bar.dart';
 import 'package:car_rental/db_helper/carrental_service.dart';
 import 'package:flutter/material.dart';
 
-class Home_screen extends StatefulWidget {
-  const Home_screen({super.key});
+class Home_Screen extends StatefulWidget {
+  const Home_Screen({super.key});
 
   @override
-  State<Home_screen> createState() => _Home_screenState();
+  State<Home_Screen> createState() => _Home_screenState();
 }
 
-class _Home_screenState extends State<Home_screen> {
+class _Home_screenState extends State<Home_Screen> {
 
 // final _search_controller = TextEditingController();
 
-  final carrentalservice _carrentalsevice = carrentalservice();
+  final CarrentalService _carrentalsevice = CarrentalService();
 
-  List<carrental> _list = [];
+  List<CarRental> _list = [];
 
 // String reg= '';
 
@@ -51,7 +51,7 @@ class _Home_screenState extends State<Home_screen> {
   // fetching all datas from bd
 
   Future<void> _loaddetails ()async{
-    _list = await _carrentalsevice.getdetails();
+    _list = await _carrentalsevice.getDetails();
 
     setState(() {
       
@@ -67,7 +67,7 @@ class _Home_screenState extends State<Home_screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(preferredSize: Size.fromHeight(135), child: AppBar(
+      appBar: PreferredSize(preferredSize: Size.fromHeight(120), child: AppBar(
         backgroundColor: Colors.blueGrey[900],
         iconTheme: IconThemeData(color: Colors.white),
         actions: [SafeArea(
@@ -117,14 +117,14 @@ class _Home_screenState extends State<Home_screen> {
 
     // drawer>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-    drawer: Side_bar(),
+    drawer: Side_Bar(),
 
 
     body:Container(
       
         height: double.infinity,
         width: double.infinity,
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.all(15),
         child: _list.isEmpty
             ? Center(
                 child: Text("No avialable cars"),
@@ -159,7 +159,7 @@ class _Home_screenState extends State<Home_screen> {
                             ),
                           ),
                           title:Padding(
-                            padding: const EdgeInsets.only(top: 8,left: 5),
+                            padding: const EdgeInsets.only(top: 8,),
                             child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start, 
                                     crossAxisAlignment: CrossAxisAlignment.start, 
@@ -188,26 +188,26 @@ class _Home_screenState extends State<Home_screen> {
                           //     Text("Model :${info.model}")
                           //   ],
                           // ),
-                          //                       trailing: Container(
-                          //                          width: 50,
-                          //                         child: Row(
-                          //                           children: [
-                          //                             IconButton(
-                          //                                 onPressed: () async {
-                          //                                    await _carrentalsevice.deletedetails(index);
+                                            //     trailing: Container(
+                                            //        width: 50,
+                                            //       child: Row(
+                                            //         children: [
+                                            //           IconButton(
+                                            //               onPressed: () async {
+                                            //                  await _carrentalsevice.deleteDetails(index);
                                             
-                          //                                   _loaddetails();
-                          //                                 },
-                          //                                 icon: Icon(
-                          //                                   Icons.delete,
-                          //                                   color: Colors.blueGrey[900],
-                          //                                 ))
-                          //                           ],
+                                            //                 _loaddetails();
+                                            //               },
+                                            //               icon: Icon(
+                                            //                 Icons.delete,
+                                            //                 color: Colors.blueGrey[900],
+                                            //               ))
+                                            //         ],
                         
-                          //                     ), 
-                          //                   ),
+                                            //   ), 
+                                            // ),
                                             onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Car_details()));
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Car_Details()));
                                             
                                             },
                                             ),

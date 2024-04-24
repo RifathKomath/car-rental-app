@@ -1,13 +1,25 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
-class Editing_page extends StatefulWidget {
-  const Editing_page({super.key});
+import 'package:car_rental/db_helper/carrental_service.dart';
+import 'package:car_rental/models/carrental.dart';
+import 'package:car_rental/screens/car_details.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+
+class Editing_Page extends StatefulWidget {
+  const Editing_Page({super.key});
 
   @override
-  State<Editing_page> createState() => _Editing_pageState();
+  State<Editing_Page> createState() => _Editing_pageState();
 }
 
-class _Editing_pageState extends State<Editing_page> {
+class _Editing_pageState extends State<Editing_Page> {
+
+  // final CarrentalService _carRentalSevice = CarrentalService();
+
+  File? image25;
+  String? imagepath;
 
 final _EditnameController = TextEditingController();
   final _EditbrandController = TextEditingController();
@@ -31,19 +43,63 @@ final _EditnameController = TextEditingController();
            actions: [Padding(
           padding: const EdgeInsets.only(right: 20,top: 10,bottom: 10),
           child: ElevatedButton(onPressed: (){
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor: Colors.black,
-            behavior: SnackBarBehavior.floating,
-            margin: EdgeInsets.all(10),
-            content: Text('Details successfully edited')));
-            _formkey.currentState!.validate();
+
+            if (_EditnameController.text.isNotEmpty ||
+                            _EditbrandController.text.isNotEmpty ||
+                            _EditbrandController.text.isNotEmpty ||
+                            _EditfuelController.text.isNotEmpty||
+                           _EditseatController.text.isNotEmpty||
+                            _EditregnumberController.text.isNotEmpty||
+                            _EditinsuranceController.text.isNotEmpty||
+                            _EditpollutionController.text.isNotEmpty||
+                            _EditamountController.text.isNotEmpty) {
+                          
+                          validator();
+
+                        } else {
+
+                          // _formkey.currentState!.validate() && image25 !=null;
+                           
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor:Colors.black ,
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.all(10),
+        content: Text('Please fill the fields')),);
+                        }
+
           }, child: Text('Save',style: TextStyle(color:Colors.white,fontSize: 17 ),),style:ButtonStyle(shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),backgroundColor: MaterialStatePropertyAll(Colors.white24)) ,),
-        )],
-      ),
+      )]),
       body:  SingleChildScrollView(
         child: Form(
           key: _formkey,
           child: Column(
           children: [
+             SizedBox(height: 20,),
+            Stack(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.black12,
+                        backgroundImage: image25 != null
+                            ? FileImage(image25!)
+                            : const AssetImage('')
+                                as ImageProvider,
+                        radius: 99),
+                    Positioned(
+                      bottom: 20,
+                      right: 5,
+                      child: IconButton(
+                        onPressed: () {
+                          // addphoto(context);
+                          getimage(ImageSource.gallery);
+                          // Navigator.of(context).pop();
+                        },
+                        icon: const Icon(Icons.add_a_photo_outlined,color: Colors.black,),
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        iconSize: 30,
+                      ),
+                    ),
+                  ],
+                ),
             
           // Name>>>>>>>>>>>>>>>>
 
@@ -79,6 +135,7 @@ final _EditnameController = TextEditingController();
               padding: const EdgeInsets.only(left: 20,right: 27,),
               child: TextFormField(
                  controller: _EditbrandController,
+                 inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[A-Z].[a-z]'))],
                 decoration: InputDecoration(
                   icon: Icon(Icons.directions_car_filled),
                   label: Text('Brand :'),
@@ -105,6 +162,7 @@ final _EditnameController = TextEditingController();
               padding: const EdgeInsets.only(left: 20,right: 27,),
               child: TextFormField(
                 controller: _EditmodelController,
+                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))],
                 decoration: InputDecoration(
                   icon: Icon(Icons.calendar_month),
                   label: Text('Model :'),
@@ -266,6 +324,7 @@ final _EditnameController = TextEditingController();
               padding: const EdgeInsets.only(left: 20,right: 27,),
               child: TextFormField(
                 controller: _EditamountController,
+                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))],
                 decoration: InputDecoration(
                     filled: true,
                   icon: Icon(Icons.currency_rupee_rounded),
@@ -295,4 +354,57 @@ final _EditnameController = TextEditingController();
       ),
     );
   }
+  Future<void> getimage(ImageSource source) async {
+    final image = await ImagePicker().pickImage(source: source);
+    if (image == null) {
+      return;
+    }
+    setState(() {
+      image25 = File(image.path);
+      imagepath = image.path.toString();
+    });
+  }
+      Future <void> validator()async{
+
+      if(_formkey.currentState!.validate()&& image25 != null){
+
+
+        final car = _EditnameController.text.trim();
+        final brand = _EditbrandController.text.trim();
+        final model = _EditmodelController.text.trim().toString();
+        final fuel = _EditfuelController.text.trim();
+        final seat = _EditseatController.text.trim().toString();
+        final reg_num = _EditregnumberController.text.trim().toUpperCase().toString();
+        final insurance = _EditinsuranceController.text.trim();
+        final pollution = _EditpollutionController.text.trim();
+        final amount = _EditamountController.text.trim().toString();
+
+
+        final newCar = CarRental(imagex: imagepath!, car: car, brand: brand, model: model, fuel: fuel, capacity: seat, number: reg_num, insurance: insurance, pollution: pollution, amount: amount);
+
+            // await _carRentalSevice.updatedetails(int index, CarRental details);
+
+             image25 = null;
+            _EditnameController.clear();
+            _EditbrandController.clear();
+            _EditmodelController.clear();
+            _EditfuelController.clear();
+            _EditseatController.clear();
+            _EditregnumberController.clear();
+            _EditinsuranceController.clear();
+            _EditpollutionController.clear();
+            _EditamountController.clear();
+
+            
+
+             Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Car_Details()));
+
+      }else{
+         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor:Colors.black ,
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.all(10),
+        content: Text('Please fill the fields')),);
+      }
+    }
 }

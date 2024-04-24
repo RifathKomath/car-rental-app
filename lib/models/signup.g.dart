@@ -6,17 +6,17 @@ part of 'signup.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class signupAdapter extends TypeAdapter<signup> {
+class signupAdapter extends TypeAdapter<Signup> {
   @override
   final int typeId = 1;
 
   @override
-  signup read(BinaryReader reader) {
+  Signup read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return signup(
+    return Signup(
       username: fields[0] as String,
       password: fields[1] as String,
       confirmpassword: fields[2] as String,
@@ -24,7 +24,7 @@ class signupAdapter extends TypeAdapter<signup> {
   }
 
   @override
-  void write(BinaryWriter writer, signup obj) {
+  void write(BinaryWriter writer, Signup obj) {
     writer
       ..writeByte(3)
       ..writeByte(0)

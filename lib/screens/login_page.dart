@@ -4,16 +4,16 @@ import 'package:car_rental/screens/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class Login_screen extends StatefulWidget {
-  const Login_screen({super.key});
+class Login_Screen extends StatefulWidget {
+  const Login_Screen({super.key});
 
   @override
-  State<Login_screen> createState() => _Login_screenState();
+  State<Login_Screen> createState() => _Login_screenState();
 }
 
-class _Login_screenState extends State<Login_screen> {
+class _Login_screenState extends State<Login_Screen> {
 
-  bool _securepassword = true;
+  bool _securePassword = true;
 
  final _username = TextEditingController();
 
@@ -24,7 +24,7 @@ class _Login_screenState extends State<Login_screen> {
   @override
   Widget build(BuildContext context) {
     
-    final Signupservice = Provider.of<signupservice>(context);
+    final Signupservice = Provider.of<SignupService>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -76,7 +76,7 @@ class _Login_screenState extends State<Login_screen> {
                       ),
                       validator: (value) {
                         if(value==null || value.isEmpty){
-                          return 'Please enter the Username/Email';
+                          return 'Please enter the Username';
                         }else{
                               return null;
                         }
@@ -100,7 +100,7 @@ class _Login_screenState extends State<Login_screen> {
                         label: Text('Password:'),
                         labelStyle: TextStyle(color: Colors.black,fontSize: 13),
                       ),
-                      obscureText: _securepassword,
+                      obscureText: _securePassword,
                     validator: (value) {
                       if(value == null || value.isEmpty){
                         return 'Please enter the Password';
@@ -132,8 +132,18 @@ class _Login_screenState extends State<Login_screen> {
                                     
                       Navigator.pop(context);
                         if(user!=null){
-                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>Bottom_navigation()), (route) => false);
+                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>Bottom_Navigation()), (route) => false);
 
+                        }else{
+                          ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.black,
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 2),
+            margin: EdgeInsets.all(10),
+            content: Text('Username and password does not match or User not found'),
+          ),
+        );
                         }
                       }
                     
@@ -146,7 +156,7 @@ class _Login_screenState extends State<Login_screen> {
                       SizedBox(width: 45,),
                       Text('First time here?'),
                       TextButton(onPressed: (){
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>Signup_screen()));
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>Signup_Screen()));
                       }, child: Text('Sign up for free'))
                     ],
                    ),
@@ -164,10 +174,10 @@ class _Login_screenState extends State<Login_screen> {
   Widget togglePassord (){
           return IconButton(onPressed: (){
             setState(() {
-               _securepassword = !_securepassword;
+               _securePassword = !_securePassword;
             });
            
-          }, icon:_securepassword?Icon(Icons.visibility,size: 24,):Icon(Icons.visibility_off,size: 24,),color: Colors.black,);
+          }, icon:_securePassword?Icon(Icons.visibility,size: 24,):Icon(Icons.visibility_off,size: 24,),color: Colors.black,);
   }
 
   

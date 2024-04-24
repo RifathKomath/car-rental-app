@@ -11,27 +11,27 @@ void main()async{
 await Hive.initFlutter();
 Hive.registerAdapter(carrentalAdapter());
 Hive.registerAdapter(signupAdapter());
- await carrentalservice().openBox();
- await signupservice().openBox();
-  runApp(const Myapp());
+ await CarrentalService().openBox();
+ await SignupService().openBox();
+  runApp(const MyApp());
 
 }
 
-class Myapp extends StatelessWidget {
-  const Myapp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return  MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context)=>signupservice())
+        ChangeNotifierProvider(create: (context)=>SignupService())
       ],
       child:
       MaterialApp(
         theme: ThemeData(primaryColor: Colors.blue),
         title: 'car_rental',
         debugShowCheckedModeBanner: false,
-        home: Splash_screen(),    
+        home: Splash_Screen(),    
       ),
     );
   }

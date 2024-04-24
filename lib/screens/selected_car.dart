@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class Selected_car extends StatefulWidget {
-  const Selected_car({super.key});
+class Selected_Sar extends StatefulWidget {
+  const Selected_Sar({super.key});
 
   @override
-  State<Selected_car> createState() => _Selected_carState();
+  State<Selected_Sar> createState() => _Selected_carState();
 }
 
-class _Selected_carState extends State<Selected_car> {
+class _Selected_carState extends State<Selected_Sar> {
 
   final _formkey=GlobalKey<FormState>();
 

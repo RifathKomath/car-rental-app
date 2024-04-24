@@ -2,10 +2,10 @@ import 'package:car_rental/models/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 
-class signupservice with ChangeNotifier{
+class SignupService with ChangeNotifier{
 
 
-  Box<signup>? _userbox;
+  Box<Signup>? _userbox;
 
   Future<void>openBox()async{
     _userbox=await Hive.openBox('users');
@@ -13,7 +13,7 @@ class signupservice with ChangeNotifier{
 
   // register user
 
-  Future<bool>registerUser( signup user)async{
+  Future<bool>registerUser( Signup user)async{
     
     if(_userbox==null){
       await openBox();
@@ -25,7 +25,7 @@ class signupservice with ChangeNotifier{
   }
 
 
-  Future<signup?>loginUser(String username, String password)async{
+  Future<Signup?>loginUser(String username, String password)async{
 
 
     if (_userbox==null){

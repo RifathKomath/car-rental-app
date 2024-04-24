@@ -6,14 +6,14 @@ import 'package:provider/provider.dart';
 
 
 
-class Signup_screen extends StatefulWidget {
-  const Signup_screen({super.key});
+class Signup_Screen extends StatefulWidget {
+  const Signup_Screen({super.key});
 
   @override
-  State<Signup_screen> createState() => _Signup_screenState();
+  State<Signup_Screen> createState() => _Signup_screenState();
 }
 
-class _Signup_screenState extends State<Signup_screen> {
+class _Signup_screenState extends State<Signup_Screen> {
 
   bool _passwordsecured = true;
   bool _passwordunsecured = true;
@@ -27,7 +27,7 @@ class _Signup_screenState extends State<Signup_screen> {
   @override
   Widget build(BuildContext context) {
 
-    final Signupservice = Provider.of<signupservice>(context);
+    final signupService = Provider.of<SignupService>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -144,47 +144,82 @@ class _Signup_screenState extends State<Signup_screen> {
 
                   //  button>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                               
-                   ElevatedButton(onPressed: ()async{
+                   ElevatedButton(
+  onPressed: () async {
+    if (_formkey.currentState!.validate()) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      );
 
-                    if(_formkey.currentState!.validate()){
-                        showDialog(context: context,
-                        barrierDismissible: false,
-                         builder: (context){
-                              return Center(
-                                child: CircularProgressIndicator(),
-                              );
-                         });
+      // Validate confirmation password
+      if (_signuppassword.text.trim() != _confirmppassword.text.trim()) {
+        Navigator.pop(context); // Close the dialog
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.black,
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 2),
+            margin: EdgeInsets.all(10),
+            content: Text('Passwords do not match'),
+          ),
+        );
+        return; 
+      }
 
-                         signup user = signup(username: _signupuser.text.trim(),
-                          password: _signuppassword.text.trim(),
-                           confirmpassword: _confirmppassword.text.trim()
-                           );
+      Signup user = Signup(
+        username: _signupuser.text.trim(),
+        password: _signuppassword.text.trim(),
+        confirmpassword: _confirmppassword.text.trim(),
+      );
 
-                           final res= await Signupservice.registerUser(user);
+      final res = await signupService.registerUser(user);
 
-                           Navigator.pop(context);
+      Navigator.pop(context); // Close the dialog
 
-                           if ((res==true)) {
+      if (res == true) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.black,
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 2),
+            margin: EdgeInsets.all(10),
+            content: Text('Signed up successfully'),
+          ),
+        );
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => Login_Screen()),
+          (route) => false,
+        );
+      }
+    }
+  },
+  child: Text(
+    'Sign Up',
+    style: TextStyle(color: Colors.white),
+  ),
+  style: ButtonStyle(
+    backgroundColor: MaterialStatePropertyAll(Colors.grey[900]),
+    shape: MaterialStatePropertyAll(
+      RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+    ),
+  ),
+),
 
-                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor:Colors.black ,
-        behavior: SnackBarBehavior.floating,
-        margin: EdgeInsets.all(10),
-        content: Text('Signed up successfully')),);
-                            
-                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>Login_screen()), (route) => false);
-                           }
-                    }
-                   }, child: Text('Sign Up',style: TextStyle(color: Colors.white),),style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.grey[900]),shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),),),
                               
                     SizedBox(height: 10),
                               
                    Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(width: 47,),
                       Text('Already have Account?'),
                       TextButton(onPressed: (){
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>Login_screen()));
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>Login_Screen()));
                       }, child: Text('Login'))
                     ],
                    ),

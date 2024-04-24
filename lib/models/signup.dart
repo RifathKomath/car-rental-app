@@ -4,7 +4,7 @@ import 'package:hive_flutter/adapters.dart';
 part 'signup.g.dart';
 
 @HiveType(typeId: 1)
-class signup extends HiveObject{
+class Signup extends HiveObject{
  
  @HiveField(0)
  late String username;
@@ -15,12 +15,12 @@ class signup extends HiveObject{
  @HiveField(2)
  late String confirmpassword;
 
-signup ({
+Signup ({
 
   required this.username,
   required this.password,
   required this.confirmpassword
 });
 
-  registerUser(signup user) {}
+  registerUser(Signup user) {}
 }

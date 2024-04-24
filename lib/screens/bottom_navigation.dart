@@ -3,21 +3,21 @@ import 'package:car_rental/screens/home_page.dart';
 import 'package:car_rental/screens/rented_cars.dart';
 import 'package:flutter/material.dart';
 
-class Bottom_navigation extends StatefulWidget {
-  const Bottom_navigation({super.key});
+class Bottom_Navigation extends StatefulWidget {
+  const Bottom_Navigation({super.key});
 
   @override
-  State<Bottom_navigation> createState() => _Bottom_navigationState();
+  State<Bottom_Navigation> createState() => _Bottom_navigationState();
 }
 
-class _Bottom_navigationState extends State<Bottom_navigation> {
+class _Bottom_navigationState extends State<Bottom_Navigation> {
 
   int _selectedIndex = 0;
   
   final _Screen = [
-      Home_screen(),
-      Adding_cars(),
-      Rented_cars()
+      Home_Screen(),
+      Adding_Cars(),
+      Rented_Cars()
 
 
   ];
@@ -28,7 +28,7 @@ class _Bottom_navigationState extends State<Bottom_navigation> {
     body: Center(
       child: _Screen[_selectedIndex],
     ),
-    bottomNavigationBar: SizedBox(height: 80,
+    bottomNavigationBar: SizedBox(height: 75,
       child: BottomNavigationBar(backgroundColor: Colors.blueGrey[900],
           items:[
           BottomNavigationBarItem(icon: Icon(Icons.home,color: Colors.white,size: 35,),label: 'Home'),

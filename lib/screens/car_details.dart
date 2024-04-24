@@ -2,15 +2,16 @@ import 'package:car_rental/screens/editing_page.dart';
 import 'package:car_rental/screens/selected_car.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-class Car_details extends StatefulWidget {
-  const Car_details({super.key});
+class Car_Details extends StatefulWidget {
+  const Car_Details({super.key});
 
   @override
-  State<Car_details> createState() => _Car_detailsState();
+  State<Car_Details> createState() => _Car_detailsState();
 }
 
-class _Car_detailsState extends State<Car_details> {
+class _Car_detailsState extends State<Car_Details> {
 
   
   @override
@@ -23,18 +24,19 @@ class _Car_detailsState extends State<Car_details> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+           
             children: [
 
              
 
-              SizedBox(height: 450,),
+              
             
-
+              SizedBox(height: 540,),
+              
             // Buttons>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-               Padding(
-                 padding: const EdgeInsets.only(left: 1),
+               
+               Align(
+                alignment: Alignment.bottomCenter,
                  child: Container(
                     decoration: BoxDecoration(color: Colors.blueGrey[900],borderRadius: BorderRadius.circular(15)),
                     width: 320,
@@ -43,8 +45,9 @@ class _Car_detailsState extends State<Car_details> {
                       padding: const EdgeInsets.only(left: 17),
                       child: Row(
                         children: [
+                          
                           ElevatedButton(onPressed: (){
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Editing_page()));    
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Editing_Page()));    
                           }, child: Text('Edit',style: TextStyle(color: Colors.white),),style: ButtonStyle(shape:MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),backgroundColor: MaterialStatePropertyAll(Colors.white24)),),
                       
                           SizedBox(width: 20,),
@@ -56,7 +59,7 @@ class _Car_detailsState extends State<Car_details> {
                           SizedBox(width: 20,),
                       
                            ElevatedButton(onPressed: (){
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Selected_car()));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Selected_Sar()));
                           }, child: Text('Select',style: TextStyle(color: Colors.white),),style: ButtonStyle(shape:MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),backgroundColor: MaterialStatePropertyAll(Colors.white24)),),
                         ],
                         

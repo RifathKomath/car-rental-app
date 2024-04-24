@@ -2,61 +2,61 @@ import 'dart:async';
 import 'package:car_rental/models/carrental.dart';
 import 'package:hive_flutter/adapters.dart';
 
-class carrentalservice{
+class CarrentalService{
 
 
 
-Box<carrental>?_carserviceBox;
+Box<CarRental>?_carServiceBox;
 
 Future<void>openBox()async{
 
-_carserviceBox = await Hive.openBox<carrental>('cars');
+_carServiceBox = await Hive.openBox<CarRental>('cars');
 
 }
 
 Future<void>closeBox()async{
-  await _carserviceBox!.close();
+  await _carServiceBox!.close();
 }
 
 // add new car
 
-Future<void>addCar(carrental details)async{
-    if(_carserviceBox==null){
+Future<void>addCar(CarRental details)async{
+    if(_carServiceBox==null){
       await openBox();
 
     }
-    await _carserviceBox!.add(details);
+    await _carServiceBox!.add(details);
 }
 
 // get details
 
-  Future<List<carrental>> getdetails() async {
-    if (_carserviceBox == null) {
+  Future<List<CarRental>> getDetails() async {
+    if (_carServiceBox == null) {
       await openBox();
     }
 
-    return _carserviceBox!.values.toList();
+    return _carServiceBox!.values.toList();
   }
 
 
   // update
 
 
-  Future<void>updatedetails(int index, carrental details)async{
+  Future<void>updatedetails(int index, CarRental details)async{
 
-    if(_carserviceBox==null){
+    if(_carServiceBox==null){
       await openBox();
     }
-    await _carserviceBox!.putAt(index, details);
+    await _carServiceBox!.putAt(index, details);
   }
 
   // delete
 
-Future<void> deletedetails(int index) async {
-    if (_carserviceBox == null) {
+Future<void> deleteDetails(int index) async {
+    if (_carServiceBox == null) {
       await openBox();
     }
 
-    await _carserviceBox!.deleteAt(index);
+    await _carServiceBox!.deleteAt(index);
   }
 }
