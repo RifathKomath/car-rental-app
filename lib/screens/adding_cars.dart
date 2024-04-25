@@ -34,6 +34,24 @@ class _Adding_carsState extends State<Adding_Cars> {
 
 final CarrentalService _carRentalSevice = CarrentalService();
 
+  List<String> seatTypes = [
+    '2',
+    '4',
+    '5',
+    '6',
+    '7',
+  ];
+  String? selectedSeattypes;
+
+  List<String> fuelTypes = [
+    'Diesel',
+    'Petrol',
+    'CNG',
+    'Electric',
+    'Other',
+  ];
+  String? selectedFueltypes;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,9 +75,10 @@ final CarrentalService _carRentalSevice = CarrentalService();
                           
                           validator();
 
-                        } else {
+                        } 
+                        else {
 
-                          // _formkey.currentState!.validate() && image25 !=null;
+                          _formkey.currentState!.validate() && image25 !=null;
                            
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor:Colors.black ,
@@ -138,7 +157,6 @@ final CarrentalService _carRentalSevice = CarrentalService();
               padding: const EdgeInsets.only(left: 20,right: 27,),
               child: TextFormField(
                  controller: _brandController,
-                 inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[a-z],[A-Z]'))],
                 decoration: InputDecoration(
                   icon: Icon(Icons.directions_car_filled),
                   label: Text('Brand :'),
@@ -187,83 +205,80 @@ final CarrentalService _carRentalSevice = CarrentalService();
                 },
               ),
             ),  
+
+             SizedBox(height: 20,),
             
             // Fuel>>>>>>>>>>>>>>>>>>>>>>
-            
-            SizedBox(height: 20,),
-            Padding(
-              padding: const EdgeInsets.only(left: 20,right: 27,),
-               child:DropdownButtonFormField(items: [
-            
-                DropdownMenuItem(child: Text('Diesel',),
-                value: -1,),
-                DropdownMenuItem(child: Text('Petrol',),
-                value: 1,),
-                DropdownMenuItem(child: Text('Electric',),
-                value: 2,),
-                 DropdownMenuItem(child: Text('CNG',),
-                value: 3,),
-                
-               ], onChanged: (v){},
-                
-                decoration: InputDecoration(
-                    filled: true,
-                  icon: Icon(Icons.local_gas_station_sharp),
-                  label: Text('Fuel :'),
-                  hintText: 'Please enter the fuel type',
-                  border: OutlineInputBorder(
-               borderRadius: BorderRadius.circular(25)
-                  )
-                ),
 
-                validator: (value) {
-                  if(value==null){
-                    return 'Please select one item';
-                  }else{
-                    return null;
-                  }
-                },
-                
-               )
-            ),
-          
+             Padding(
+        padding: const EdgeInsets.only(left: 20,right: 27,),
+        child: DropdownButtonFormField<String>(
+                    borderRadius: BorderRadius.circular(40),
+                    value: selectedFueltypes,
+                    onChanged: (newValue) {
+                      setState(() {
+                        selectedFueltypes = newValue;
+                      });
+                    },
+                    items: fuelTypes.map((mode) {
+                      return DropdownMenuItem<String>(
+                        value: mode,
+                        child: Text(mode),
+                      );
+                    }).toList(),
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(25))
+                    ),
+                       filled: true,
+                      icon: Icon(Icons.airline_seat_recline_extra_sharp),
+                      label: Text('Fuel type :'),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please select one item';
+                      }
+                      return null;
+                    },
+                  ),
+      ),
+
             // Seat capacity>>>>>>>>>>>>>>>>>>>
           
               SizedBox(height: 20,),
-            Padding(
-              padding: const EdgeInsets.only(left: 20,right: 27,),
-              child: 
-              DropdownButtonFormField(items: [
-                DropdownMenuItem(child: Text('4'),
-                value: -1,),
-                  DropdownMenuItem(child: Text('5'),
-                value: 1,),
-                  DropdownMenuItem(child: Text('6'),
-                value:2,),
-                 DropdownMenuItem(child: Text('7'),
-                value:3,),
-                 DropdownMenuItem(child: Text('8'),
-                value:4,),
-              ], onChanged: (v){},
-
-               decoration: InputDecoration(
-                    filled: true,
-                  icon: Icon(Icons.airline_seat_recline_extra_sharp),
-                  label: Text('Seat capacity :'),
-                  hintText: 'Please enter the seating capacity',
-                  border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25)
-                  )
-                ),
-              
-              validator: (value) {
-                if(value==null){
-                    return 'Please select one item';
-                }else{
-                  return null;
-                }
-              },)
-            ),
+      
+      Padding(
+        padding: const EdgeInsets.only(left: 20,right: 27,),
+        child: DropdownButtonFormField<String>(
+                    borderRadius: BorderRadius.circular(40),
+                    value: selectedSeattypes,
+                    onChanged: (newValue) {
+                      setState(() {
+                        selectedSeattypes = newValue;
+                      });
+                    },
+                    items: seatTypes.map((mode) {
+                      return DropdownMenuItem<String>(
+                        value: mode,
+                        child: Text(mode),
+                      );
+                    }).toList(),
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(25))
+                    ),
+                       filled: true,
+                      icon: Icon(Icons.airline_seat_recline_extra_sharp),
+                      label: Text('Seat capacity :'),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please select one item';
+                      }
+                      return null;
+                    },
+                  ),
+      ),
           
             // Reg number>>>>>>>>>>>>>>>>>>>>>>>>>
           
@@ -311,7 +326,7 @@ final CarrentalService _carRentalSevice = CarrentalService();
                
                  validator: (value) {
                   if(value==null || value.isEmpty){
-                    return 'Insurance is Emepty';
+                    return 'Insurance is Empty';
                   }else{
                     return null;
                   }
@@ -399,17 +414,17 @@ final CarrentalService _carRentalSevice = CarrentalService();
 
 
         final car = _nameController.text.trim();
-        final brand = _brandController.text.trim();
+        final brand = _brandController.text.toString();
         final model = _modelController.text.trim().toString();
-        final fuel = _fuelController.text.trim();
-        final seat = _seatController.text.trim().toString();
+        final fuel = selectedFueltypes!;
+        final capacity = selectedSeattypes!;
         final reg_num = _regnumberController.text.trim().toUpperCase().toString();
         final insurance = _insuranceController.text.trim();
         final pollution = _pollutionController.text.trim();
         final amount = _amountController.text.trim().toString();
 
 
-        final newcar = CarRental(imagex: imagepath!, car: car, brand: brand, model: model, fuel: fuel, capacity: seat, number: reg_num, insurance: insurance, pollution: pollution, amount: amount);
+        final newcar = CarRental(imagex: imagepath!, car: car, brand: brand, model: model, fuel: fuel, capacity: capacity, number: reg_num, insurance: insurance, pollution: pollution, amount: amount);
 
             await _carRentalSevice.addCar(newcar);
 
@@ -428,7 +443,15 @@ final CarrentalService _carRentalSevice = CarrentalService();
 
              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Bottom_Navigation()));
 
-      }else{
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor:Colors.black ,
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.all(10),
+        content: Text('Successfully added')),);
+             
+
+      }
+      else{
          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor:Colors.black ,
         behavior: SnackBarBehavior.floating,

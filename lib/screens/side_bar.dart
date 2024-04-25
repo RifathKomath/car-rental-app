@@ -4,7 +4,7 @@ import 'package:car_rental/screens/side_bar_Screens/contact_page.dart';
 import 'package:car_rental/screens/side_bar_Screens/history_page.dart';
 import 'package:car_rental/screens/side_bar_Screens/privacy_page.dart';
 import 'package:car_rental/screens/side_bar_Screens/revenue_page.dart';
-import 'package:car_rental/screens/terms_page.dart';
+import 'package:car_rental/screens/side_bar_screens/terms_page.dart';
 import 'package:flutter/material.dart';
 
 class Side_Bar extends StatelessWidget {
@@ -78,9 +78,14 @@ class Side_Bar extends StatelessWidget {
                   return AlertDialog(
                     title: Text('Logout'),
                     content: Text('Press OK for Logout',style: TextStyle(fontSize: 15),),
-                     actions: [ElevatedButton(onPressed: (){
+                     actions: [  
+                      ElevatedButton(onPressed: (){
                       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>Login_Screen()), (route) => false);
-                     }, child: Text('OK',style: TextStyle(color: Colors.white)),style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.grey[900]),shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),),)],
+                     }, child: Text('OK',style: TextStyle(color: Colors.white)),style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.
+                     grey[900]),shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),),),
+                     
+                   ],
+                     
                   );
           });
           

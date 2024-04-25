@@ -53,5 +53,7 @@ class CarRental{
 
   });
 
+  get seat => null;
+
 }
 

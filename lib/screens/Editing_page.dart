@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:car_rental/db_helper/carrental_service.dart';
 import 'package:car_rental/models/carrental.dart';
 import 'package:car_rental/screens/car_details.dart';
@@ -16,7 +15,9 @@ class Editing_Page extends StatefulWidget {
 
 class _Editing_pageState extends State<Editing_Page> {
 
-  // final CarrentalService _carRentalSevice = CarrentalService();
+  int selectedIndex = -1; // Initialize with a default value, -1 indicates no item selected initially
+
+  final CarrentalService _carRentalSevice = CarrentalService();
 
   File? image25;
   String? imagepath;
@@ -364,47 +365,69 @@ final _EditnameController = TextEditingController();
       imagepath = image.path.toString();
     });
   }
-      Future <void> validator()async{
+      Future<void> validator() async {
+  if (_formkey.currentState!.validate() && image25 != null) {
+    final car = _EditnameController.text.trim();
+    final brand = _EditbrandController.text.trim();
+    final model = _EditmodelController.text.trim().toString();
+    final fuel = _EditfuelController.text.trim();
+    final seat = _EditseatController.text.trim().toString();
+    final reg_num =
+        _EditregnumberController.text.trim().toUpperCase().toString();
+    final insurance = _EditinsuranceController.text.trim();
+    final pollution = _EditpollutionController.text.trim();
+    final amount = _EditamountController.text.trim().toString();
 
-      if(_formkey.currentState!.validate()&& image25 != null){
+    final newCar = CarRental(
+      imagex: imagepath!,
+      car: car,
+      brand: brand,
+      model: model,
+      fuel: fuel,
+      capacity: seat,
+      number: reg_num,
+      insurance: insurance,
+      pollution: pollution,
+      amount: amount,
+    );
 
+    if (selectedIndex != -1) {
+      // If an item is selected, update its details
+      await _carRentalSevice.updatedetails(selectedIndex, newCar);
+    } else {
+      // Handle the case where no item is selected
+      print("No item selected to update");
+    }
 
-        final car = _EditnameController.text.trim();
-        final brand = _EditbrandController.text.trim();
-        final model = _EditmodelController.text.trim().toString();
-        final fuel = _EditfuelController.text.trim();
-        final seat = _EditseatController.text.trim().toString();
-        final reg_num = _EditregnumberController.text.trim().toUpperCase().toString();
-        final insurance = _EditinsuranceController.text.trim();
-        final pollution = _EditpollutionController.text.trim();
-        final amount = _EditamountController.text.trim().toString();
+    // Resetting values and navigating
+    image25 = null;
+    _EditnameController.clear();
+    _EditbrandController.clear();
+    _EditmodelController.clear();
+    _EditfuelController.clear();
+    _EditseatController.clear();
+    _EditregnumberController.clear();
+    _EditinsuranceController.clear();
+    _EditpollutionController.clear();
+    _EditamountController.clear();
 
-
-        final newCar = CarRental(imagex: imagepath!, car: car, brand: brand, model: model, fuel: fuel, capacity: seat, number: reg_num, insurance: insurance, pollution: pollution, amount: amount);
-
-            // await _carRentalSevice.updatedetails(int index, CarRental details);
-
-             image25 = null;
-            _EditnameController.clear();
-            _EditbrandController.clear();
-            _EditmodelController.clear();
-            _EditfuelController.clear();
-            _EditseatController.clear();
-            _EditregnumberController.clear();
-            _EditinsuranceController.clear();
-            _EditpollutionController.clear();
-            _EditamountController.clear();
-
-            
-
-             Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Car_Details()));
-
-      }else{
-         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor:Colors.black ,
+    Navigator.of(context).push(
+  MaterialPageRoute(builder: (context) => Car_Details(carRental: newCar)),
+);}
+else {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.black,
         behavior: SnackBarBehavior.floating,
         margin: EdgeInsets.all(10),
-        content: Text('Please fill the fields')),);
-      }
-    }
+        content: Text('Please fill the fields'),
+      ),
+    );
+  }
+}
+void handleItemSelection(int index) {
+  setState(() {
+    selectedIndex = index; // Update selectedIndex when an item is selected
+  });
+}
 }

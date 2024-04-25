@@ -14,45 +14,24 @@ class Home_Screen extends StatefulWidget {
 
 class _Home_screenState extends State<Home_Screen> {
 
-// final _search_controller = TextEditingController();
+late TextEditingController searchController = TextEditingController();
+late List<CarRental> _filteredCars;
 
   final CarrentalService _carrentalsevice = CarrentalService();
 
   List<CarRental> _list = [];
 
-// String reg= '';
+
 
 
   // search filter
 
-  //  void _runFilter(String enteredKeyword) {
-  //   List<carrental> result = [];
-  //   if (enteredKeyword.isEmpty) {
-  //     result = _list;
-  //     // Reset to the original list if the search is empty
-  //   } else {
-  //     // Filter based on student properties
-  //     result = _list
-  //         .where((car) =>
-  //             car.car
-  //                 .toLowerCase()
-  //                 .contains(enteredKeyword.toLowerCase()) ||
-  //             car.brand
-  //                 .toLowerCase()
-  //                 .contains(enteredKeyword.toLowerCase()))
-  //         .toList();
-  //   }
-  //   setState(() {
-  //     _list = result;
-  //   });
-  // }
-
 
   // fetching all datas from bd
 
-  Future<void> _loaddetails ()async{
+  Future<void> _loadDetails ()async{
     _list = await _carrentalsevice.getDetails();
-
+    _filteredCars = List.from(_list); // Initialize filtered cars with all cars
     setState(() {
       
     });
@@ -60,14 +39,25 @@ class _Home_screenState extends State<Home_Screen> {
 
   @override
   void initState() {
-    _loaddetails();
+    _loadDetails();
+    searchController = TextEditingController();
     super.initState();
+  }
+
+   void _runFilter(String enteredKeyword) {
+    // Filter based on entered keyword
+    List<CarRental> result = _list.where((car) =>
+        car.car.toLowerCase().contains(enteredKeyword.toLowerCase()) ||
+        car.brand.toLowerCase().contains(enteredKeyword.toLowerCase())).toList();
+    setState(() {
+      _filteredCars = result;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(preferredSize: Size.fromHeight(120), child: AppBar(
+      appBar: PreferredSize(preferredSize: Size.fromHeight(140), child: AppBar(
         backgroundColor: Colors.blueGrey[900],
         iconTheme: IconThemeData(color: Colors.white),
         actions: [SafeArea(
@@ -87,16 +77,12 @@ class _Home_screenState extends State<Home_Screen> {
               SizedBox(height: 45,width: 250,
                 child: 
                 TextFormField(
-
-                  // controller: _search_controller,
-                 
+                  controller: searchController,
+                 onChanged: (value) {
+                        _runFilter(value); // Call filter function on text change
+                      },
                   style: TextStyle(color: Colors.white),
-                  // onChanged: (value) {
-                  //   setState(() {
-                  //     _runFilter(value);
-                  //     reg = _search_controller.text;
-                  //   });
-                  // },
+                 
                           decoration: InputDecoration(
                             labelText: 'Search',
                             labelStyle: TextStyle(color: Colors.white),
@@ -131,9 +117,9 @@ class _Home_screenState extends State<Home_Screen> {
               )
             : ListView.builder(
 
-                itemCount: _list.length,
+                itemCount: _filteredCars.length,
                 itemBuilder: (context, index) {
-                  final info = _list[index];
+                  final info = _filteredCars[index];
                   return Container(
                     height: 125,
                     child: Card(
@@ -149,6 +135,7 @@ class _Home_screenState extends State<Home_Screen> {
                             height: 200, 
                             width: 120,  
                             child: Container(
+                              decoration: BoxDecoration(border: Border.all(),borderRadius:BorderRadius.circular(5)),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(5),
                                 child: Image.file(
@@ -182,12 +169,6 @@ class _Home_screenState extends State<Home_Screen> {
                                         ],
                                         ),
                           ),
-                          // subtitle: Column(
-                          //   children: [
-                          //     Text("Brand :${info.brand}",),
-                          //     Text("Model :${info.model}")
-                          //   ],
-                          // ),
                                             //     trailing: Container(
                                             //        width: 50,
                                             //       child: Row(
@@ -196,7 +177,7 @@ class _Home_screenState extends State<Home_Screen> {
                                             //               onPressed: () async {
                                             //                  await _carrentalsevice.deleteDetails(index);
                                             
-                                            //                 _loaddetails();
+                                            //                 _loadDetails();
                                             //               },
                                             //               icon: Icon(
                                             //                 Icons.delete,
@@ -207,7 +188,7 @@ class _Home_screenState extends State<Home_Screen> {
                                             //   ), 
                                             // ),
                                             onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Car_Details()));
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Car_Details(carRental: _filteredCars[index])));
                                             
                                             },
                                             ),

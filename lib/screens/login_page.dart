@@ -132,7 +132,7 @@ class _Login_screenState extends State<Login_Screen> {
                                     
                       Navigator.pop(context);
                         if(user!=null){
-                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>Bottom_Navigation()), (route) => false);
+                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>Bottom_Navigation()), (route) => false);             
 
                         }else{
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -141,7 +141,7 @@ class _Login_screenState extends State<Login_Screen> {
             behavior: SnackBarBehavior.floating,
             duration: Duration(seconds: 2),
             margin: EdgeInsets.all(10),
-            content: Text('Username and password does not match or User not found'),
+            content: Text('Username and password does not match / User not found'),
           ),
         );
                         }
