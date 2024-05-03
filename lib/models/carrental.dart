@@ -1,5 +1,3 @@
-
-
 import 'package:hive_flutter/adapters.dart';
 
 part 'carrental.g.dart';
@@ -23,7 +21,7 @@ class CarRental{
   late String fuel;
 
   @HiveField(5)
-  late String capacity;
+  late String seat;
 
   @HiveField(6)
   late String number;
@@ -45,15 +43,13 @@ class CarRental{
     required this.brand,
     required this.model,
     required this.fuel,
-    required this.capacity,
+    required this.seat,
     required this.number,
     required this.insurance,
     required this.pollution,
     required this.amount,
 
   });
-
-  get seat => null;
 
 }
 

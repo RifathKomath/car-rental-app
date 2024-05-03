@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:car_rental/db_helper/carrental_service.dart';
+import 'package:car_rental/db_helper/car_rental_service.dart';
 import 'package:car_rental/models/carrental.dart';
 import 'package:car_rental/screens/car_details.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ class _Editing_pageState extends State<Editing_Page> {
 
   int selectedIndex = -1; // Initialize with a default value, -1 indicates no item selected initially
 
-  final CarrentalService _carRentalSevice = CarrentalService();
+  final CarRentalService _carRentalSevice = CarRentalService();
 
   File? image25;
   String? imagepath;
@@ -110,7 +110,7 @@ final _EditnameController = TextEditingController();
               child: TextFormField(
                 controller: _EditnameController,
                 decoration: InputDecoration(
-                    filled: true,
+                    // filled: true,
                   icon: Icon(Icons.directions_car_filled),
                   label: Text('Car name :'),
                   hintText: 'Please enter the car Name',
@@ -140,7 +140,7 @@ final _EditnameController = TextEditingController();
                 decoration: InputDecoration(
                   icon: Icon(Icons.directions_car_filled),
                   label: Text('Brand :'),
-                    filled: true,
+                    // filled: true,
                   hintText: 'Please enter the car Brand',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25)
@@ -167,7 +167,7 @@ final _EditnameController = TextEditingController();
                 decoration: InputDecoration(
                   icon: Icon(Icons.calendar_month),
                   label: Text('Model :'),
-                    filled: true,
+                    // filled: true,
                   hintText: 'Please enter the model year',
                   border: OutlineInputBorder(  
                     borderRadius: BorderRadius.circular(25)
@@ -192,7 +192,7 @@ final _EditnameController = TextEditingController();
               child: TextFormField(
                 controller: _EditfuelController,
                 decoration: InputDecoration(
-                    filled: true,
+                    // filled: true,
                   icon: Icon(Icons.local_gas_station_sharp),
                   label: Text('Fuel :'),
                   hintText: 'Please enter the fuel type',
@@ -218,7 +218,7 @@ final _EditnameController = TextEditingController();
               child: TextFormField(
                 controller: _EditseatController,
                 decoration: InputDecoration(
-                    filled: true,
+                    // filled: true,
                   icon: Icon(Icons.airline_seat_recline_extra_sharp),
                   label: Text('Seat capacity :'),
                   hintText: 'Please enter the seating capacity',
@@ -245,7 +245,7 @@ final _EditnameController = TextEditingController();
               child: TextFormField(
                 controller: _EditregnumberController,
                 decoration: InputDecoration(
-                    filled: true,
+                    // filled: true,
                   icon: Icon(Icons.onetwothree_rounded),
                   label: Text('Reg Number :'),
                   hintText: 'Please enter the car Reg Number',
@@ -272,7 +272,7 @@ final _EditnameController = TextEditingController();
               child: TextFormField(
                 controller: _EditinsuranceController,
                 decoration: InputDecoration(
-                    filled: true,
+                    // filled: true,
                   icon: Icon(Icons.note),
                   label: Text('Insurance Upto :'),
                   hintText: 'Please enter the Insurance date',
@@ -299,7 +299,7 @@ final _EditnameController = TextEditingController();
               child: TextFormField(
                 controller: _EditpollutionController,
                 decoration: InputDecoration(
-                    filled: true,
+                    // filled: true,
                   icon: Icon(Icons.note),
                   label: Text('Pollution Upto :'),
                   hintText: 'Please enter the pollution date',
@@ -327,7 +327,7 @@ final _EditnameController = TextEditingController();
                 controller: _EditamountController,
                 inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))],
                 decoration: InputDecoration(
-                    filled: true,
+                    // filled: true,
                   icon: Icon(Icons.currency_rupee_rounded),
                   label: Text('Amount of the Car :'),
                   hintText: 'Please enter amount of the car ',
@@ -384,7 +384,7 @@ final _EditnameController = TextEditingController();
       brand: brand,
       model: model,
       fuel: fuel,
-      capacity: seat,
+      seat: seat,
       number: reg_num,
       insurance: insurance,
       pollution: pollution,
@@ -412,8 +412,9 @@ final _EditnameController = TextEditingController();
     _EditamountController.clear();
 
     Navigator.of(context).push(
-  MaterialPageRoute(builder: (context) => Car_Details(carRental: newCar)),
-);}
+  MaterialPageRoute(builder: (context) => Car_Details(carRental: newCar,)),
+);
+}
 else {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

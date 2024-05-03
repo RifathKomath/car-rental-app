@@ -6,7 +6,7 @@ part of 'carrental.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class carrentalAdapter extends TypeAdapter<CarRental> {
+class CarRentalAdapter extends TypeAdapter<CarRental> {
   @override
   final int typeId = 0;
 
@@ -22,7 +22,7 @@ class carrentalAdapter extends TypeAdapter<CarRental> {
       brand: fields[2] as String,
       model: fields[3] as String,
       fuel: fields[4] as String,
-      capacity: fields[5] as String,
+      seat: fields[5] as String,
       number: fields[6] as String,
       insurance: fields[7] as String,
       pollution: fields[8] as String,
@@ -45,7 +45,7 @@ class carrentalAdapter extends TypeAdapter<CarRental> {
       ..writeByte(4)
       ..write(obj.fuel)
       ..writeByte(5)
-      ..write(obj.capacity)
+      ..write(obj.seat)
       ..writeByte(6)
       ..write(obj.number)
       ..writeByte(7)
@@ -62,7 +62,7 @@ class carrentalAdapter extends TypeAdapter<CarRental> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is carrentalAdapter &&
+      other is CarRentalAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

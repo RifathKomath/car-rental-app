@@ -2,7 +2,8 @@ import 'dart:async';
 import 'package:car_rental/models/carrental.dart';
 import 'package:hive_flutter/adapters.dart';
 
-class CarrentalService{
+class CarRentalService{
+
 
 
 

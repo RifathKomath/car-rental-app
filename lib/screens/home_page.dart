@@ -1,8 +1,9 @@
 import 'dart:io';
 import 'package:car_rental/models/carrental.dart';
 import 'package:car_rental/screens/car_details.dart';
+import 'package:car_rental/screens/filter_page.dart';
 import 'package:car_rental/screens/side_bar.dart';
-import 'package:car_rental/db_helper/carrental_service.dart';
+import 'package:car_rental/db_helper/car_rental_service.dart';
 import 'package:flutter/material.dart';
 
 class Home_Screen extends StatefulWidget {
@@ -17,20 +18,16 @@ class _Home_screenState extends State<Home_Screen> {
 late TextEditingController searchController = TextEditingController();
 late List<CarRental> _filteredCars;
 
-  final CarrentalService _carrentalsevice = CarrentalService();
+  final CarRentalService _carRentalService = CarRentalService();
 
   List<CarRental> _list = [];
-
-
-
-
-  // search filter
-
+  
+  final style = TextStyle(fontSize: 14,);
 
   // fetching all datas from bd
 
   Future<void> _loadDetails ()async{
-    _list = await _carrentalsevice.getDetails();
+    _list = await _carRentalService.getDetails();
     _filteredCars = List.from(_list); // Initialize filtered cars with all cars
     setState(() {
       
@@ -93,7 +90,13 @@ late List<CarRental> _filteredCars;
                 ),
               ),
               SizedBox(width: 15,),
-              ElevatedButton(onPressed: (){}, child: Icon(Icons.filter_alt_outlined,color: Colors.white,),style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.white24),shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))))
+               ElevatedButton(onPressed: (){
+
+              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Filter_Page()));
+
+
+              }, child: Icon(Icons.filter_alt_outlined,color: Colors.white,),style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.white24),shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))))
+
             ],
           ),
         ),
@@ -121,82 +124,75 @@ late List<CarRental> _filteredCars;
                 itemBuilder: (context, index) {
                   final info = _filteredCars[index];
                   return Container(
-                    height: 125,
+                    // height: 15,
                     child: Card(
+                      color: Colors.white,
                       margin: EdgeInsets.symmetric(vertical: 8.0),
-                      // elevation: 30.0,
+                      elevation: 5.0,
                                     shape: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15)
+                    borderRadius: BorderRadius.circular(12)
                                     ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 22,),
-                        child: ListTile(
-                        leading: SizedBox(
-                            height: 200, 
-                            width: 120,  
-                            child: Container(
-                              decoration: BoxDecoration(border: Border.all(),borderRadius:BorderRadius.circular(5)),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: Image.file(
-                                  File(info.imagex),
-                                   fit: BoxFit.cover,
-                                ),
+                      child: ListTile(
+                      leading: SizedBox(
+                          height: 200, 
+                          width: 120,  
+                          child: Container(
+                            decoration: BoxDecoration(border: Border.all(),borderRadius:BorderRadius.circular(5),),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(5),
+                              child: Image.file(
+                                File(info.imagex),
+                                 fit: BoxFit.cover,
                               ),
                             ),
                           ),
-                          title:Padding(
-                            padding: const EdgeInsets.only(top: 8,),
-                            child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start, 
-                                    crossAxisAlignment: CrossAxisAlignment.start, 
-                                    children: [
-                                          Text(
-                                            "Car Name: ${info.car}",
-                                            textAlign: TextAlign.start,
-                                             
-                                          ),
-                                          Text(
-                                            "Brand: ${info.brand}",
-                                            textAlign: TextAlign.start, 
-                                             
-                                          ),
-                                          Text(
-                                            "Model: ${info.model}",
-                                            textAlign: TextAlign.start, 
-                                             
-                                          ),
-                                        ],
+                        ),
+                        title:Padding(
+                          padding: const EdgeInsets.only(top: 8,bottom: 8),
+                          child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start, 
+                                  crossAxisAlignment: CrossAxisAlignment.start, 
+                                  children: [
+                                        Text(
+                                          "Name: ${info.car}",style: style,
+                                          textAlign: TextAlign.start,
+                                           
                                         ),
-                          ),
-                                            //     trailing: Container(
-                                            //        width: 50,
-                                            //       child: Row(
-                                            //         children: [
-                                            //           IconButton(
-                                            //               onPressed: () async {
-                                            //                  await _carrentalsevice.deleteDetails(index);
-                                            
-                                            //                 _loadDetails();
-                                            //               },
-                                            //               icon: Icon(
-                                            //                 Icons.delete,
-                                            //                 color: Colors.blueGrey[900],
-                                            //               ))
-                                            //         ],
-                        
-                                            //   ), 
-                                            // ),
-                                            onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Car_Details(carRental: _filteredCars[index])));
-                                            
-                                            },
-                                            ),
-                      )
+                                        Text(
+                                          "Brand: ${info.brand}",style: style,
+                                          textAlign: TextAlign.start, 
+                                           
+                                        ),
+                                        Text(
+                                          "Model: ${info.model}",style: style,
+                                          textAlign: TextAlign.start, 
+                                           
+                                        ),
+                                      ],
+                                      ),
+                        ),
+                                              // trailing: IconButton(
+                                                
+                                              //   onPressed: () async {
+                                              //        await _carRentalService.deleteDetails(index);
+                                                                                        
+                                              //       _loadDetails();
+                                              //     },
+                                              //     icon: Icon(
+                                              //       Icons.delete,
+                                              //       color: Colors.blueGrey[900],
+                                              //     )),
+                                          onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Car_Details(carRental: _filteredCars[index])));
+                                          
+                                          },
+                                          )
                     ),
                   );
                 }),
       ),
     );
   }
+
+
 }

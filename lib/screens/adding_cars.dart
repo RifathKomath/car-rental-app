@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:car_rental/models/carrental.dart';
-import 'package:car_rental/db_helper/carrental_service.dart';
+import 'package:car_rental/db_helper/car_rental_service.dart';
 import 'package:car_rental/screens/bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,7 +32,7 @@ class _Adding_carsState extends State<Adding_Cars> {
 
   final _formkey =GlobalKey<FormState>();
 
-final CarrentalService _carRentalSevice = CarrentalService();
+final CarRentalService _carRentalSevice = CarRentalService();
 
   List<String> seatTypes = [
     '2',
@@ -131,7 +131,7 @@ final CarrentalService _carRentalSevice = CarrentalService();
               child: TextFormField(
                 controller: _nameController,
                 decoration: InputDecoration(
-                    filled: true,
+                    // filled: true,
                   icon: Icon(Icons.directions_car_filled),
                   label: Text(' Car name :'),
                   hintText: 'Please enter the car Name',
@@ -160,7 +160,7 @@ final CarrentalService _carRentalSevice = CarrentalService();
                 decoration: InputDecoration(
                   icon: Icon(Icons.directions_car_filled),
                   label: Text('Brand :'),
-                    filled: true,
+                    // filled: true,
                   hintText: 'Please enter the car Brand',
                   border: OutlineInputBorder(
                      borderRadius: BorderRadius.circular(25)
@@ -186,7 +186,7 @@ final CarrentalService _carRentalSevice = CarrentalService();
                 decoration: InputDecoration(
                   icon: Icon(Icons.calendar_month),
                   label: Text('Model :'),
-                    filled: true,
+                    // filled: true,
                   hintText: 'Please enter the model year',
                   border: OutlineInputBorder(  
                   borderRadius: BorderRadius.circular(25)
@@ -230,7 +230,7 @@ final CarrentalService _carRentalSevice = CarrentalService();
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(25))
                     ),
-                       filled: true,
+                      //  filled: true,
                       icon: Icon(Icons.airline_seat_recline_extra_sharp),
                       label: Text('Fuel type :'),
                     ),
@@ -267,7 +267,7 @@ final CarrentalService _carRentalSevice = CarrentalService();
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(25))
                     ),
-                       filled: true,
+                      //  filled: true,
                       icon: Icon(Icons.airline_seat_recline_extra_sharp),
                       label: Text('Seat capacity :'),
                     ),
@@ -288,7 +288,7 @@ final CarrentalService _carRentalSevice = CarrentalService();
               child: TextFormField(
                 controller: _regnumberController,
                 decoration: InputDecoration(
-                    filled: true,
+                    // filled: true,
                   icon: Icon(Icons.onetwothree_rounded),
                   label: Text('Reg Number :'),
                   hintText: 'Please enter the car Reg Number',
@@ -315,7 +315,7 @@ final CarrentalService _carRentalSevice = CarrentalService();
                 controller: _insuranceController,
                 readOnly: true,
                 decoration: InputDecoration(
-                    filled: true,
+                    // filled: true,
                   icon: Icon(Icons.note),
                   label: Text('Insurance Upto :'),
                   hintText: 'Please enter the Insurance date',
@@ -347,7 +347,7 @@ final CarrentalService _carRentalSevice = CarrentalService();
                 controller: _pollutionController,
                 readOnly: true,
                 decoration: InputDecoration(
-                    filled: true,
+                    // filled: true,
                   icon: Icon(Icons.note),
                   label: Text('Pollution Upto :'),
                   hintText: 'Please enter the pollution date',
@@ -378,7 +378,7 @@ final CarrentalService _carRentalSevice = CarrentalService();
               child: TextFormField(
                 controller: _amountController,
                 decoration: InputDecoration(
-                    filled: true,
+                    // filled: true,
                   icon: Icon(Icons.currency_rupee_rounded),
                   label: Text('Amount of the Car :'),
                   hintText: 'Please enter amount of the car ',
@@ -417,14 +417,14 @@ final CarrentalService _carRentalSevice = CarrentalService();
         final brand = _brandController.text.toString();
         final model = _modelController.text.trim().toString();
         final fuel = selectedFueltypes!;
-        final capacity = selectedSeattypes!;
+        final seat = selectedSeattypes!;
         final reg_num = _regnumberController.text.trim().toUpperCase().toString();
         final insurance = _insuranceController.text.trim();
         final pollution = _pollutionController.text.trim();
         final amount = _amountController.text.trim().toString();
 
 
-        final newcar = CarRental(imagex: imagepath!, car: car, brand: brand, model: model, fuel: fuel, capacity: capacity, number: reg_num, insurance: insurance, pollution: pollution, amount: amount);
+        final newcar = CarRental(imagex: imagepath!, car: car, brand: brand, model: model, fuel: fuel, seat: seat, number: reg_num, insurance: insurance, pollution: pollution, amount: amount);
 
             await _carRentalSevice.addCar(newcar);
 

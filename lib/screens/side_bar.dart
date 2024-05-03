@@ -78,7 +78,12 @@ class Side_Bar extends StatelessWidget {
                   return AlertDialog(
                     title: Text('Logout'),
                     content: Text('Press OK for Logout',style: TextStyle(fontSize: 15),),
-                     actions: [  
+                     actions: [
+                      ElevatedButton(onPressed: (){                               
+                        Navigator.pop(context);
+                        }, child: Text('Cancel',style: TextStyle(color: Colors.white,fontSize: 18)),style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.
+                       grey[900]),shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),),),  
+
                       ElevatedButton(onPressed: (){
                       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>Login_Screen()), (route) => false);
                      }, child: Text('OK',style: TextStyle(color: Colors.white)),style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.
