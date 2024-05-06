@@ -2,6 +2,7 @@ import 'package:car_rental/db_helper/signup_service.dart';
 import 'package:car_rental/models/signup.dart';
 import 'package:car_rental/screens/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 
@@ -73,6 +74,7 @@ class _Signup_screenState extends State<Signup_Screen> {
                      child: TextFormField(
                       controller: _signupuser,
                       decoration: InputDecoration(
+                        
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25)
                         ),
@@ -86,6 +88,7 @@ class _Signup_screenState extends State<Signup_Screen> {
                           return null;
                         }
                       },
+                     inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'\s'))],
                      ),
                    ),
           
@@ -108,10 +111,11 @@ class _Signup_screenState extends State<Signup_Screen> {
                       validator: (value) {
                         if(value == null || value.isEmpty){
                           return 'Please enter the Password';
-                        }else{
-                          return null;
-                        }
+                        }else if (value.length < 6){
+                          return 'Password should be at least six characters';
+                        }return null;
                       },
+                      inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'\s'))],
                      ),  
                    ),
 
@@ -132,10 +136,12 @@ class _Signup_screenState extends State<Signup_Screen> {
                       validator: (value) {
                         if(value == null || value.isEmpty){
                           return 'Please confirm the Password';
-                        }else{
-                          return null;
+                        }else {
+                         return null;
                         }
+
                       },
+                       inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'\s'))],
                      ),  
                    ),
 

@@ -5,6 +5,7 @@ import 'package:car_rental/screens/filter_page.dart';
 import 'package:car_rental/screens/side_bar.dart';
 import 'package:car_rental/db_helper/car_rental_service.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class Home_Screen extends StatefulWidget {
   const Home_Screen({super.key});
@@ -116,8 +117,10 @@ late List<CarRental> _filteredCars;
         padding: EdgeInsets.all(15),
         child: _list.isEmpty
             ? Center(
-                child: Text("No avialable cars"),
-              )
+                child: 
+                    Text("No avialable cars",style: TextStyle(fontSize: 20),))
+                    
+            
             : ListView.builder(
 
                 itemCount: _filteredCars.length,

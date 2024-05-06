@@ -1,65 +1,91 @@
 import 'dart:io';
-import 'package:car_rental/db_helper/car_rental_service.dart';
 import 'package:car_rental/models/carrental.dart';
-import 'package:car_rental/screens/car_details.dart';
+import 'package:car_rental/db_helper/car_rental_service.dart';
+import 'package:car_rental/screens/bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
+
+
+
 class Editing_Page extends StatefulWidget {
-  const Editing_Page({super.key});
+  final CarRental;
+  const Editing_Page({super.key,required this.CarRental});
 
   @override
-  State<Editing_Page> createState() => _Editing_pageState();
+  State<Editing_Page> createState() => _Adding_carsState();
 }
 
-class _Editing_pageState extends State<Editing_Page> {
-
-  int selectedIndex = -1; // Initialize with a default value, -1 indicates no item selected initially
-
-  final CarRentalService _carRentalSevice = CarRentalService();
+class _Adding_carsState extends State<Editing_Page> {
 
   File? image25;
   String? imagepath;
 
-final _EditnameController = TextEditingController();
-  final _EditbrandController = TextEditingController();
-  final _EditmodelController = TextEditingController();
-  final _EditfuelController = TextEditingController();
-  final _EditseatController = TextEditingController();
-  final _EditregnumberController = TextEditingController();
-  final _EditinsuranceController = TextEditingController();
-  final _EditpollutionController = TextEditingController();
-  final _EditamountController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _brandController = TextEditingController();
+  final _modelController = TextEditingController();
+  final _fuelController = TextEditingController();
+  final _seatController = TextEditingController();
+  final _regnumberController = TextEditingController();
+  final _insuranceController = TextEditingController();
+  final _pollutionController = TextEditingController();
+  final _amountController = TextEditingController();
 
   final _formkey =GlobalKey<FormState>();
 
+final CarRentalService _carRentalSevice = CarRentalService();
+
+List<String> BrandTypes = [
+   'Toyota', 'Jeep', 'Suzuki', 'Range Rover','Mini Cooper','Renault','Tata','BMW','Mercedes Benz','Hyundai','Honda','Volvo','Kia','Mahindra'
+  ];
+  String? selectedBrandTypes;
+
+  List<String> seatTypes = [
+    '2',
+    '4',
+    '5',
+    '6',
+    '7',
+  ];
+  String? selectedSeattypes;
+
+  List<String> fuelTypes = [
+    'Diesel',
+    'Petrol',
+    'CNG',
+    'Electric',
+    'Other',
+  ];
+  String? selectedFueltypes;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blueGrey[900],
+      appBar:  AppBar(
+        backgroundColor: Colors.blueGrey[900], 
+        automaticallyImplyLeading: false,    
         iconTheme: IconThemeData(color: Colors.white),
-           actions: [Padding(
+        actions: [Padding(
           padding: const EdgeInsets.only(right: 20,top: 10,bottom: 10),
           child: ElevatedButton(onPressed: (){
 
-            if (_EditnameController.text.isNotEmpty ||
-                            _EditbrandController.text.isNotEmpty ||
-                            _EditbrandController.text.isNotEmpty ||
-                            _EditfuelController.text.isNotEmpty||
-                           _EditseatController.text.isNotEmpty||
-                            _EditregnumberController.text.isNotEmpty||
-                            _EditinsuranceController.text.isNotEmpty||
-                            _EditpollutionController.text.isNotEmpty||
-                            _EditamountController.text.isNotEmpty) {
+            if (_nameController.text.isNotEmpty ||
+                            _brandController.text.isNotEmpty ||
+                            _modelController.text.isNotEmpty ||
+                            _fuelController.text.isNotEmpty||
+                            _seatController.text.isNotEmpty||
+                            _regnumberController.text.isNotEmpty||
+                            _insuranceController.text.isNotEmpty||
+                            _pollutionController.text.isNotEmpty||
+                            _amountController.text.isNotEmpty) {
                           
-                          validator();
+                          editingDetails();
 
-                        } else {
+                        } 
+                        else {
 
-                          // _formkey.currentState!.validate() && image25 !=null;
+                          _formkey.currentState!.validate() && image25 !=null;
                            
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor:Colors.black ,
@@ -69,24 +95,35 @@ final _EditnameController = TextEditingController();
                         }
 
           }, child: Text('Save',style: TextStyle(color:Colors.white,fontSize: 17 ),),style:ButtonStyle(shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),backgroundColor: MaterialStatePropertyAll(Colors.white24)) ,),
-      )]),
-      body:  SingleChildScrollView(
+        )],
+      ),
+   
+      body: SingleChildScrollView(
         child: Form(
           key: _formkey,
           child: Column(
           children: [
-             SizedBox(height: 20,),
+            SizedBox(height: 20,),
             Stack(
                   children: [
-                    CircleAvatar(
-                      backgroundColor: Colors.black12,
-                        backgroundImage: image25 != null
-                            ? FileImage(image25!)
-                            : const AssetImage('')
-                                as ImageProvider,
-                        radius: 99),
+                   Container(
+                                width: 250,
+                                height: 150,
+                                decoration: BoxDecoration(
+                                  border: Border.all(),
+                                  image: image25 != null
+                                      ? DecorationImage(
+                                          image: FileImage(image25!),
+                                          fit: BoxFit.cover,
+                                        )
+                                      : null,
+                                      borderRadius: BorderRadius.circular(15)
+                                ),
+                                
+                              ),
+
                     Positioned(
-                      bottom: 20,
+                      bottom: 0,
                       right: 5,
                       child: IconButton(
                         onPressed: () {
@@ -101,21 +138,21 @@ final _EditnameController = TextEditingController();
                     ),
                   ],
                 ),
-            
+              
           // Name>>>>>>>>>>>>>>>>
 
-            SizedBox(height: 20,),
+            SizedBox(height: 30,),
             Padding(
               padding: const EdgeInsets.only(left: 20,right: 27,),
               child: TextFormField(
-                controller: _EditnameController,
+                controller: _nameController,
                 decoration: InputDecoration(
                     // filled: true,
                   icon: Icon(Icons.directions_car_filled),
-                  label: Text('Car name :'),
+                  label: Text(' Car name :'),
                   hintText: 'Please enter the car Name',
                   border: OutlineInputBorder(
-                 borderRadius: BorderRadius.circular(25)
+             borderRadius: BorderRadius.circular(25)
                   )
                 ),
                 keyboardType: TextInputType.name,
@@ -125,36 +162,47 @@ final _EditnameController = TextEditingController();
                   }else{
                     return null;
                   }
+                  
                 },
+                 inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'\s'))],
               ),
             ),
           
+          SizedBox(height: 20,),
           // Brand>>>>>>>>>>>>>>>>>>
           
-              SizedBox(height: 20,),
-            Padding(
-              padding: const EdgeInsets.only(left: 20,right: 27,),
-              child: TextFormField(
-                 controller: _EditbrandController,
-                 inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[A-Z].[a-z]'))],
-                decoration: InputDecoration(
-                  icon: Icon(Icons.directions_car_filled),
-                  label: Text('Brand :'),
-                    // filled: true,
-                  hintText: 'Please enter the car Brand',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25)
-                  )
-                ),
-                validator: (value) {
-                  if(value==null || value.isEmpty){
-                    return 'Car brand is Empty ';
-                  }else{
-                    return null;
-                  }
-                },
-              ),
-            ),
+             Padding(
+        padding: const EdgeInsets.only(left: 20,right: 27,),
+        child: DropdownButtonFormField<String>(
+                    borderRadius: BorderRadius.circular(40),
+                    value: selectedBrandTypes,
+                    onChanged: (newValue) {
+                      setState(() {
+                        selectedBrandTypes = newValue;
+                      });
+                    },
+                    items: BrandTypes.map((mode) {
+                      return DropdownMenuItem<String>(
+                        value: mode,
+                        child: Text(mode),
+                      );
+                    }).toList(),
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(25))
+                    ),
+                      //  filled: true,
+                      icon: Icon(Icons.directions_car_filled),
+                      label: Text('Brand :'),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please select one Brand';
+                      }
+                      return null;
+                    },
+                  ),
+      ),
           
           // Model>>>>>>>>>>>>>>>>>>
 
@@ -162,18 +210,21 @@ final _EditnameController = TextEditingController();
             Padding(
               padding: const EdgeInsets.only(left: 20,right: 27,),
               child: TextFormField(
-                controller: _EditmodelController,
-                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))],
+                controller: _modelController,
                 decoration: InputDecoration(
                   icon: Icon(Icons.calendar_month),
                   label: Text('Model :'),
                     // filled: true,
                   hintText: 'Please enter the model year',
                   border: OutlineInputBorder(  
-                    borderRadius: BorderRadius.circular(25)
+                  borderRadius: BorderRadius.circular(25)
                   )
                 ),
                 keyboardType: TextInputType.number,
+                inputFormatters:[
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+               FilteringTextInputFormatter.deny(RegExp(r'\s'))
+  ],
                 validator: (value) {
                   if(value==null || value.isEmpty){
                     return 'Car Model is Empty ';
@@ -183,59 +234,80 @@ final _EditnameController = TextEditingController();
                 },
               ),
             ),  
+
+             SizedBox(height: 20,),
             
             // Fuel>>>>>>>>>>>>>>>>>>>>>>
-            
-            SizedBox(height: 20,),
-            Padding(
-              padding: const EdgeInsets.only(left: 20,right: 27,),
-              child: TextFormField(
-                controller: _EditfuelController,
-                decoration: InputDecoration(
-                    // filled: true,
-                  icon: Icon(Icons.local_gas_station_sharp),
-                  label: Text('Fuel :'),
-                  hintText: 'Please enter the fuel type',
-                  border: OutlineInputBorder(
-                   borderRadius: BorderRadius.circular(25)
-                  )
-                ),
-                validator: (value) {
-                  if(value==null || value.isEmpty){
-                    return 'Fuel type is Empty';
-                  }else{
-                    return null;
-                  }
-                },
-              ),
-            ),
-          
+
+             Padding(
+        padding: const EdgeInsets.only(left: 20,right: 27,),
+        child: DropdownButtonFormField<String>(
+                    borderRadius: BorderRadius.circular(40),
+                    value: selectedFueltypes,
+                    onChanged: (newValue) {
+                      setState(() {
+                        selectedFueltypes = newValue;
+                      });
+                    },
+                    items: fuelTypes.map((mode) {
+                      return DropdownMenuItem<String>(
+                        value: mode,
+                        child: Text(mode),
+                      );
+                    }).toList(),
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(25))
+                    ),
+                      //  filled: true,
+                      icon: Icon(Icons.airline_seat_recline_extra_sharp),
+                      label: Text('Fuel type :'),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please select one item';
+                      }
+                      return null;
+                    },
+                  ),
+      ),
+
             // Seat capacity>>>>>>>>>>>>>>>>>>>
           
               SizedBox(height: 20,),
-            Padding(
-              padding: const EdgeInsets.only(left: 20,right: 27,),
-              child: TextFormField(
-                controller: _EditseatController,
-                decoration: InputDecoration(
-                    // filled: true,
-                  icon: Icon(Icons.airline_seat_recline_extra_sharp),
-                  label: Text('Seat capacity :'),
-                  hintText: 'Please enter the seating capacity',
-                  border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25)
-                  )
-                ),
-                keyboardType: TextInputType.number,
-                 validator: (value) {
-                  if(value==null || value.isEmpty){
-                    return 'Seat capacity is Empty';
-                  }else{
-                    return null;
-                  }
-                },
-              ),
-            ),
+      
+      Padding(
+        padding: const EdgeInsets.only(left: 20,right: 27,),
+        child: DropdownButtonFormField<String>(
+                    borderRadius: BorderRadius.circular(40),
+                    value: selectedSeattypes,
+                    onChanged: (newValue) {
+                      setState(() {
+                        selectedSeattypes = newValue;
+                      });
+                    },
+                    items: seatTypes.map((mode) {
+                      return DropdownMenuItem<String>(
+                        value: mode,
+                        child: Text(mode),
+                      );
+                    }).toList(),
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(25))
+                    ),
+                      //  filled: true,
+                      icon: Icon(Icons.airline_seat_recline_extra_sharp),
+                      label: Text('Seat capacity :'),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please select one item';
+                      }
+                      return null;
+                    },
+                  ),
+      ),
           
             // Reg number>>>>>>>>>>>>>>>>>>>>>>>>>
           
@@ -243,17 +315,16 @@ final _EditnameController = TextEditingController();
             Padding(
               padding: const EdgeInsets.only(left: 20,right: 27,),
               child: TextFormField(
-                controller: _EditregnumberController,
+                controller: _regnumberController,
                 decoration: InputDecoration(
                     // filled: true,
                   icon: Icon(Icons.onetwothree_rounded),
                   label: Text('Reg Number :'),
                   hintText: 'Please enter the car Reg Number',
                   border: OutlineInputBorder( 
-                    borderRadius: BorderRadius.circular(25)
+                borderRadius: BorderRadius.circular(25)
                   ),
                 ),
-                keyboardType: TextInputType.number,
                  validator: (value) {
                   if(value==null || value.isEmpty){
                     return 'Reg number is Empty';
@@ -261,6 +332,7 @@ final _EditnameController = TextEditingController();
                     return null;
                   }
                 },
+                 inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'\s'))],
               ),
             ), 
             
@@ -270,23 +342,28 @@ final _EditnameController = TextEditingController();
             Padding(
               padding: const EdgeInsets.only(left: 20,right: 27,),
               child: TextFormField(
-                controller: _EditinsuranceController,
+                controller: _insuranceController,
+                readOnly: true,
                 decoration: InputDecoration(
                     // filled: true,
                   icon: Icon(Icons.note),
                   label: Text('Insurance Upto :'),
                   hintText: 'Please enter the Insurance date',
                   border: OutlineInputBorder(
-                   borderRadius: BorderRadius.circular(25)
+                  borderRadius: BorderRadius.circular(25)
                   )
                 ),
-                keyboardType: TextInputType.datetime,
+               
                  validator: (value) {
                   if(value==null || value.isEmpty){
                     return 'Insurance is Empty';
                   }else{
                     return null;
                   }
+                  
+                },
+                onTap: (){
+                    _selectedinsuranceDate();
                 },
               ),
             ), 
@@ -297,14 +374,15 @@ final _EditnameController = TextEditingController();
             Padding(
               padding: const EdgeInsets.only(left: 20,right: 27,),
               child: TextFormField(
-                controller: _EditpollutionController,
+                controller: _pollutionController,
+                readOnly: true,
                 decoration: InputDecoration(
                     // filled: true,
                   icon: Icon(Icons.note),
                   label: Text('Pollution Upto :'),
                   hintText: 'Please enter the pollution date',
                   border: OutlineInputBorder(
-                     borderRadius: BorderRadius.circular(25)
+                    borderRadius: BorderRadius.circular(25)
                   )
                 ),
                 keyboardType: TextInputType.datetime,
@@ -315,6 +393,10 @@ final _EditnameController = TextEditingController();
                     return null;
                   }
                 },
+                onTap: () {
+                  
+                  _selectedpollutionDate();
+                },
               ),
             ),
               
@@ -324,8 +406,7 @@ final _EditnameController = TextEditingController();
             Padding(
               padding: const EdgeInsets.only(left: 20,right: 27,),
               child: TextFormField(
-                controller: _EditamountController,
-                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))],
+                controller: _amountController,
                 decoration: InputDecoration(
                     // filled: true,
                   icon: Icon(Icons.currency_rupee_rounded),
@@ -336,6 +417,8 @@ final _EditnameController = TextEditingController();
                   )
                 ),
                 keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                 FilteringTextInputFormatter.deny(RegExp(r'\s'))],
                  validator: (value) {
                   if(value==null || value.isEmpty){
                     return 'Car amount is Empty';
@@ -347,15 +430,68 @@ final _EditnameController = TextEditingController();
             ),
           
           
-            SizedBox(height: 30,),    
-                    
+            SizedBox(height: 50,)      
+          
+          
           ],
           ),
         ),
       ),
     );
   }
-  Future<void> getimage(ImageSource source) async {
+    Future <void> editingDetails()async{
+
+      if(_formkey.currentState!.validate()&& image25 != null){
+
+
+        final car = _nameController.text.trim();
+        final brand = selectedBrandTypes!;
+        final model = _modelController.text.trim().toString();
+        final fuel = selectedFueltypes!;
+        final seat = selectedSeattypes!;
+        final reg_num = _regnumberController.text.trim().toUpperCase().toString();
+        final insurance = _insuranceController.text.trim();
+        final pollution = _pollutionController.text.trim();
+        final amount = _amountController.text.trim().toString();
+
+
+        final newcar = CarRental(imagex: imagepath!, car: car, brand: brand, model: model, fuel: fuel, seat: seat, number: reg_num, insurance: insurance, pollution: pollution, amount: amount);
+
+            // await _carRentalSevice.updateDetails(I,newcar);
+
+             image25 = null;
+            _nameController.clear();
+            _brandController.clear();
+            _modelController.clear();
+            _fuelController.clear();
+            _seatController.clear();
+            _regnumberController.clear();
+            _insuranceController.clear();
+            _pollutionController.clear();
+            _amountController.clear();
+
+            
+
+             Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Bottom_Navigation()));
+
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor:Colors.black ,
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.all(10),
+        content: Text('Successfully edited')),);
+             
+
+      }
+      else{
+         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor:Colors.black ,
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.all(10),
+        content: Text('Please fill the fields')),);
+      }
+    }
+
+    Future<void> getimage(ImageSource source) async {
     final image = await ImagePicker().pickImage(source: source);
     if (image == null) {
       return;
@@ -365,70 +501,25 @@ final _EditnameController = TextEditingController();
       imagepath = image.path.toString();
     });
   }
-      Future<void> validator() async {
-  if (_formkey.currentState!.validate() && image25 != null) {
-    final car = _EditnameController.text.trim();
-    final brand = _EditbrandController.text.trim();
-    final model = _EditmodelController.text.trim().toString();
-    final fuel = _EditfuelController.text.trim();
-    final seat = _EditseatController.text.trim().toString();
-    final reg_num =
-        _EditregnumberController.text.trim().toUpperCase().toString();
-    final insurance = _EditinsuranceController.text.trim();
-    final pollution = _EditpollutionController.text.trim();
-    final amount = _EditamountController.text.trim().toString();
 
-    final newCar = CarRental(
-      imagex: imagepath!,
-      car: car,
-      brand: brand,
-      model: model,
-      fuel: fuel,
-      seat: seat,
-      number: reg_num,
-      insurance: insurance,
-      pollution: pollution,
-      amount: amount,
-    );
+  Future<void> _selectedinsuranceDate()async {
+    DateTime?pickeded = await showDatePicker(context: context, firstDate: DateTime(2000), lastDate: DateTime(2100),initialDate: DateTime.now());
 
-    if (selectedIndex != -1) {
-      // If an item is selected, update its details
-      await _carRentalSevice.updatedetails(selectedIndex, newCar);
-    } else {
-      // Handle the case where no item is selected
-      print("No item selected to update");
+    if(pickeded!= null){
+      setState(() {
+        _insuranceController.text = pickeded.toString().split(" ")[0];
+      });
     }
+  }
 
-    // Resetting values and navigating
-    image25 = null;
-    _EditnameController.clear();
-    _EditbrandController.clear();
-    _EditmodelController.clear();
-    _EditfuelController.clear();
-    _EditseatController.clear();
-    _EditregnumberController.clear();
-    _EditinsuranceController.clear();
-    _EditpollutionController.clear();
-    _EditamountController.clear();
+  Future<void> _selectedpollutionDate()async {
+    DateTime?pickeded = await showDatePicker(context: context, firstDate: DateTime(2000), lastDate: DateTime(2100),initialDate: DateTime.now());
 
-    Navigator.of(context).push(
-  MaterialPageRoute(builder: (context) => Car_Details(carRental: newCar,)),
-);
-}
-else {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: Colors.black,
-        behavior: SnackBarBehavior.floating,
-        margin: EdgeInsets.all(10),
-        content: Text('Please fill the fields'),
-      ),
-    );
+    if(pickeded!= null){
+      setState(() {
+       _pollutionController.text = pickeded.toString().split(" ")[0];
+      });
+    }
   }
 }
-void handleItemSelection(int index) {
-  setState(() {
-    selectedIndex = index; // Update selectedIndex when an item is selected
-  });
-}
-}
+

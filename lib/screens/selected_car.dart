@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 
+
 class Selected_Car extends StatefulWidget {
   const Selected_Car({super.key});
 
@@ -78,17 +79,26 @@ class _Selected_carState extends State<Selected_Car> {
                     SizedBox(height: 20,),
 
                     
-                       Stack(
+             Stack(
                   children: [
-                    CircleAvatar(
-                      backgroundColor: Colors.black12,
-                        backgroundImage: image25 != null
-                            ? FileImage(image25!)
-                            : const AssetImage('')
-                                as ImageProvider,
-                        radius: 99),
+                   Container(
+                                width: 250,
+                                height: 150,
+                                decoration: BoxDecoration(
+                                  border: Border.all(),
+                                  image: image25 != null
+                                      ? DecorationImage(
+                                          image: FileImage(image25!),
+                                          fit: BoxFit.cover,
+                                        )
+                                      : null,
+                                      borderRadius: BorderRadius.circular(15)
+                                ),
+                                
+                              ),
+
                     Positioned(
-                      bottom: 20,
+                      bottom: 0,
                       right: 5,
                       child: IconButton(
                         onPressed: () {
@@ -103,8 +113,10 @@ class _Selected_carState extends State<Selected_Car> {
                     ),
                   ],
                 ),
+              
+          // Name>>>>>>>>>>>>>>>>
 
-                SizedBox(height:20),
+            SizedBox(height: 30,),
                        
                       // [ PICK UP & DROP OFF]
                        
@@ -190,6 +202,7 @@ class _Selected_carState extends State<Selected_Car> {
                                   return null;
                                 }
                               },
+                              inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'\s'))],
                       ),
                     ),
                        
@@ -202,7 +215,8 @@ class _Selected_carState extends State<Selected_Car> {
                             padding: const EdgeInsets.only(left: 20,right: 27),
                             child: TextFormField(
                               controller: _currentKm,
-                              inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),],
+                              inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                            FilteringTextInputFormatter.deny(RegExp(r'\s')),],
                               decoration: InputDecoration(
                                 // filled: true,
                                 icon: Icon(Icons.mode_of_travel_outlined),
@@ -248,6 +262,8 @@ class _Selected_carState extends State<Selected_Car> {
                                   return null;
                                 }
                               },
+                              inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                            FilteringTextInputFormatter.deny(RegExp(r'\s')),],
                         ),
                       ),
                          
@@ -282,35 +298,46 @@ class _Selected_carState extends State<Selected_Car> {
                   child: Column(
                     children: [
                   
-                      Stack(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.black12,
-                            backgroundImage: image24 != null
-                                ? FileImage(image24!)
-                                : const AssetImage('')
-                                    as ImageProvider,
-                            radius: 99),
-                        Positioned(
-                          bottom: 20,
-                          right: 5,
-                          child: IconButton(
-                            onPressed: () {
-                              // addphoto(context);
-                              getimage2(ImageSource.gallery);
-                              // Navigator.of(context).pop();
-                            },
-                            icon: const Icon(Icons.add_a_photo_outlined,color: Colors.black,),
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            iconSize: 30,
-                          ),
-                        ),
-                      ],
+                            Stack(
+                  children: [
+                   Container(
+                                width: 250,
+                                height: 150,
+                                decoration: BoxDecoration(
+                                  border: Border.all(),
+                                  image: image25 != null
+                                      ? DecorationImage(
+                                          image: FileImage(image25!),
+                                          fit: BoxFit.cover,
+                                        )
+                                      : null,
+                                      borderRadius: BorderRadius.circular(15)
+                                ),
+                                
+                              ),
+
+                    Positioned(
+                      bottom: 0,
+                      right: 5,
+                      child: IconButton(
+                        onPressed: () {
+                          // addphoto(context);
+                          getimage(ImageSource.gallery);
+                          // Navigator.of(context).pop();
+                        },
+                        icon: const Icon(Icons.add_a_photo_outlined,color: Colors.black,),
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        iconSize: 30,
+                      ),
                     ),
-                        SizedBox(height: 5,),
-                    Text('Upload customer Driving Lisence here'),
+                  ],
+                ),
+              
+           SizedBox(height: 5,),
+                    Text('Upload customer Driving Lisence here',style: TextStyle(color: Colors.red),),
                      
                      SizedBox(height: 30,),
+                       
                       // NAME>>>>>>>>
                         
                      Padding(
@@ -318,6 +345,7 @@ class _Selected_carState extends State<Selected_Car> {
                        child: TextFormField(
                         controller: _customername,
                         decoration: InputDecoration(
+                          
                           // filled: true,
                           icon: Icon(Icons.person),
                           hintText: 'Customer Name :',
@@ -333,6 +361,7 @@ class _Selected_carState extends State<Selected_Car> {
                             return null;
                           }
                         },
+                        
                        ),
                      ),
                      
@@ -355,11 +384,15 @@ class _Selected_carState extends State<Selected_Car> {
                         validator: (value) {
                           if(value==null || value.isEmpty){
                             return 'Enter the Mobile number';
-                          }else{
-                            return null;
-                          }
+                          }else if (value.length != 10) {
+                            return 'Please provide a valid mobile number';
+                          }return null;
                         },
+                        inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                            FilteringTextInputFormatter.deny(RegExp(r'\s')),],
+                            
                        ),
+                       
                      ),
                          
                     //  ADDRESS>>>>>>>>>

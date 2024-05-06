@@ -195,7 +195,7 @@ class _Car_detailsState extends State<Car_Details> {
                           children: [
                             
                             ElevatedButton(onPressed: (){
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Editing_Page()));    
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Editing_Page(CarRental: CarRental,)));    
                             }, child: Text('Edit',style: TextStyle(color: Colors.white),),style: ButtonStyle(shape:MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),backgroundColor: MaterialStatePropertyAll(Colors.white24)),),
                         
                             SizedBox(width: 20,),

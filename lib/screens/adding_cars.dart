@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 
 
 
+
 class Adding_Cars extends StatefulWidget {
   const Adding_Cars({super.key});
 
@@ -33,6 +34,11 @@ class _Adding_carsState extends State<Adding_Cars> {
   final _formkey =GlobalKey<FormState>();
 
 final CarRentalService _carRentalSevice = CarRentalService();
+
+List<String> BrandTypes = [
+   'Toyota', 'Jeep', 'Suzuki', 'Range Rover','Mini Cooper','Renault','Tata','BMW','Mercedes Benz','Hyundai','Honda','Volvo','Kia','Mahindra'
+  ];
+  String? selectedBrandTypes;
 
   List<String> seatTypes = [
     '2',
@@ -99,15 +105,24 @@ final CarRentalService _carRentalSevice = CarRentalService();
             SizedBox(height: 20,),
             Stack(
                   children: [
-                    CircleAvatar(
-                      backgroundColor: Colors.black12,
-                        backgroundImage: image25 != null
-                            ? FileImage(image25!)
-                            : const AssetImage('')
-                                as ImageProvider,
-                        radius: 99),
+                   Container(
+                                width: 250,
+                                height: 150,
+                                decoration: BoxDecoration(
+                                  border: Border.all(),
+                                  image: image25 != null
+                                      ? DecorationImage(
+                                          image: FileImage(image25!),
+                                          fit: BoxFit.cover,
+                                        )
+                                      : null,
+                                      borderRadius: BorderRadius.circular(15)
+                                ),
+                                
+                              ),
+
                     Positioned(
-                      bottom: 20,
+                      bottom: 0,
                       right: 5,
                       child: IconButton(
                         onPressed: () {
@@ -125,7 +140,7 @@ final CarRentalService _carRentalSevice = CarRentalService();
               
           // Name>>>>>>>>>>>>>>>>
 
-            SizedBox(height: 20,),
+            SizedBox(height: 30,),
             Padding(
               padding: const EdgeInsets.only(left: 20,right: 27,),
               child: TextFormField(
@@ -146,35 +161,47 @@ final CarRentalService _carRentalSevice = CarRentalService();
                   }else{
                     return null;
                   }
+                  
                 },
+                 
               ),
             ),
           
+          SizedBox(height: 20,),
           // Brand>>>>>>>>>>>>>>>>>>
           
-              SizedBox(height: 20,),
-            Padding(
-              padding: const EdgeInsets.only(left: 20,right: 27,),
-              child: TextFormField(
-                 controller: _brandController,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.directions_car_filled),
-                  label: Text('Brand :'),
-                    // filled: true,
-                  hintText: 'Please enter the car Brand',
-                  border: OutlineInputBorder(
-                     borderRadius: BorderRadius.circular(25)
-                  )
-                ),
-                validator: (value) {
-                  if(value==null || value.isEmpty){
-                    return 'Car brand is Empty ';
-                  }else{
-                    return null;
-                  }
-                },
-              ),
-            ),
+             Padding(
+        padding: const EdgeInsets.only(left: 20,right: 27,),
+        child: DropdownButtonFormField<String>(
+                    borderRadius: BorderRadius.circular(40),
+                    value: selectedBrandTypes,
+                    onChanged: (newValue) {
+                      setState(() {
+                        selectedBrandTypes = newValue;
+                      });
+                    },
+                    items: BrandTypes.map((mode) {
+                      return DropdownMenuItem<String>(
+                        value: mode,
+                        child: Text(mode),
+                      );
+                    }).toList(),
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(25))
+                    ),
+                      //  filled: true,
+                      icon: Icon(Icons.directions_car_filled),
+                      label: Text('Brand :'),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please select one Brand';
+                      }
+                      return null;
+                    },
+                  ),
+      ),
           
           // Model>>>>>>>>>>>>>>>>>>
 
@@ -194,7 +221,8 @@ final CarRentalService _carRentalSevice = CarRentalService();
                 ),
                 keyboardType: TextInputType.number,
                 inputFormatters:[
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')), 
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+               FilteringTextInputFormatter.deny(RegExp(r'\s'))
   ],
                 validator: (value) {
                   if(value==null || value.isEmpty){
@@ -303,6 +331,7 @@ final CarRentalService _carRentalSevice = CarRentalService();
                     return null;
                   }
                 },
+                 inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'\s'))],
               ),
             ), 
             
@@ -387,7 +416,8 @@ final CarRentalService _carRentalSevice = CarRentalService();
                   )
                 ),
                 keyboardType: TextInputType.number,
-                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))],
+                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                 FilteringTextInputFormatter.deny(RegExp(r'\s'))],
                  validator: (value) {
                   if(value==null || value.isEmpty){
                     return 'Car amount is Empty';
@@ -414,7 +444,7 @@ final CarRentalService _carRentalSevice = CarRentalService();
 
 
         final car = _nameController.text.trim();
-        final brand = _brandController.text.toString();
+        final brand = selectedBrandTypes!;
         final model = _modelController.text.trim().toString();
         final fuel = selectedFueltypes!;
         final seat = selectedSeattypes!;

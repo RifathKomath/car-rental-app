@@ -83,7 +83,7 @@ class _Filter_PageState extends State<Filter_Page> {
                     
                   ),
 
-                  SizedBox(width: 80,),
+                  SizedBox(width: 55,),
 
                   // Brand filter
                   DropdownButton<String>(
@@ -94,7 +94,7 @@ class _Filter_PageState extends State<Filter_Page> {
                         _selectedBrand = newValue;
                       });
                     },
-                    items: ['Toyota', 'Jeep', 'Suzuki', 'Range Rover']
+                    items: ['Toyota', 'Jeep', 'Suzuki', 'Range Rover','Mini Cooper','Renault','Tata','BMW','Mercedes Benz','Hyundai','Honda','Volvo','Kia','Mahindra',]
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,

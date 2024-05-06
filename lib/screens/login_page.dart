@@ -2,6 +2,7 @@ import 'package:car_rental/db_helper/signup_service.dart';
 import 'package:car_rental/screens/bottom_navigation.dart';
 import 'package:car_rental/screens/signup_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class Login_Screen extends StatefulWidget {
@@ -80,6 +81,7 @@ class _Login_screenState extends State<Login_Screen> {
                               return null;
                         }
                       },
+                       inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'\s'))],
                      ),
                    ),
                               
@@ -103,10 +105,11 @@ class _Login_screenState extends State<Login_Screen> {
                     validator: (value) {
                       if(value == null || value.isEmpty){
                         return 'Please enter the Password';
-                      }else{
-                        return null;
-                      }
+                      }else if (value.length < 6) {
+                        return 'Password should be at least six characters';
+                      }return null;
                     },
+                     inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'\s'))],
                      ),  
                    ),
                               

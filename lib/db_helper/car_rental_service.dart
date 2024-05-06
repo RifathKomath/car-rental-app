@@ -43,9 +43,9 @@ Future<void>addCar(CarRental details)async{
   // update
 
 
-  Future<void>updatedetails(int index, CarRental details)async{
-
-    if(_carServiceBox==null){
+   Future<void> updateDetails(int index, CarRental details) async {
+  
+    if (_carServiceBox == null) {
       await openBox();
     }
     await _carServiceBox!.putAt(index, details);
