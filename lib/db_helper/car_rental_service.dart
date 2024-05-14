@@ -2,62 +2,58 @@ import 'dart:async';
 import 'package:car_rental/models/carrental.dart';
 import 'package:hive_flutter/adapters.dart';
 
-class CarRentalService{
+class CarRentalService {
+  static Box<CarRental>? carServiceBox;
 
+  Future<void> openBox() async {
+    carServiceBox = await Hive.openBox<CarRental>('cars');
+  }
 
-
-
-Box<CarRental>?_carServiceBox;
-
-Future<void>openBox()async{
-
-_carServiceBox = await Hive.openBox<CarRental>('cars');
-
-}
-
-Future<void>closeBox()async{
-  await _carServiceBox!.close();
-}
+  Future<void> closeBox() async {
+    await carServiceBox!.close();
+  }
 
 // add new car
 
-Future<void>addCar(CarRental details)async{
-    if(_carServiceBox==null){
+  Future<void> addCar(CarRental details) async {
+    if (carServiceBox == null) {
       await openBox();
-
     }
-    await _carServiceBox!.add(details);
-}
+    details.id = await carServiceBox!.add(details);
+    carServiceBox?.put(details.id, details);
+  }
 
 // get details
 
   Future<List<CarRental>> getDetails() async {
-    if (_carServiceBox == null) {
+    if (carServiceBox == null) {
       await openBox();
     }
 
-    return _carServiceBox!.values.toList();
+    return carServiceBox!.values.toList();
   }
 
+// update
+  Future<void> editDetails(CarRental value) async {
+    print('reached edit');
+    // final _carServiceBox = await Hive.openBox<CarRental>('cars');
+    openBox();
+    carServiceBox?.put(value.id, value);
+    var data = carServiceBox?.get(value.id);
 
-  // update
-
-
-   Future<void> updateDetails(int index, CarRental details) async {
-  
-    if (_carServiceBox == null) {
-      await openBox();
-    }
-    await _carServiceBox!.putAt(index, details);
+    print(data?.car);
+    getDetails();
   }
 
   // delete
 
-Future<void> deleteDetails(int index) async {
-    if (_carServiceBox == null) {
+  Future<void> deleteDetails(int index) async {
+    if (carServiceBox == null) {
       await openBox();
     }
 
-    await _carServiceBox!.deleteAt(index);
+    await carServiceBox!.deleteAt(index);
   }
+
+
 }

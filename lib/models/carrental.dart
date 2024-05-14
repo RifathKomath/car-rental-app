@@ -3,41 +3,42 @@ import 'package:hive_flutter/adapters.dart';
 part 'carrental.g.dart';
 
 @HiveType(typeId: 0)
-class CarRental{
-
+class CarRental {
   @HiveField(0)
-  final imagex;
+  int? id;
 
   @HiveField(1)
-  late String car;
+  final imagex;
 
   @HiveField(2)
-  late String brand;
+  late String car;
 
   @HiveField(3)
-  late String model;
+  late String brand;
 
   @HiveField(4)
-  late String fuel;
+  late String model;
 
   @HiveField(5)
-  late String seat;
+  late String fuel;
 
   @HiveField(6)
-  late String number;
+  late String seat;
 
   @HiveField(7)
-  late String insurance;
+  late String number;
 
   @HiveField(8)
-  late String pollution;
+  late String insurance;
 
   @HiveField(9)
+  late String pollution;
+
+  @HiveField(10)
   late String amount;
 
-
-  
   CarRental({
+    this.id,
     required this.imagex,
     required this.car,
     required this.brand,
@@ -48,8 +49,5 @@ class CarRental{
     required this.insurance,
     required this.pollution,
     required this.amount,
-
   });
-
 }
-

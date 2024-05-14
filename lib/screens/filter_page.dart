@@ -80,10 +80,11 @@ class _Filter_PageState extends State<Filter_Page> {
                         child: Text(value),
                       );
                     }).toList(),
-                    
                   ),
 
-                  SizedBox(width: 55,),
+                  SizedBox(
+                    width: 55,
+                  ),
 
                   // Brand filter
                   DropdownButton<String>(
@@ -94,8 +95,22 @@ class _Filter_PageState extends State<Filter_Page> {
                         _selectedBrand = newValue;
                       });
                     },
-                    items: ['Toyota', 'Jeep', 'Suzuki', 'Range Rover','Mini Cooper','Renault','Tata','BMW','Mercedes Benz','Hyundai','Honda','Volvo','Kia','Mahindra',]
-                        .map<DropdownMenuItem<String>>((String value) {
+                    items: [
+                      'Toyota',
+                      'Jeep',
+                      'Suzuki',
+                      'Range Rover',
+                      'Mini Cooper',
+                      'Renault',
+                      'Tata',
+                      'BMW',
+                      'Mercedes Benz',
+                      'Hyundai',
+                      'Honda',
+                      'Volvo',
+                      'Kia',
+                      'Mahindra',
+                    ].map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
@@ -108,76 +123,76 @@ class _Filter_PageState extends State<Filter_Page> {
             Expanded(
               child: _list.isEmpty
                   ? Center(
-                child: Text("No available cars"),
-              )
+                      child: Text("No available cars"),
+                    )
                   : ListView.builder(
-                itemCount: _list.length,
-                itemBuilder: (context, index) {
-                  final info = _list[index];
-                  // Apply filter
-                  if (!_filterFunction(info)) {
-                    return SizedBox.shrink();
-                  }
-                  return Container(
-                    child: Card(
-                      color: Colors.white,
-                      margin: EdgeInsets.symmetric(vertical: 8.0),
-                      elevation: 5.0,
-                      shape: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: ListTile(
-                        leading: SizedBox(
-                          height: 200,
-                          width: 120,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(),
-                              borderRadius: BorderRadius.circular(5),
+                      itemCount: _list.length,
+                      itemBuilder: (context, index) {
+                        final info = _list[index];
+                        // Apply filter
+                        if (!_filterFunction(info)) {
+                          return SizedBox.shrink();
+                        }
+                        return Container(
+                          child: Card(
+                            color: Colors.white,
+                            margin: EdgeInsets.symmetric(vertical: 8.0),
+                            elevation: 5.0,
+                            shape: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
                             ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(5),
-                              child: Image.file(
-                                File(info.imagex),
-                                fit: BoxFit.cover,
+                            child: ListTile(
+                              leading: SizedBox(
+                                height: 200,
+                                width: 120,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(5),
+                                    child: Image.file(
+                                      File(info.imagex),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
                               ),
+                              title: Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 8, bottom: 8),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Name: ${info.car}",
+                                      style: style,
+                                      textAlign: TextAlign.start,
+                                    ),
+                                    Text(
+                                      "Brand: ${info.brand}",
+                                      style: style,
+                                      textAlign: TextAlign.start,
+                                    ),
+                                    Text(
+                                      "Model: ${info.model}",
+                                      style: style,
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        Car_Details(carRental: _list[index])));
+                              },
                             ),
                           ),
-                        ),
-                        title: Padding(
-                          padding:
-                          const EdgeInsets.only(top: 8, bottom: 8),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Name: ${info.car}",
-                                style: style,
-                                textAlign: TextAlign.start,
-                              ),
-                              Text(
-                                "Brand: ${info.brand}",
-                                style: style,
-                                textAlign: TextAlign.start,
-                              ),
-                              Text(
-                                "Model: ${info.model}",
-                                style: style,
-                                textAlign: TextAlign.start,
-                              ),
-                            ],
-                          ),
-                        ),
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  Car_Details(carRental: _list[index])));
-                        },
-                      ),
-                    ),
-                  );
-                }),
+                        );
+                      }),
             ),
           ],
         ),

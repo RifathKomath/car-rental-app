@@ -6,44 +6,47 @@ class Rented_Car_Details extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(length: 2, child:
-    Scaffold(
-      appBar:AppBar(
-        iconTheme: IconThemeData(color: Colors.white),
-        backgroundColor:Colors.blueGrey[900],
-        title: Text('Rented Cars',style: TextStyle(color: Colors.white,fontSize: 23),),
-        centerTitle: true,
-
-      ),
-      body: Column(children: [
-          TabBar(tabs: [
-          Tab(text:'Car details',
-          ),
-          Tab(text: 'Customer details',)
-        ],
-        labelColor: Colors.black,
-        ),
-        Expanded(
-          child: TabBarView(children: [
-            Container(
-              child: Column(
-                children: [
-                  
-                ],
-              ),
+    return DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: AppBar(
+            iconTheme: IconThemeData(color: Colors.white),
+            backgroundColor: Colors.blueGrey[900],
+            title: Text(
+              'Rented Cars',
+              style: TextStyle(color: Colors.white, fontSize: 23),
             ),
-            Column(
-              children: [
-                Text('print world')
-              ],
-            )
-          ],
+            centerTitle: true,
           ),
-        ),
-      ],
-        
-      ),
-      )
-    );
+          body: Column(
+            children: [
+              TabBar(
+                tabs: [
+                  Tab(
+                    text: 'Car details',
+                  ),
+                  Tab(
+                    text: 'Customer details',
+                  )
+                ],
+                labelColor: Colors.black,
+              ),
+              Expanded(
+                child: TabBarView(
+                  children: [
+                    Container(
+                      child: Column(
+                        children: [],
+                      ),
+                    ),
+                    Column(
+                      children: [Text('print world')],
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }

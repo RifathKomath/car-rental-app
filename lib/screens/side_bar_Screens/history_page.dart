@@ -6,16 +6,16 @@ class History_Page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Colors.blueGrey[900],
-        title: Text('History of cars',style: TextStyle(color: Colors.white),),
+        title: Text(
+          'History of cars',
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
-        
       ),
-
-    body: null,
+      body: null,
     );
   }
 }

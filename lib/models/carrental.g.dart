@@ -17,42 +17,45 @@ class CarRentalAdapter extends TypeAdapter<CarRental> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return CarRental(
-      imagex: fields[0] as dynamic,
-      car: fields[1] as String,
-      brand: fields[2] as String,
-      model: fields[3] as String,
-      fuel: fields[4] as String,
-      seat: fields[5] as String,
-      number: fields[6] as String,
-      insurance: fields[7] as String,
-      pollution: fields[8] as String,
-      amount: fields[9] as String,
+      id: fields[0] as int?,
+      imagex: fields[1] as dynamic,
+      car: fields[2] as String,
+      brand: fields[3] as String,
+      model: fields[4] as String,
+      fuel: fields[5] as String,
+      seat: fields[6] as String,
+      number: fields[7] as String,
+      insurance: fields[8] as String,
+      pollution: fields[9] as String,
+      amount: fields[10] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, CarRental obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(11)
       ..writeByte(0)
-      ..write(obj.imagex)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.car)
+      ..write(obj.imagex)
       ..writeByte(2)
-      ..write(obj.brand)
+      ..write(obj.car)
       ..writeByte(3)
-      ..write(obj.model)
+      ..write(obj.brand)
       ..writeByte(4)
-      ..write(obj.fuel)
+      ..write(obj.model)
       ..writeByte(5)
-      ..write(obj.seat)
+      ..write(obj.fuel)
       ..writeByte(6)
-      ..write(obj.number)
+      ..write(obj.seat)
       ..writeByte(7)
-      ..write(obj.insurance)
+      ..write(obj.number)
       ..writeByte(8)
-      ..write(obj.pollution)
+      ..write(obj.insurance)
       ..writeByte(9)
+      ..write(obj.pollution)
+      ..writeByte(10)
       ..write(obj.amount);
   }
 

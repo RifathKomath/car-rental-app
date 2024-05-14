@@ -6,16 +6,16 @@ class Revenue_Page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Colors.blueGrey[900],
-        title: Text('Revenue',style: TextStyle(color: Colors.white),),
+        title: Text(
+          'Revenue',
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
-        
       ),
-
-    body: null,
+      body: null,
     );
   }
 }
