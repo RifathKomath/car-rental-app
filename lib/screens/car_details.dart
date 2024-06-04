@@ -1,16 +1,15 @@
 import 'dart:io';
-// import 'package:car_rental/db_helper/carrental_service.dart';
 import 'package:car_rental/db_helper/car_rental_service.dart';
 import 'package:car_rental/models/carrental.dart';
+import 'package:car_rental/screens/bottom_navigation.dart';
 import 'package:car_rental/screens/editing_page.dart';
 import 'package:car_rental/screens/selected_car.dart';
 import 'package:flutter/material.dart';
-// import 'package:hive/hive.dart';
 
 class Car_Details extends StatefulWidget {
-  final CarRental carRental;
+  CarRental carRental;
 
-  const Car_Details({Key? key, required this.carRental}) : super(key: key);
+  Car_Details({Key? key, required this.carRental}) : super(key: key);
 
   @override
   State<Car_Details> createState() => _Car_detailsState();
@@ -21,6 +20,12 @@ class _Car_detailsState extends State<Car_Details> {
 
   final textStyle = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
   final subTextStyle = TextStyle(fontSize: 16);
+
+  @override
+  void initState() {
+    _carRentalService.updateValues();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +45,7 @@ class _Car_detailsState extends State<Car_Details> {
             child: Column(
               children: [
                 SizedBox(
-                  height: 30,
+                  height: 40,
                 ),
 
                 SizedBox(
@@ -62,7 +67,7 @@ class _Car_detailsState extends State<Car_Details> {
                 ),
 
                 SizedBox(
-                  height: 20,
+                  height: 40,
                 ),
 
                 Container(
@@ -197,7 +202,10 @@ class _Car_detailsState extends State<Car_Details> {
                               SizedBox(
                                 width: 5,
                               ),
-                              Icon(Icons.currency_rupee,size: 16,),
+                              Icon(
+                                Icons.currency_rupee,
+                                size: 16,
+                              ),
                               Text(
                                 '${widget.carRental.amount}',
                                 style: subTextStyle,
@@ -212,23 +220,23 @@ class _Car_detailsState extends State<Car_Details> {
                 ),
 
                 SizedBox(
-                  height: 30,
+                  height: 40,
                 ),
                 // Buttons>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.blueGrey[900],
-                        borderRadius: BorderRadius.circular(15)),
-                    width: 320,
-                    height: 80,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 17),
-                      child: Row(
-                        children: [
-                          ElevatedButton(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 27, right: 27),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 50,
+                          width: 140,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Colors.blueGrey[900]),
+                          child: ElevatedButton(
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => Editing_Page(
@@ -243,110 +251,24 @@ class _Car_detailsState extends State<Car_Details> {
                                     RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(10))),
-                                backgroundColor:
-                                    MaterialStatePropertyAll(Colors.white24)),
+                                backgroundColor: MaterialStatePropertyAll(
+                                    Colors.blueGrey[900])),
                           ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        title: Row(
-                                          children: [
-                                            Text('Delete'),
-                                            Text(
-                                              ' !',
-                                              style:
-                                                  TextStyle(color: Colors.red),
-                                            ),
-                                          ],
-                                        ),
-                                        content: Text(
-                                          'Press OK for delete',
-                                          style: TextStyle(fontSize: 15),
-                                        ),
-                                        actions: [
-                                          Row(
-                                            children: [
-                                              SizedBox(
-                                                width: 60,
-                                              ),
-                                              ElevatedButton(
-                                                onPressed: () async {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Text('Cancel',
-                                                    style: TextStyle(
-                                                        color: Colors.white)),
-                                                style: ButtonStyle(
-                                                  backgroundColor:
-                                                      MaterialStatePropertyAll(
-                                                          Colors.grey[900]),
-                                                  shape:
-                                                      MaterialStatePropertyAll(
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10))),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              ElevatedButton(
-                                                onPressed: () async {
-                                                  //  await _carRentalService.deleteDetails(widget.id);
-
-                                                  // _loadDetails();
-                                                },
-                                                child: Text('OK',
-                                                    style: TextStyle(
-                                                        color: Colors.white)),
-                                                style: ButtonStyle(
-                                                  backgroundColor:
-                                                      MaterialStateProperty.all(
-                                                          Colors.grey[900]),
-                                                  shape:
-                                                      MaterialStateProperty.all(
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10))),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      );
-                                    });
-                              });
-                            },
-                            child: Text(
-                              'Delete',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            style: ButtonStyle(
-                                shape: MaterialStatePropertyAll(
-                                    RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10))),
-                                backgroundColor:
-                                    MaterialStatePropertyAll(Colors.white24)),
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          ElevatedButton(
+                        ),
+                        SizedBox(
+                          width: 25,
+                        ),
+                        Container(
+                          width: 140,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Colors.blueGrey[900]),
+                          child: ElevatedButton(
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => Selected_Car()));
+                                  builder: (context) => Selected_Car(
+                                      carRental: widget.carRental)));
                             },
                             child: Text(
                               'Select',
@@ -357,11 +279,11 @@ class _Car_detailsState extends State<Car_Details> {
                                     RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(10))),
-                                backgroundColor:
-                                    MaterialStatePropertyAll(Colors.white24)),
+                                backgroundColor: MaterialStatePropertyAll(
+                                    Colors.blueGrey[900])),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 )
@@ -371,5 +293,68 @@ class _Car_detailsState extends State<Car_Details> {
         ),
       ),
     );
+  }
+
+  Future<void> _showMyDialog(value, index) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Row(
+              children: [
+                Text('Delete'),
+                Text(
+                  ' !',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ],
+            ),
+            content: Text(
+              'Press OK for delete',
+              style: TextStyle(fontSize: 15),
+            ),
+            actions: [
+              Row(
+                children: [
+                  SizedBox(
+                    width: 60,
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      Navigator.pop(context);
+                    },
+                    child:
+                        Text('Cancel', style: TextStyle(color: Colors.white)),
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStatePropertyAll(Colors.grey[900]),
+                      shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      // deleteCar(value[index].id!);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Bottom_Navigation()));
+                    },
+                    child: Text('OK', style: TextStyle(color: Colors.white)),
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.grey[900]),
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
+        });
   }
 }

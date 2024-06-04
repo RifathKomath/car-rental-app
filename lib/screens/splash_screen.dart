@@ -19,28 +19,19 @@ class _Splash_screenState extends State<Splash_Screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: Center(
+        
+        child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Lottie.asset('assets/Animation - 1713871900626.json'),
-          Container(
-            width: 300,
-            decoration: BoxDecoration(
-                color: Colors.blueGrey[900],
-                borderRadius: BorderRadius.circular(17),
-                border: Border.all()),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 27),
-              child: Text(
-                'EASY RENT',
-                style: TextStyle(
-                    fontSize: 50,
-                    fontStyle: FontStyle.italic,
-                    color: Colors.white),
-              ),
-            ),
-          )
-        ],
+        crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+           
+                            Container(
+                              width: 300,
+                              child: Image.asset('assets/easy-rent-high-resolution-logo-transparent (1).png')
+                              )
+          ],
+        ),
       ),
     );
   }

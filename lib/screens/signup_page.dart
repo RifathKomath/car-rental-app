@@ -35,12 +35,12 @@ class _Signup_screenState extends State<Signup_Screen> {
           child: Form(
             key: _formkey,
             child: Padding(
-              padding: const EdgeInsets.only(left: 30, top: 50),
+              padding: const EdgeInsets.only(left: 15, top: 30),
               child: Row(
                 children: [
                   Container(
-                    width: 300,
-                    height: 550,
+                    width: 330,
+                        height: 630,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white,
@@ -243,7 +243,14 @@ class _Signup_screenState extends State<Signup_Screen> {
                               child: Text('Login'))
                         ],
                       ),
-                    ]),
+                       SizedBox(height: 100,),
+                          Container(
+                            
+                            width: 280,
+                            child: Image.asset('assets/easy-rent-high-resolution-logo-transparent (1).png')
+                            )
+                    ]
+                    ),
                   ),
                 ],
               ),

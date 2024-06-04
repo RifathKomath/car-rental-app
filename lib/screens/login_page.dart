@@ -33,170 +33,184 @@ class _Login_screenState extends State<Login_Screen> {
           child: Form(
             key: _formkey,
             child: Padding(
-              padding: const EdgeInsets.only(left: 30, top: 80),
-              child: Row(
+              padding: const EdgeInsets.only(left: 15, top: 30),
+              child: Column(
                 children: [
-                  Container(
-                    width: 300,
-                    height: 520,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all()),
-                    child: Column(children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20, top: 30),
-                        child: Row(
-                          children: [
-                            Text(
-                              'LOGIN',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 23),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15, right: 15),
-                        child: Divider(),
-                      ),
-
-                      SizedBox(
-                        height: 20,
-                      ),
-
-                      // username/Email>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(left: 15, right: 15, top: 15),
-                        child: TextFormField(
-                          controller: _username,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(25)),
-                              label: Text('User name'),
-                              labelStyle:
-                                  TextStyle(color: Colors.black, fontSize: 13)),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter the Username';
-                            } else {
-                              return null;
-                            }
-                          },
-                          inputFormatters: [
-                            FilteringTextInputFormatter.deny(RegExp(r'\s'))
-                          ],
-                        ),
-                      ),
-
-                      SizedBox(
-                        height: 8,
-                      ),
-
-                      // password>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(left: 15, right: 15, top: 25),
-                        child: TextFormField(
-                          controller: _password,
-                          decoration: InputDecoration(
-                            suffixIcon: togglePassord(),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            label: Text('Password:'),
-                            labelStyle:
-                                TextStyle(color: Colors.black, fontSize: 13),
-                          ),
-                          obscureText: _securePassword,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter the Password';
-                            } else if (value.length < 6) {
-                              return 'Password should be at least six characters';
-                            }
-                            return null;
-                          },
-                          inputFormatters: [
-                            FilteringTextInputFormatter.deny(RegExp(r'\s'))
-                          ],
-                        ),
-                      ),
-
-                      SizedBox(height: 25),
-
-                      //  button>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-                      ElevatedButton(
-                        onPressed: () async {
-                          if (_formkey.currentState!.validate()) {
-                            showDialog(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (context) {
-                                  return Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                });
-
-                            final user = await Signupservice.loginUser(
-                                _username.text.trim(), _password.text.trim());
-
-                            Navigator.pop(context);
-                            if (user != null) {
-                              Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          Bottom_Navigation()),
-                                  (route) => false);
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  backgroundColor: Colors.black,
-                                  behavior: SnackBarBehavior.floating,
-                                  duration: Duration(seconds: 2),
-                                  margin: EdgeInsets.all(10),
-                                  content: Text(
-                                      'Username and password does not match / User not found'),
+                  Row(
+                    children: [
+                      Container(
+                        width: 330,
+                        height: 630,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all()),
+                        child: Column(children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20, top: 50),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'LOGIN',
+                                  style:
+                                      TextStyle(color: Colors.black, fontSize: 23),
                                 ),
-                              );
-                            }
-                          }
-                        },
-                        child: Text(
-                          'Log in',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll(Colors.blueGrey[900]),
-                          shape: MaterialStatePropertyAll(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10))),
-                        ),
-                      ),
-
-                      SizedBox(height: 15),
-
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 45,
+                              ],
+                            ),
                           ),
-                          Text('First time here?'),
-                          TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: (context) => Signup_Screen()));
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15, right: 15),
+                            child: Divider(),
+                          ),
+                  
+                          SizedBox(
+                            height: 20,
+                          ),
+                  
+                          // username/Email>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                  
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 15, right: 15, top: 15),
+                            child: TextFormField(
+                              controller: _username,
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(25)),
+                                  label: Text('User name'),
+                                  labelStyle:
+                                      TextStyle(color: Colors.black, fontSize: 13)),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter the Username';
+                                } else {
+                                  return null;
+                                }
                               },
-                              child: Text('Sign up for free'))
-                        ],
+                              inputFormatters: [
+                                FilteringTextInputFormatter.deny(RegExp(r'\s'))
+                              ],
+                            ),
+                          ),
+                  
+                          SizedBox(
+                            height: 8,
+                          ),
+                  
+                          // password>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                  
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 15, right: 15, top: 25),
+                            child: TextFormField(
+                              controller: _password,
+                              decoration: InputDecoration(
+                                suffixIcon: togglePassord(),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
+                                label: Text('Password:'),
+                                labelStyle:
+                                    TextStyle(color: Colors.black, fontSize: 13),
+                              ),
+                              obscureText: _securePassword,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter the Password';
+                                } else if (value.length < 6) {
+                                  return 'Password should be at least six characters';
+                                }
+                                return null;
+                              },
+                              inputFormatters: [
+                                FilteringTextInputFormatter.deny(RegExp(r'\s'))
+                              ],
+                            ),
+                          ),
+                  
+                          SizedBox(height: 15),
+                  
+                          //  button>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                  
+                          ElevatedButton(
+                            onPressed: () async {
+                              if (_formkey.currentState!.validate()) {
+                                showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (context) {
+                                      return Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    });
+                  
+                                final user = await Signupservice.loginUser(
+                                    _username.text.trim(), _password.text.trim());
+                  
+                                Navigator.pop(context);
+                                if (user != null) {
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              Bottom_Navigation()),
+                                      (route) => false);
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      backgroundColor: Colors.black,
+                                      behavior: SnackBarBehavior.floating,
+                                      duration: Duration(seconds: 2),
+                                      margin: EdgeInsets.all(10),
+                                      content: Text(
+                                          'Username and password does not match / User not found'),
+                                    ),
+                                  );
+                                }
+                              }
+                            },
+                            child: Text(
+                              'Log in',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStatePropertyAll(Colors.blueGrey[900]),
+                              shape: MaterialStatePropertyAll(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10))),
+                            ),
+                          ),
+                  
+                          SizedBox(height: 15),
+                  
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 45,
+                              ),
+                              Text('First time here?'),
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                            builder: (context) => Signup_Screen()));
+                                  },
+                                  child: Text('Sign up for free'))
+                            ],
+                          ),
+                           SizedBox(height: 110,),
+                          Container(
+                            
+                            width: 280,
+                            child: Image.asset('assets/easy-rent-high-resolution-logo-transparent (1).png')
+                            )
+                         
+                        ]
+                        ),
                       ),
-                    ]),
+                      
+                    ],
                   ),
+                  
                 ],
               ),
             ),

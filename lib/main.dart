@@ -1,6 +1,7 @@
+import 'package:car_rental/db_helper/selected_cars_service.dart';
 import 'package:car_rental/db_helper/signup_service.dart';
 import 'package:car_rental/models/carrental.dart';
-
+import 'package:car_rental/models/selected_car.dart';
 import 'package:car_rental/models/signup.dart';
 import 'package:car_rental/db_helper/car_rental_service.dart';
 import 'package:car_rental/screens/splash_screen.dart';
@@ -12,9 +13,10 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(CarRentalAdapter());
   Hive.registerAdapter(SignupAdapter());
-
+  Hive.registerAdapter(selectedCarsAdapter());
   await CarRentalService().openBox();
   await SignupService().openBox();
+  await selectedCarService().openBox;
 
   runApp(const MyApp());
 }

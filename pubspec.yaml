@@ -40,6 +40,7 @@ dependencies:
   path_provider: ^2.1.2
   lottie: ^3.1.0
   
+  
 
 dev_dependencies:
   build_runner: ^2.4.9
@@ -61,6 +62,7 @@ flutter:
    - assets/Animation - 1713868836219.json
    - assets/Animation - 1713871900626.json
    - assets/Animation - 1713877171305 (1).json
+   - assets\easy-rent-high-resolution-logo-transparent (1).png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

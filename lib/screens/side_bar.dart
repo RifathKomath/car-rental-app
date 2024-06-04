@@ -79,8 +79,8 @@ class Side_Bar extends StatelessWidget {
             },
           ),
           ListTile(
-            title: Text('Logout'),
-            leading: Icon(Icons.logout),
+            title: Text('Logout',style: TextStyle(color: Colors.red),),
+            leading: Icon(Icons.logout,color: Colors.red,),
             splashColor: Colors.black12,
             onTap: () {
               showDialog(
@@ -99,10 +99,10 @@ class Side_Bar extends StatelessWidget {
                           },
                           child: Text('Cancel',
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 18)),
+                                  TextStyle(color: Colors.blueGrey[900], fontSize: 18)),
                           style: ButtonStyle(
                             backgroundColor:
-                                MaterialStatePropertyAll(Colors.grey[900]),
+                                MaterialStatePropertyAll(Colors.white),
                             shape: MaterialStatePropertyAll(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10))),
@@ -130,6 +130,12 @@ class Side_Bar extends StatelessWidget {
                   });
             },
           ),
+          SizedBox(height: 30,),
+                          Container(
+                           width: 10,
+                           height: 30,
+                            child: Image.asset('assets/easy-rent-high-resolution-logo-transparent (1).png')
+                            )
         ],
       ),
     );

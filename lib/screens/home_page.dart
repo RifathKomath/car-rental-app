@@ -4,6 +4,7 @@ import 'package:car_rental/screens/car_details.dart';
 import 'package:car_rental/screens/filter_page.dart';
 import 'package:car_rental/screens/side_bar.dart';
 import 'package:car_rental/db_helper/car_rental_service.dart';
+import 'package:car_rental/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 class Home_Screen extends StatefulWidget {
@@ -25,9 +26,19 @@ class _Home_screenState extends State<Home_Screen> {
     fontSize: 14,
   );
 
-  // fetching all datas from bd
+  int get getIndex => 0;
+
+  void deleteOpenedCar() {
+    int index = getIndex; // Assuming getIndex is a getter returning the currently opened index
+    if (index >= 0) {
+      deleteOption(index);
+    }
+  }
+
+  // fetching all datas from db
 
   Future<void> _loadDetails() async {
+    _carRentalService.updateValues();
     _list = await _carRentalService.getDetails();
     _filteredCars = List.from(_list); // Initialize filtered cars with all cars
     setState(() {});
@@ -63,16 +74,22 @@ class _Home_screenState extends State<Home_Screen> {
             actions: [
               SafeArea(
                   child: Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: IconButton(
-                    onPressed: () {
-                      // Navigator.of(context).push(MaterialPageRoute(builder: ((context) => Splash_screen())));
-                    },
-                    icon: Icon(
-                      Icons.notifications,
-                      color: Colors.white,
-                      size: 25,
-                    )),
+                padding: const EdgeInsets.only(right: 20),
+                child: Container(
+                  width: 119,
+                  height: 40,
+                  decoration: BoxDecoration(border: Border.all(color: Colors.white),borderRadius: BorderRadius.circular(10)),
+                  child: TextButton.icon(
+                      onPressed: () {
+                        // Navigator.of(context).push(MaterialPageRoute(builder: ((context) => Splash_Screen())));
+                      },
+                      label: Text('Due cars',style: TextStyle(color: Colors.white),),
+                      icon: Icon(
+                        Icons.notifications,
+                        color: Colors.white,
+                        size: 20,
+                      )),
+                ),
               ))
             ],
             shape: RoundedRectangleBorder(
@@ -137,85 +154,161 @@ class _Home_screenState extends State<Home_Screen> {
         height: double.infinity,
         width: double.infinity,
         padding: EdgeInsets.all(15),
-        child: _filteredCars.isEmpty
-            ? Center(
-                child: Text(
-                "No avialable cars",
-              ))
-            : ListView.builder(
-                itemCount: _filteredCars.length,
-                itemBuilder: (context, index) {
-                  final info = _filteredCars[index];
-                  return Container(
-                    // height: 15,
-                    child: Card(
-                        color: Colors.white,
-                        margin: EdgeInsets.symmetric(vertical: 8.0),
-                        elevation: 5.0,
-                        shape: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12)),
-                        child: ListTile(
-                          leading: SizedBox(
-                            height: 200,
-                            width: 120,
+        child: ValueListenableBuilder(
+          valueListenable: CarRentalService.carListNotifier,
+          builder: (context, value, child) {
+            return _filteredCars.isEmpty
+                ? Center(
+                    child: Text(
+                    "No available cars",
+                  ))
+                : ListView.builder(
+                    itemCount: _filteredCars.length,
+                    itemBuilder: (context, index) => GestureDetector(
+                        onTap: () {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(
+                                  builder: (context) => Car_Details(
+                                        carRental: _filteredCars[index],
+                                      )))
+                              .then((value) => setState(() {}));
+                        },
+                        child: Container(
+                          // height: 15,
+                          child: Card(
+                            color: Colors.white,
+                            margin: EdgeInsets.symmetric(vertical: 8.0),
+                            elevation: 5.0,
+                            shape: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12)),
                             child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: Image.file(
-                                  File(info.imagex),
-                                  fit: BoxFit.cover,
-                                ),
+                              padding: const EdgeInsets.all(8),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  SizedBox(
+                                    height: 70,
+                                    width: 110,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(5),
+                                        child: Image.file(
+                                          File(_filteredCars[index].imagex),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      // mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          "Name: ${_filteredCars[index].car}",
+                                          style: style,
+                                          textAlign: TextAlign.start,
+                                        ),
+                                        Text(
+                                          "Brand: ${_filteredCars[index].brand}",
+                                          style: style,
+                                          textAlign: TextAlign.start,
+                                        ),
+                                        Text(
+                                          "Model: ${_filteredCars[index].model}",
+                                          style: style,
+                                          textAlign: TextAlign.start,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Column(
+                                    children: [
+                                      IconButton(
+                                          onPressed: () async {
+                                            deleteOption(index);
+                                          },
+                                          icon: Icon(
+                                            Icons.delete,
+                                            size: 25,
+                                            color: Colors.blueGrey[900],
+                                          )),
+                                    ],
+                                  )
+                                ],
                               ),
                             ),
                           ),
-                          title: Padding(
-                            padding: const EdgeInsets.only(top: 8, bottom: 8),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Name: ${info.car}",
-                                  style: style,
-                                  textAlign: TextAlign.start,
-                                ),
-                                Text(
-                                  "Brand: ${info.brand}",
-                                  style: style,
-                                  textAlign: TextAlign.start,
-                                ),
-                                Text(
-                                  "Model: ${info.model}",
-                                  style: style,
-                                  textAlign: TextAlign.start,
-                                ),
-                              ],
-                            ),
-                          ),
-                          // trailing: IconButton(
-
-                          //   onPressed: () async {
-                          //        await _carRentalService.deleteDetails(index);
-
-                          //       _loadDetails();
-                          //     },
-                          //     icon: Icon(
-                          //       Icons.delete,
-                          //       color: Colors.blueGrey[900],
-                          //     )),
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => Car_Details(
-                                    carRental: _filteredCars[index])));
-                          },
                         )),
                   );
-                }),
+          },
+        ),
       ),
     );
+  }
+
+  Future<void> deleteOption(int index) async {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Delete !'),
+            content: Text('Are you sure want to delete this car from the list'),
+            actions: [
+              Row(
+                children: [
+                  SizedBox(
+                    width: 50,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'Cancel',
+                      style: TextStyle(color: Colors.blueGrey[900]),
+                    ),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Colors.white),
+                      shape: MaterialStatePropertyAll(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 15),
+                  ElevatedButton(
+                    onPressed: () async {
+                      await _carRentalService.deleteDetails(index);
+                      _loadDetails();
+                      Navigator.pop(context); // Close the dialog after deletion
+                    },
+                    child: Text(
+                      'Yes',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    style: ButtonStyle(
+                      shape: MaterialStatePropertyAll(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                      backgroundColor: MaterialStatePropertyAll(Colors.blueGrey[900]),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          );
+        });
   }
 }

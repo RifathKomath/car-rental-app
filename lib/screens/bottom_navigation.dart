@@ -1,10 +1,12 @@
+import 'package:car_rental/models/carrental.dart';
 import 'package:car_rental/screens/adding_cars.dart';
 import 'package:car_rental/screens/home_page.dart';
 import 'package:car_rental/screens/rented_cars.dart';
 import 'package:flutter/material.dart';
 
 class Bottom_Navigation extends StatefulWidget {
-  const Bottom_Navigation({super.key});
+  int currentPage;
+   Bottom_Navigation({super.key,this.currentPage=0});
 
   @override
   State<Bottom_Navigation> createState() => _Bottom_navigationState();
@@ -14,9 +16,20 @@ class _Bottom_navigationState extends State<Bottom_Navigation> {
   int _selectedIndex = 0;
 
   final _Screen = [Home_Screen(), Adding_Cars(), Rented_Cars()];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+       _selectedIndex=widget.currentPage;
+    });
+   
+  }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { 
+    
+    
     return Scaffold(
       body: Center(
         child: _Screen[_selectedIndex],

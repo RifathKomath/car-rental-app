@@ -290,7 +290,7 @@ class _Adding_carsState extends State<Adding_Cars> {
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(25))),
                     //  filled: true,
-                    icon: Icon(Icons.airline_seat_recline_extra_sharp),
+                    icon: Icon(Icons.ev_station_sharp),
                     label: Text('Fuel type :'),
                   ),
                   validator: (value) {
@@ -559,7 +559,7 @@ class _Adding_carsState extends State<Adding_Cars> {
   Future<void> _selectedinsuranceDate() async {
     DateTime? pickeded = await showDatePicker(
         context: context,
-        firstDate: DateTime.now().subtract(Duration(days: 0)),
+        firstDate: DateTime.now(),
         lastDate: DateTime(2100),
         initialDate: DateTime.now());
 
@@ -573,7 +573,7 @@ class _Adding_carsState extends State<Adding_Cars> {
   Future<void> _selectedpollutionDate() async {
     DateTime? pickeded = await showDatePicker(
         context: context,
-        firstDate:DateTime.now().subtract(Duration(days: 0)),
+        firstDate:DateTime.now(),
         lastDate: DateTime(2100),
         initialDate: DateTime.now());
 

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:car_rental/models/carrental.dart';
 import 'package:car_rental/db_helper/car_rental_service.dart';
+import 'package:car_rental/screens/car_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -81,10 +82,10 @@ class _Adding_carsState extends State<Editing_Page> {
     _amountController.text = widget.carRental.amount;
 
     if (widget.carRental.imagex != null) {
-    setState(() {
-      image25 = File(widget.carRental.imagex!);
-    });
-  }
+      setState(() {
+        image25 = File(widget.carRental.imagex!);
+      });
+    }
     super.initState();
   }
 
@@ -551,6 +552,7 @@ class _Adding_carsState extends State<Editing_Page> {
 
       await _carRentalSevice.editDetails(newcar);
 
+
       image25 = null;
       _nameController.clear();
       _brandController.clear();
@@ -562,7 +564,17 @@ class _Adding_carsState extends State<Editing_Page> {
       _pollutionController.clear();
       _amountController.clear();
 
-      Navigator.of(context).pop();
+      Navigator.of(context).pop(newcar);
+
+      Navigator.of(context).pushReplacement(
+        // Push the same page again
+        MaterialPageRoute(
+          builder: (context) => Car_Details(carRental: newcar),
+        ),
+      );
+
+
+
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -598,7 +610,7 @@ class _Adding_carsState extends State<Editing_Page> {
   Future<void> _selectedinsuranceDate() async {
     DateTime? pickeded = await showDatePicker(
         context: context,
-        firstDate: DateTime(2000),
+        firstDate: DateTime.now(),
         lastDate: DateTime(2100),
         initialDate: DateTime.now());
 
@@ -612,7 +624,7 @@ class _Adding_carsState extends State<Editing_Page> {
   Future<void> _selectedpollutionDate() async {
     DateTime? pickeded = await showDatePicker(
         context: context,
-        firstDate: DateTime(2000),
+        firstDate: DateTime.now(),
         lastDate: DateTime(2100),
         initialDate: DateTime.now());
 
