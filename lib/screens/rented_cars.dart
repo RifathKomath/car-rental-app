@@ -150,8 +150,8 @@ class _Rented_CarsState extends State<Rented_Cars> {
                                 Rented_Car_Details()
                                   
                                       )
-                                      )
-                              .then((value) => setState(() {}));
+                                      );
+                             
                         },
                         child: Container(
                           // height: 15,

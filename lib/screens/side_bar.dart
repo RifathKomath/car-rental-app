@@ -1,3 +1,4 @@
+import 'package:car_rental/db_helper/signup_service.dart';
 import 'package:car_rental/screens/side_bar_Screens/about_page.dart';
 import 'package:car_rental/screens/login_page.dart';
 import 'package:car_rental/screens/side_bar_Screens/contact_page.dart';
@@ -6,6 +7,7 @@ import 'package:car_rental/screens/side_bar_Screens/privacy_page.dart';
 import 'package:car_rental/screens/side_bar_Screens/revenue_page.dart';
 import 'package:car_rental/screens/side_bar_screens/terms_page.dart';
 import 'package:flutter/material.dart';
+import 'package:car_rental/models/signup.dart';
 
 class Side_Bar extends StatelessWidget {
   const Side_Bar({super.key});
@@ -16,13 +18,18 @@ class Side_Bar extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          UserAccountsDrawerHeader(
-            accountName: Text(
-              'Username',
-              style: TextStyle(fontSize: 25),
-            ),
-            accountEmail: null,
-            decoration: BoxDecoration(color: Colors.blueGrey[900]),
+          ValueListenableBuilder(
+            valueListenable: currentUserNotifier,
+            builder: (context, value, child) {
+              return UserAccountsDrawerHeader(
+                accountName: Text(
+                 ' ${value?.username}',
+                  style: TextStyle(fontSize: 25),
+                ),
+                accountEmail: null,
+                decoration: BoxDecoration(color: Colors.blueGrey[900]),
+              );
+            },
           ),
           ListTile(
             title: Text('About Us'),
@@ -79,8 +86,8 @@ class Side_Bar extends StatelessWidget {
             },
           ),
           ListTile(
-            title: Text('Logout',style: TextStyle(color: Colors.red),),
-            leading: Icon(Icons.logout,color: Colors.red,),
+            title: Text('Logout', style: TextStyle(color: Colors.red),),
+            leading: Icon(Icons.logout, color: Colors.red,),
             splashColor: Colors.black12,
             onTap: () {
               showDialog(
@@ -98,11 +105,9 @@ class Side_Bar extends StatelessWidget {
                             Navigator.pop(context);
                           },
                           child: Text('Cancel',
-                              style:
-                                  TextStyle(color: Colors.blueGrey[900], fontSize: 18)),
+                              style: TextStyle(color: Colors.blueGrey[900], fontSize: 18)),
                           style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStatePropertyAll(Colors.white),
+                            backgroundColor: MaterialStatePropertyAll(Colors.white),
                             shape: MaterialStatePropertyAll(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10))),
@@ -110,16 +115,15 @@ class Side_Bar extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
+                            currentUserNotifier.value = null; // Reset current user
                             Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
                                     builder: (context) => Login_Screen()),
                                 (route) => false);
                           },
-                          child:
-                              Text('OK', style: TextStyle(color: Colors.white)),
+                          child: Text('OK', style: TextStyle(color: Colors.white)),
                           style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStatePropertyAll(Colors.grey[900]),
+                            backgroundColor: MaterialStatePropertyAll(Colors.grey[900]),
                             shape: MaterialStatePropertyAll(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10))),
@@ -131,11 +135,11 @@ class Side_Bar extends StatelessWidget {
             },
           ),
           SizedBox(height: 30,),
-                          Container(
-                           width: 10,
-                           height: 30,
-                            child: Image.asset('assets/easy-rent-high-resolution-logo-transparent (1).png')
-                            )
+          Container(
+            width: 10,
+            height: 30,
+            child: Image.asset('assets/easy-rent-high-resolution-logo-transparent (1).png')
+          )
         ],
       ),
     );

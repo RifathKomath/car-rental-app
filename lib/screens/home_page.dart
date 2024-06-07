@@ -1,11 +1,10 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:car_rental/models/carrental.dart';
 import 'package:car_rental/screens/car_details.dart';
 import 'package:car_rental/screens/filter_page.dart';
 import 'package:car_rental/screens/side_bar.dart';
 import 'package:car_rental/db_helper/car_rental_service.dart';
-import 'package:car_rental/screens/splash_screen.dart';
-import 'package:flutter/material.dart';
 
 class Home_Screen extends StatefulWidget {
   const Home_Screen({super.key});
@@ -15,52 +14,41 @@ class Home_Screen extends StatefulWidget {
 }
 
 class _Home_screenState extends State<Home_Screen> {
-  late TextEditingController searchController = TextEditingController();
-  late List<CarRental> _filteredCars = [];
-
+  late TextEditingController searchController;
   final CarRentalService _carRentalService = CarRentalService();
-
   List<CarRental> _list = [];
+  List<CarRental> _filteredList = [];
 
   final style = TextStyle(
     fontSize: 14,
   );
 
-  int get getIndex => 0;
-
-  void deleteOpenedCar() {
-    int index = getIndex; // Assuming getIndex is a getter returning the currently opened index
-    if (index >= 0) {
-      deleteOption(index);
-    }
+  @override
+  void initState() {
+    super.initState();
+    searchController = TextEditingController();
+    _loadDetails();
   }
-
-  // fetching all datas from db
 
   Future<void> _loadDetails() async {
     _carRentalService.updateValues();
     _list = await _carRentalService.getDetails();
-    _filteredCars = List.from(_list); // Initialize filtered cars with all cars
+    _filteredList = _list; // Initialize the filtered list
     setState(() {});
   }
 
-  @override
-  void initState() {
-    _loadDetails();
-    searchController = TextEditingController();
-    super.initState();
-  }
-
-  void _runFilter(String enteredKeyword) {
-    // Filter based on entered keyword
-    List<CarRental> result = _list
-        .where((car) =>
-            car.car.toLowerCase().contains(enteredKeyword.toLowerCase()) ||
-            car.brand.toLowerCase().contains(enteredKeyword.toLowerCase()))
-        .toList();
-    setState(() {
-      _filteredCars = result;
-    });
+  void _filterList(String query) {
+    if (query.isEmpty) {
+      _filteredList = _list;
+    } else {
+      _filteredList = _list
+          .where((car) =>
+              car.car.toLowerCase().contains(query.toLowerCase()) ||
+              car.brand.toLowerCase().contains(query.toLowerCase()) ||
+              car.model.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    }
+    setState(() {});
   }
 
   @override
@@ -78,12 +66,17 @@ class _Home_screenState extends State<Home_Screen> {
                 child: Container(
                   width: 119,
                   height: 40,
-                  decoration: BoxDecoration(border: Border.all(color: Colors.white),borderRadius: BorderRadius.circular(10)),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.white),
+                      borderRadius: BorderRadius.circular(10)),
                   child: TextButton.icon(
                       onPressed: () {
                         // Navigator.of(context).push(MaterialPageRoute(builder: ((context) => Splash_Screen())));
                       },
-                      label: Text('Due cars',style: TextStyle(color: Colors.white),),
+                      label: Text(
+                        'Due cars',
+                        style: TextStyle(color: Colors.white),
+                      ),
                       icon: Icon(
                         Icons.notifications,
                         color: Colors.white,
@@ -108,8 +101,7 @@ class _Home_screenState extends State<Home_Screen> {
                       child: TextFormField(
                         controller: searchController,
                         onChanged: (value) {
-                          _runFilter(
-                              value); // Call filter function on text change
+                          _filterList(value);
                         },
                         style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
@@ -157,24 +149,24 @@ class _Home_screenState extends State<Home_Screen> {
         child: ValueListenableBuilder(
           valueListenable: CarRentalService.carListNotifier,
           builder: (context, value, child) {
-            return _filteredCars.isEmpty
+            final listToShow = searchController.text.isEmpty ? value : _filteredList;
+            return listToShow.isEmpty
                 ? Center(
                     child: Text(
                     "No available cars",
                   ))
                 : ListView.builder(
-                    itemCount: _filteredCars.length,
+                    itemCount: listToShow.length,
                     itemBuilder: (context, index) => GestureDetector(
                         onTap: () {
                           Navigator.of(context)
                               .push(MaterialPageRoute(
                                   builder: (context) => Car_Details(
-                                        carRental: _filteredCars[index],
+                                        carRental: listToShow[index],
                                       )))
                               .then((value) => setState(() {}));
                         },
                         child: Container(
-                          // height: 15,
                           child: Card(
                             color: Colors.white,
                             margin: EdgeInsets.symmetric(vertical: 8.0),
@@ -197,7 +189,7 @@ class _Home_screenState extends State<Home_Screen> {
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(5),
                                         child: Image.file(
-                                          File(_filteredCars[index].imagex),
+                                          File(listToShow[index].imagex),
                                           fit: BoxFit.cover,
                                         ),
                                       ),
@@ -210,20 +202,19 @@ class _Home_screenState extends State<Home_Screen> {
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      // mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Text(
-                                          "Name: ${_filteredCars[index].car}",
+                                          "Name: ${listToShow[index].car}",
                                           style: style,
                                           textAlign: TextAlign.start,
                                         ),
                                         Text(
-                                          "Brand: ${_filteredCars[index].brand}",
+                                          "Brand: ${listToShow[index].brand}",
                                           style: style,
                                           textAlign: TextAlign.start,
                                         ),
                                         Text(
-                                          "Model: ${_filteredCars[index].model}",
+                                          "Model: ${listToShow[index].model}",
                                           style: style,
                                           textAlign: TextAlign.start,
                                         ),
@@ -302,7 +293,8 @@ class _Home_screenState extends State<Home_Screen> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                       ),
-                      backgroundColor: MaterialStatePropertyAll(Colors.blueGrey[900]),
+                      backgroundColor:
+                          MaterialStatePropertyAll(Colors.blueGrey[900]),
                     ),
                   ),
                 ],

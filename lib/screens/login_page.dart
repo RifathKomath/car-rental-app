@@ -197,7 +197,7 @@ class _Login_screenState extends State<Login_Screen> {
                                   child: Text('Sign up for free'))
                             ],
                           ),
-                           SizedBox(height: 110,),
+                           SizedBox(height: 70,),
                           Container(
                             
                             width: 280,
