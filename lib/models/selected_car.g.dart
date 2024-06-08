@@ -18,13 +18,13 @@ class selectedCarsAdapter extends TypeAdapter<selectedCars> {
     };
     return selectedCars(
       id: fields[0] as int?,
-      image1: fields[1] as String,
+      image1: fields[1] as dynamic,
       pickUpDate: fields[2] as String,
       dropOffDate: fields[3] as String,
       notes: fields[4] as String,
       currentKm: fields[5] as String,
       advanceAmount: fields[6] as String,
-      image2: fields[7] as String,
+      image2: fields[7] as dynamic,
       customerName: fields[8] as String,
       mobileNumber: fields[9] as String,
       address: fields[10] as String,

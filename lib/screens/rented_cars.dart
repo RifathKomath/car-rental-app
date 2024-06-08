@@ -8,61 +8,55 @@ import 'package:car_rental/screens/rented_cars_details.dart';
 import 'package:flutter/material.dart';
 
 class Rented_Cars extends StatefulWidget {
-
-
-   Rented_Cars({Key? key});
+ 
+  Rented_Cars({Key? key});
 
   @override
   State<Rented_Cars> createState() => _Rented_CarsState();
 }
 
 class _Rented_CarsState extends State<Rented_Cars> {
-  late TextEditingController searchController = TextEditingController();
-  late List<CarRental> _filteredCars = [];
-
+  late TextEditingController searchController;
   final CarRentalService _carRentalService = CarRentalService();
 
+  
+  
+
   List<CarRental> _list = [];
+  List<CarRental> _filteredList = [];
+
 
   final style = TextStyle(
     fontSize: 14,
   );
 
-  int get getIndex => 0;
-
-  void deleteOpenedCar() {
-    int index = getIndex; // Assuming getIndex is a getter returning the currently opened index
-    if (index >= 0) {
-      deleteOption(index);
-    }
+  @override
+  void initState() {
+    super.initState();
+    searchController = TextEditingController();
+    _loadDetails();
   }
-
-  // fetching all datas from db
 
   Future<void> _loadDetails() async {
     _carRentalService.updateValues();
     _list = await _carRentalService.getDetails();
-    _filteredCars = List.from(_list); // Initialize filtered cars with all cars
+    _filteredList = _list; // Initialize the filtered list
+
     setState(() {});
   }
 
-  @override
-  void initState() {
-    _loadDetails();
-    searchController = TextEditingController();
-    super.initState();
-  }
-
-  void _runFilter(String enteredKeyword) {
-    // Filter based on entered keyword
-    List<CarRental> result = _list
-        .where((car) =>
-            car.car.toLowerCase().contains(enteredKeyword.toLowerCase()) ||
-            car.brand.toLowerCase().contains(enteredKeyword.toLowerCase()))
-        .toList();
-    setState(() {
-      _filteredCars = result;
-    });
+  void _filterList(String value) {
+    if (value.isEmpty) {
+      _filteredList = _list;
+    } else {
+      _filteredList = _list
+          .where((car) =>
+              car.car.toLowerCase().contains(value.toLowerCase()) ||
+              car.brand.toLowerCase().contains(value.toLowerCase()) ||
+              car.model.toLowerCase().contains(value.toLowerCase()))
+          .toList();
+    }
+    setState(() {});
   }
 
   @override
@@ -71,11 +65,10 @@ class _Rented_CarsState extends State<Rented_Cars> {
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(100),
           child: AppBar(
-            automaticallyImplyLeading: false,
             backgroundColor: Colors.blueGrey[900],
             iconTheme: IconThemeData(color: Colors.white),
             bottom: PreferredSize(
-              preferredSize: Size.fromHeight(100),
+              preferredSize: Size.fromHeight(140),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Row(
@@ -86,8 +79,7 @@ class _Rented_CarsState extends State<Rented_Cars> {
                       child: TextFormField(
                         controller: searchController,
                         onChanged: (value) {
-                          _runFilter(
-                              value); // Call filter function on text change
+                          _filterList(value);
                         },
                         style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
@@ -126,8 +118,6 @@ class _Rented_CarsState extends State<Rented_Cars> {
 
       // drawer>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-    
-
       body: Container(
         height: double.infinity,
         width: double.infinity,
@@ -135,26 +125,23 @@ class _Rented_CarsState extends State<Rented_Cars> {
         child: ValueListenableBuilder(
           valueListenable: CarRentalService.carListNotifier,
           builder: (context, value, child) {
-            return _filteredCars.isEmpty
+            List<CarRental> listToShow =value.where((element) => element.status).toList();
+               
+            return listToShow.isEmpty
                 ? Center(
                     child: Text(
                     "No available cars",
                   ))
                 : ListView.builder(
-                    itemCount: _filteredCars.length,
+                    itemCount: listToShow.length,
                     itemBuilder: (context, index) => GestureDetector(
                         onTap: () {
                           Navigator.of(context)
                               .push(MaterialPageRoute(
-                                  builder: (context) => 
-                                Rented_Car_Details()
-                                  
-                                      )
-                                      );
-                             
+                                  builder: (context) => Rented_Car_Details()))
+                              .then((value) => setState(() {}));
                         },
                         child: Container(
-                          // height: 15,
                           child: Card(
                             color: Colors.white,
                             margin: EdgeInsets.symmetric(vertical: 8.0),
@@ -177,7 +164,7 @@ class _Rented_CarsState extends State<Rented_Cars> {
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(5),
                                         child: Image.file(
-                                          File(_filteredCars[index].imagex),
+                                          File(listToShow[index].imagex),
                                           fit: BoxFit.cover,
                                         ),
                                       ),
@@ -190,20 +177,19 @@ class _Rented_CarsState extends State<Rented_Cars> {
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      // mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Text(
-                                          "Name: ${_filteredCars[index].car}",
+                                          "Name: ${listToShow[index].car}",
                                           style: style,
                                           textAlign: TextAlign.start,
                                         ),
                                         Text(
-                                          "Brand: ${_filteredCars[index].brand}",
+                                          "Brand: ${listToShow[index].brand}",
                                           style: style,
                                           textAlign: TextAlign.start,
                                         ),
                                         Text(
-                                          "Model: ${_filteredCars[index].model}",
+                                          "Model: ${listToShow[index].model}",
                                           style: style,
                                           textAlign: TextAlign.start,
                                         ),
@@ -214,7 +200,7 @@ class _Rented_CarsState extends State<Rented_Cars> {
                                     children: [
                                       IconButton(
                                           onPressed: () async {
-                                            deleteOption(index);
+                                            deleteOption(listToShow[index]);
                                           },
                                           icon: Icon(
                                             Icons.delete,
@@ -235,13 +221,13 @@ class _Rented_CarsState extends State<Rented_Cars> {
     );
   }
 
-  Future<void> deleteOption(int index) async {
+  Future<void> deleteOption(CarRental car) async {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Delete !'),
-            content: Text('Are you sure want to delete this car from the list'),
+            title: Text('Remove from rented list !'),
+            content: Text('Are you sure this car returned'),
             actions: [
               Row(
                 children: [
@@ -268,7 +254,8 @@ class _Rented_CarsState extends State<Rented_Cars> {
                   SizedBox(width: 15),
                   ElevatedButton(
                     onPressed: () async {
-                      await _carRentalService.deleteDetails(index);
+                       car.status=false;
+                      await _carRentalService.editDetails(car);
                       _loadDetails();
                       Navigator.pop(context); // Close the dialog after deletion
                     },
@@ -282,7 +269,8 @@ class _Rented_CarsState extends State<Rented_Cars> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                       ),
-                      backgroundColor: MaterialStatePropertyAll(Colors.blueGrey[900]),
+                      backgroundColor:
+                          MaterialStatePropertyAll(Colors.blueGrey[900]),
                     ),
                   ),
                 ],

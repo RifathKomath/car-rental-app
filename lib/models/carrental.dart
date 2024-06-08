@@ -37,6 +37,37 @@ class CarRental {
   @HiveField(10)
   late String amount;
 
+  @HiveField(11)
+   bool status;
+
+   @HiveField(12)
+   String? pickUpDate;
+
+  @HiveField(13)
+   String? dropOffDate;
+
+   @HiveField(14)
+   String?  notes;
+
+  @HiveField(15)
+   String? currentKm;
+
+    @HiveField(16)
+   String?  advanceAmount;
+
+  @HiveField(17)
+   String? image2;
+
+    @HiveField(18)
+   String?  customerName;
+
+  @HiveField(19)
+   String? mobileNumber;
+    @HiveField(20)
+   String? address;
+
+
+
   CarRental({
     this.id,
     required this.imagex,
@@ -49,5 +80,15 @@ class CarRental {
     required this.insurance,
     required this.pollution,
     required this.amount,
+    this.status=false,
+    this.dropOffDate,
+    this.pickUpDate,
+    this.notes,
+    this.currentKm,
+    this.advanceAmount,
+    this.image2,
+    this.customerName,
+    this.mobileNumber,
+    this.address
   });
 }

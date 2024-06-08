@@ -1,18 +1,28 @@
+import 'package:car_rental/models/selected_car.dart';
+import 'package:car_rental/models/selected_car.dart';
+import 'package:car_rental/models/selected_car.dart';
+import 'package:car_rental/models/selected_car.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class Rented_Car_Details extends StatelessWidget {
+class Rented_Car_Details extends StatefulWidget {
+
   Rented_Car_Details({super.key});
 
+  @override
+  State<Rented_Car_Details> createState() => _Rented_Car_DetailsState();
+}
+
+class _Rented_Car_DetailsState extends State<Rented_Car_Details> {
   final textStyle = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
+
   final subTextStyle = TextStyle(fontSize: 16);
 
   final historyOfCars = TextEditingController();
 
   final formkey = GlobalKey<FormState>();
-
-  get context => null;
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +61,8 @@ class Rented_Car_Details extends StatelessWidget {
                             height: 20,
                           ),
                           Container(
-                              width: 250,
-                              height: 150,
+                              height: 170,
+                              width: 290,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 border: Border.all(color: Colors.black),
@@ -80,124 +90,28 @@ class Rented_Car_Details extends StatelessWidget {
                           SizedBox(
                             height: 20,
                           ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15, right: 15),
+                            child: Divider(),
+                          ),
                           Row(
                             children: [
                               SizedBox(
-                                width: 30,
+                                width: 20,
                               ),
                               Text(
-                                'Reg_Number :',
+                                'Reg_Number',
                                 style: textStyle,
                               ),
                               SizedBox(
-                                width: 10,
+                                width: 80,
                               ),
                               Text(
-                                'null',
-                                style: subTextStyle,
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 30,
-                              ),
-                              Text(
-                                'Amount/Month :',
-                                style: textStyle,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                'null',
+                                ':',
                                 style: subTextStyle,
                               ),
                               SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                '/-',
-                                style: subTextStyle,
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 30,
-                              ),
-                              Text(
-                                'Advance amount paid :',
-                                style: textStyle,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                'null',
-                                style: subTextStyle,
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                '/-',
-                                style: subTextStyle,
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 30,
-                              ),
-                              Text(
-                                'Balance amount :',
-                                style: TextStyle(
-                                    color: Colors.green, fontSize: 16),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                'null',
-                                style: TextStyle(
-                                    color: Colors.green, fontSize: 16),
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                '/-',
-                                style: subTextStyle,
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 30,
-                              ),
-                              Text(
-                                'Notes :',
-                                style: textStyle,
-                              ),
-                              SizedBox(
-                                width: 10,
+                                width: 20,
                               ),
                               Text(
                                 'null',
@@ -206,7 +120,165 @@ class Rented_Car_Details extends StatelessWidget {
                             ],
                           ),
                           Padding(
+                            padding: const EdgeInsets.only(left: 15, right: 15),
+                            child: Divider(),
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                'Amount/Month',
+                                style: textStyle,
+                              ),
+                              SizedBox(
+                                width: 63,
+                              ),
+                              Text(
+                                ':',
+                                style: subTextStyle,
+                              ),
+                              SizedBox(
+                                width: 17,
+                              ),
+                              Icon(
+                                Icons.currency_rupee,
+                                size: 16,
+                              ),
+                              Text(
+                                'null',
+                                style: subTextStyle,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                '/-',
+                                style: subTextStyle,
+                              )
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15, right: 15),
+                            child: Divider(),
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                'Advance amount paid',
+                                style: textStyle,
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Text(
+                                ':',
+                                style: subTextStyle,
+                              ),
+                              SizedBox(
+                                width: 16,
+                              ),
+                              Icon(
+                                Icons.currency_rupee,
+                                size: 16,
+                              ),
+                              Text(
+                                'null',
+                                style: subTextStyle,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                '/-',
+                                style: subTextStyle,
+                              )
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15, right: 15),
+                            child: Divider(),
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                'Balance amount',
+                                style: TextStyle(
+                                    color: Colors.green, fontSize: 16),
+                              ),
+                              SizedBox(
+                                width: 56,
+                              ),
+                              Text(
+                                ':',
+                                style: subTextStyle,
+                              ),
+                              SizedBox(
+                                width: 16,
+                              ),
+                              Icon(
+                                Icons.currency_rupee,
+                                size: 16,
+                                color: Colors.green,
+                              ),
+                              Text(
+                                'null',
+                                style: TextStyle(
+                                    color: Colors.green, fontSize: 16),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                '/-',
+                                style: subTextStyle,
+                              )
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15, right: 15),
+                            child: Divider(),
+                          ),
+                          Padding(
                             padding: const EdgeInsets.all(20.0),
+                            child: Card(
+                                color: Colors.white,
+                                shape: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12)),
+                                child: Row(
+                                  children: [
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            'Notes :',
+                                            style: textStyle,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          'null',
+                                          style: subTextStyle,
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                )),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20, right: 20),
                             child: Form(
                               key: formkey,
                               child: TextFormField(
@@ -233,22 +305,23 @@ class Rented_Car_Details extends StatelessWidget {
                           Row(
                             children: [
                               SizedBox(
-                                width: 140,
+                                width: 170,
                               ),
                               Container(
-                                  width: 200,
+                                  width: 150,
                                   height: 50,
                                   child: TextButton.icon(
                                     onPressed: () {
                                       formkey.currentState!.validate();
                                     },
+                                    
+                                    label: Text(
+                                      'Save',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                     icon: Icon(
                                       Icons.check_circle_sharp,
                                       color: Colors.white,
-                                    ),
-                                    label: Text(
-                                      'Returned car',
-                                      style: TextStyle(color: Colors.white),
                                     ),
                                     style: ButtonStyle(
                                         backgroundColor:
@@ -261,6 +334,9 @@ class Rented_Car_Details extends StatelessWidget {
                                                         10)))),
                                   )),
                             ],
+                          ),
+                          SizedBox(
+                            height: 20,
                           )
                         ]),
                       ),
@@ -275,14 +351,18 @@ class Rented_Car_Details extends StatelessWidget {
                             height: 40,
                           ),
                           Container(
-                              width: 250,
-                              height: 150,
+                               height: 170,
+                  width: 290,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 border: Border.all(color: Colors.black),
                               )),
                           SizedBox(
-                            height: 60,
+                            height: 50,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15, right: 15),
+                            child: Divider(),
                           ),
                           Column(
                             children: [
@@ -292,11 +372,18 @@ class Rented_Car_Details extends StatelessWidget {
                                     width: 30,
                                   ),
                                   Text(
-                                    'Customer Name :',
+                                    'Customer Name',
                                     style: textStyle,
                                   ),
                                   SizedBox(
-                                    width: 10,
+                                    width: 56,
+                                  ),
+                                  Text(
+                                    ':',
+                                    style: subTextStyle,
+                                  ),
+                                  SizedBox(
+                                    width: 20,
                                   ),
                                   Text(
                                     'null',
@@ -304,40 +391,59 @@ class Rented_Car_Details extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 20,),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 15, right: 15),
+                                child: Divider(),
+                              ),
                               Row(
                                 children: [
                                   SizedBox(
                                     width: 30,
                                   ),
                                   Text(
-                                    'Mobile Number :',
+                                    'Mobile Number',
                                     style: textStyle,
                                   ),
                                   SizedBox(
-                                    width: 10,
+                                    width: 62,
+                                  ),
+                                  Text(
+                                    ':',
+                                    style: subTextStyle,
+                                  ),
+                                  SizedBox(
+                                    width: 20,
                                   ),
                                   Text(
                                     'null',
                                     style: subTextStyle,
                                   )
                                 ],
-                                
                               ),
-                                SizedBox(
-                                    height: 20,
-                                  ),
-                                    Row(
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 15, right: 15),
+                                child: Divider(),
+                              ),
+                              Row(
                                 children: [
                                   SizedBox(
                                     width: 30,
                                   ),
                                   Text(
-                                    'Address :',
+                                    'Address',
                                     style: textStyle,
                                   ),
                                   SizedBox(
-                                    width: 10,
+                                    width: 115,
+                                  ),
+                                  Text(
+                                    ':',
+                                    style: subTextStyle,
+                                  ),
+                                  SizedBox(
+                                    width: 20,
                                   ),
                                   Text(
                                     'null',
@@ -346,6 +452,10 @@ class Rented_Car_Details extends StatelessWidget {
                                 ],
                               ),
                             ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15, right: 15),
+                            child: Divider(),
                           ),
                         ],
                       ),

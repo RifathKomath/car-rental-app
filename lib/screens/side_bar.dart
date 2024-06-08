@@ -23,7 +23,7 @@ class Side_Bar extends StatelessWidget {
             builder: (context, value, child) {
               return UserAccountsDrawerHeader(
                 accountName: Text(
-                 ' ${value?.username}',
+                 '${value?.username}',
                   style: TextStyle(fontSize: 25),
                 ),
                 accountEmail: null,

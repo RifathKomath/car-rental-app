@@ -16,6 +16,7 @@ class Home_Screen extends StatefulWidget {
 class _Home_screenState extends State<Home_Screen> {
   late TextEditingController searchController;
   final CarRentalService _carRentalService = CarRentalService();
+  
   List<CarRental> _list = [];
   List<CarRental> _filteredList = [];
 
@@ -37,15 +38,15 @@ class _Home_screenState extends State<Home_Screen> {
     setState(() {});
   }
 
-  void _filterList(String query) {
-    if (query.isEmpty) {
+  void _filterList(String value) {
+    if (value.isEmpty) {
       _filteredList = _list;
     } else {
       _filteredList = _list
           .where((car) =>
-              car.car.toLowerCase().contains(query.toLowerCase()) ||
-              car.brand.toLowerCase().contains(query.toLowerCase()) ||
-              car.model.toLowerCase().contains(query.toLowerCase()))
+              car.car.toLowerCase().contains(value.toLowerCase()) ||
+              car.brand.toLowerCase().contains(value.toLowerCase()) ||
+              car.model.toLowerCase().contains(value.toLowerCase()))
           .toList();
     }
     setState(() {});
@@ -149,7 +150,8 @@ class _Home_screenState extends State<Home_Screen> {
         child: ValueListenableBuilder(
           valueListenable: CarRentalService.carListNotifier,
           builder: (context, value, child) {
-            final listToShow = searchController.text.isEmpty ? value : _filteredList;
+            // final listToShow = searchController.text.isEmpty ? value : _filteredList;
+             List<CarRental>listToShow=value.where((element) => !element.status).toList();
             return listToShow.isEmpty
                 ? Center(
                     child: Text(

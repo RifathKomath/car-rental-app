@@ -28,13 +28,23 @@ class CarRentalAdapter extends TypeAdapter<CarRental> {
       insurance: fields[8] as String,
       pollution: fields[9] as String,
       amount: fields[10] as String,
+      status: fields[11] as bool,
+      dropOffDate: fields[13] as String?,
+      pickUpDate: fields[12] as String?,
+      notes: fields[14] as String?,
+      currentKm: fields[15] as String?,
+      advanceAmount: fields[16] as String?,
+      image2: fields[17] as String?,
+      customerName: fields[18] as String?,
+      mobileNumber: fields[19] as String?,
+      address: fields[20] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, CarRental obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(21)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -56,7 +66,27 @@ class CarRentalAdapter extends TypeAdapter<CarRental> {
       ..writeByte(9)
       ..write(obj.pollution)
       ..writeByte(10)
-      ..write(obj.amount);
+      ..write(obj.amount)
+      ..writeByte(11)
+      ..write(obj.status)
+      ..writeByte(12)
+      ..write(obj.pickUpDate)
+      ..writeByte(13)
+      ..write(obj.dropOffDate)
+      ..writeByte(14)
+      ..write(obj.notes)
+      ..writeByte(15)
+      ..write(obj.currentKm)
+      ..writeByte(16)
+      ..write(obj.advanceAmount)
+      ..writeByte(17)
+      ..write(obj.image2)
+      ..writeByte(18)
+      ..write(obj.customerName)
+      ..writeByte(19)
+      ..write(obj.mobileNumber)
+      ..writeByte(20)
+      ..write(obj.address);
   }
 
   @override

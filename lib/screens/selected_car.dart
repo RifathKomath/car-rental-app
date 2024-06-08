@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:car_rental/db_helper/car_rental_service.dart';
 import 'package:car_rental/db_helper/selected_cars_service.dart';
 import 'package:car_rental/models/carrental.dart';
 import 'package:car_rental/models/selected_car.dart';
@@ -10,7 +11,8 @@ import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Selected_Car extends StatefulWidget {
-  const Selected_Car({super.key, required CarRental carRental});
+  CarRental carRental;
+  Selected_Car({super.key, required this. carRental});
 
   @override
   State<Selected_Car> createState() => _Selected_carState();
@@ -42,6 +44,7 @@ class _Selected_carState extends State<Selected_Car> {
   final _customername = TextEditingController();
   final _mobilenumber = TextEditingController();
   final _address = TextEditingController();
+  CarRentalService  carRental=CarRentalService();
 
   @override
   Widget build(BuildContext context) {
@@ -709,11 +712,11 @@ class _Selected_carState extends State<Selected_Car> {
       final mobileNumber = _mobilenumber.text.trim();
       final address = _address.text.trim();
       
-      final selecteCarDetail = selectedCars(image1:imagePaths, pickUpDate: pickup, dropOffDate: dropoff, notes: notes, currentKm: curkm, advanceAmount: adamount, image2: imagePaths, customerName: cutomerName, mobileNumber: mobileNumber, address: address);
-
+      // final selecteCarDetail = selectedCars(image1:imagePaths, pickUpDate: pickup, dropOffDate: dropoff, notes: notes, currentKm: curkm, advanceAmount: adamount, image2: imagePaths, customerName: cutomerName, mobileNumber: mobileNumber, address: address);
+      final carSelected=CarRental(imagex: widget.carRental.imagex, car:widget.carRental.car , brand: widget.carRental.brand, model:widget.carRental.model, fuel:widget.carRental.fuel, seat: widget.carRental.seat, number: widget.carRental.number, insurance: widget.carRental.insurance, pollution: widget.carRental.pollution, amount: widget.carRental.amount,status: true,id:widget.carRental.id);
        print('validation finished');
-
-      await _selectedCarSevice.addDetails(selecteCarDetail);
+   carRental.editDetails(carSelected);
+      // await _selectedCarSevice.addDetails(selecteCarDetail);
 
 print('code finished');
 

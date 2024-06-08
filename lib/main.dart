@@ -1,6 +1,8 @@
+import 'package:car_rental/db_helper/history_service.dart';
 import 'package:car_rental/db_helper/selected_cars_service.dart';
 import 'package:car_rental/db_helper/signup_service.dart';
 import 'package:car_rental/models/carrental.dart';
+import 'package:car_rental/models/history.dart';
 import 'package:car_rental/models/selected_car.dart';
 import 'package:car_rental/models/signup.dart';
 import 'package:car_rental/db_helper/car_rental_service.dart';
@@ -14,9 +16,11 @@ void main() async {
   Hive.registerAdapter(CarRentalAdapter());
   Hive.registerAdapter(SignupAdapter());
   Hive.registerAdapter(selectedCarsAdapter());
+  Hive.registerAdapter(historyOfCarsAdapter());
   await CarRentalService().openBox();
   await SignupService().openBox();
   await selectedCarService().openBox;
+  await historyService().openBox();
 
   runApp(const MyApp());
 }
