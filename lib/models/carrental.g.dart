@@ -29,22 +29,23 @@ class CarRentalAdapter extends TypeAdapter<CarRental> {
       pollution: fields[9] as String,
       amount: fields[10] as String,
       status: fields[11] as bool,
-      dropOffDate: fields[13] as String?,
-      pickUpDate: fields[12] as String?,
-      notes: fields[14] as String?,
-      currentKm: fields[15] as String?,
-      advanceAmount: fields[16] as String?,
-      image2: fields[17] as String?,
-      customerName: fields[18] as String?,
-      mobileNumber: fields[19] as String?,
-      address: fields[20] as String?,
+      image1: fields[12] as String?,
+      dropOffDate: fields[14] as String?,
+      pickUpDate: fields[13] as String?,
+      notes: fields[15] as String?,
+      currentKm: fields[16] as String?,
+      advanceAmount: fields[17] as String?,
+      image2: fields[18] as String?,
+      customerName: fields[19] as String?,
+      mobileNumber: fields[20] as String?,
+      address: fields[21] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, CarRental obj) {
     writer
-      ..writeByte(21)
+      ..writeByte(22)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -70,22 +71,24 @@ class CarRentalAdapter extends TypeAdapter<CarRental> {
       ..writeByte(11)
       ..write(obj.status)
       ..writeByte(12)
-      ..write(obj.pickUpDate)
+      ..write(obj.image1)
       ..writeByte(13)
-      ..write(obj.dropOffDate)
+      ..write(obj.pickUpDate)
       ..writeByte(14)
-      ..write(obj.notes)
+      ..write(obj.dropOffDate)
       ..writeByte(15)
-      ..write(obj.currentKm)
+      ..write(obj.notes)
       ..writeByte(16)
-      ..write(obj.advanceAmount)
+      ..write(obj.currentKm)
       ..writeByte(17)
-      ..write(obj.image2)
+      ..write(obj.advanceAmount)
       ..writeByte(18)
-      ..write(obj.customerName)
+      ..write(obj.image2)
       ..writeByte(19)
-      ..write(obj.mobileNumber)
+      ..write(obj.customerName)
       ..writeByte(20)
+      ..write(obj.mobileNumber)
+      ..writeByte(21)
       ..write(obj.address);
   }
 

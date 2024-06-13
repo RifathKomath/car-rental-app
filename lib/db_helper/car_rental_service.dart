@@ -9,7 +9,6 @@ class CarRentalService {
  static ValueNotifier<List<CarRental>> carListNotifier =
       ValueNotifier<List<CarRental>>([]);
 
-  // ValueNotifier<List<CarRental>> tripslists = ValueNotifier([]);
 
   Future<void> openBox() async {
     carServiceBox = await Hive.openBox<CarRental>('cars');

@@ -7,7 +7,6 @@ import 'package:car_rental/screens/side_bar_Screens/privacy_page.dart';
 import 'package:car_rental/screens/side_bar_Screens/revenue_page.dart';
 import 'package:car_rental/screens/side_bar_screens/terms_page.dart';
 import 'package:flutter/material.dart';
-import 'package:car_rental/models/signup.dart';
 
 class Side_Bar extends StatelessWidget {
   const Side_Bar({super.key});

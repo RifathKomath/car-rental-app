@@ -265,10 +265,10 @@ class _Car_detailsState extends State<Car_Details> {
                         
                         Row(
                           children: [
-                            Text('Amount of the car/day',
+                            Text('Amount of the car',
                                 style: textStyle),
                            SizedBox(
-                              width: 26.5,
+                              width: 59.5,
                             ),
                              Text(
                               ':',
