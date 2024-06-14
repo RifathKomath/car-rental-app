@@ -510,13 +510,11 @@ class _Adding_carsState extends State<Adding_Cars> {
           insurance: insurance,
           pollution: pollution,
           amount: amount,
-          image1: null,
           pickUpDate: null,
           dropOffDate: null,
           notes: null,
           currentKm: null,
           advanceAmount: null,
-          image2: null,
           customerName: null,
           mobileNumber: null,
           address: null

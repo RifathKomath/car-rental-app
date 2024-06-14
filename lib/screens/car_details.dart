@@ -16,14 +16,14 @@ class Car_Details extends StatefulWidget {
 }
 
 class _Car_detailsState extends State<Car_Details> {
-  final CarRentalService _carRentalService = CarRentalService();
+  // final CarRentalService _carRentalService = CarRentalService();
 
   final textStyle = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
   final subTextStyle = TextStyle(fontSize: 16);
 
   @override
   void initState() {
-    _carRentalService.updateValues();
+    // _carRentalService.updateValues();
     super.initState();
   }
 

@@ -34,8 +34,8 @@ class _Home_screenState extends State<Home_Screen> {
   Future<void> _loadDetails() async {
     await _carRentalService.updateValues();
     _list = await _carRentalService.getDetails();
-    _filteredList = _list; // Initialize the filtered list
-    setState(() {});
+    _filteredList =  CarRentalService.carListNotifier.value; // Initialize the filtered list
+ CarRentalService.carListNotifier.notifyListeners(); 
   }
 
   @override

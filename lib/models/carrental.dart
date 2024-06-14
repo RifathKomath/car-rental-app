@@ -41,7 +41,7 @@ class CarRental {
    bool status;
 
     @HiveField(12)
-   String? image1;
+    List<String>? image1;
 
    @HiveField(13)
    String? pickUpDate;
@@ -59,7 +59,7 @@ class CarRental {
    String?  advanceAmount;
 
   @HiveField(18)
-   String? image2;
+   List<String>? image2;
 
     @HiveField(19)
    String?  customerName;

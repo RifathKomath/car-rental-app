@@ -26,7 +26,7 @@ class CarRentalService {
     details.id = await carServiceBox!.add(details);
     carServiceBox?.put(details.id, details);
     // refreshCarList(); // Refresh the list after adding a new car
-    updateValues();
+   await updateValues();
   }
 
   // get details
@@ -51,11 +51,11 @@ Future<void> deleteDetails(int index) async {
     if (carServiceBox == null) {
       await openBox();
     }
-    carServiceBox?.put(value.id, value);
-    var data = carServiceBox?.get(value.id);
+   await carServiceBox?.put(value.id, value);
+    var data =await carServiceBox?.get(value.id);
     print(data?.car);
      // refreshCarList();
-    updateValues();
+   await updateValues();
   }
 
 
@@ -66,7 +66,7 @@ Future<void> deleteDetails(int index) async {
 
   Future<void> updateValues() async {
     if (carServiceBox == null) {
-      openBox();
+     await openBox();
     }
     carListNotifier.value.clear();
     carListNotifier.value.addAll(carServiceBox!.values);

@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'package:car_rental/db_helper/car_rental_service.dart';
 import 'package:car_rental/models/carrental.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class Rented_Car_Details extends StatefulWidget {
   CarRental carRental;
@@ -22,13 +24,8 @@ class _Rented_Car_DetailsState extends State<Rented_Car_Details> {
   final formkey = GlobalKey<FormState>();
 
   @override
-  void initState() {
-    _carRentalService.updateValues();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    print(widget.carRental.image1);
     return DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -63,13 +60,34 @@ class _Rented_Car_DetailsState extends State<Rented_Car_Details> {
                           SizedBox(
                             height: 20,
                           ),
-                          Container(
-                              height: 170,
-                              width: 290,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(color: Colors.black),
-                              )),
+                          Column(
+                            children: [
+                              CarouselSlider(
+                                items: widget.carRental.image1
+                                        ?.map((image) => Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                                image: DecorationImage(
+                                                  image: FileImage(
+                                                    File(image),
+                                                  ),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                              width: 330,
+                                              height: 200,
+                                            ))
+                                        .toList() ??
+                                    [],
+                                options: CarouselOptions(
+                                  height: 200,
+                                  viewportFraction: 1.0,
+                                  enableInfiniteScroll: false,
+                                ),
+                              ),
+                            ],
+                          ),
                           SizedBox(
                             height: 20,
                           ),
@@ -339,7 +357,7 @@ class _Rented_Car_DetailsState extends State<Rented_Car_Details> {
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.only(
-                                            left: 20, top: 10),
+                                             top: 10),
                                         child: Text(
                                           'Notes :',
                                           style: textStyle,
@@ -436,15 +454,32 @@ class _Rented_Car_DetailsState extends State<Rented_Car_Details> {
                       child: Column(
                         children: [
                           SizedBox(
-                            height: 40,
+                            height: 20,
                           ),
-                          Container(
-                              height: 170,
-                              width: 290,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(color: Colors.black),
-                              )),
+                              CarouselSlider(
+                                items: widget.carRental.image2
+                                        ?.map((image) => Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                                image: DecorationImage(
+                                                  image: FileImage(
+                                                    File(image),
+                                                  ),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                              width: 330,
+                                              height: 200,
+                                            ))
+                                        .toList() ??
+                                    [],
+                                options: CarouselOptions(
+                                  height: 200,
+                                  viewportFraction: 1.0,
+                                  enableInfiniteScroll: false,
+                                ),
+                              ),
                           SizedBox(
                             height: 50,
                           ),
@@ -500,23 +535,25 @@ class _Rented_Car_DetailsState extends State<Rented_Car_Details> {
                                     ':',
                                     style: subTextStyle,
                                   ),
-                                  // SizedBox(
-                                  //   width: 10,
-                                  // ),
-                                  TextButton(onPressed: (){
-                                   FlutterPhoneDirectCaller.callNumber('${widget.carRental.mobileNumber}');
-                                  }, child: Text('${widget.carRental.mobileNumber}')),
-                                  
+                                  TextButton(
+                                      onPressed: () {
+                                        FlutterPhoneDirectCaller.callNumber(
+                                            '${widget.carRental.mobileNumber}');
+                                      },
+                                      child: Text(
+                                          '${widget.carRental.mobileNumber}')),
                                 ],
-                                
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(left: 15,right: 15),
-                                child: Text('For calling , tap on the mobile number',style: TextStyle(color: Colors.red),),
+                                padding: const EdgeInsets.only(left: 15, right: 15),
+                                child: Text(
+                                  'For calling , tap on the mobile number',
+                                  style: TextStyle(color: Colors.red),
+                                ),
                               ),
                               Padding(
                                 padding:
-                                    const EdgeInsets.only(left: 15, right: 15,top: 15),
+                                    const EdgeInsets.only(left: 15, right: 15, top: 15),
                                 child: Divider(),
                               ),
                               Row(
@@ -560,6 +597,4 @@ class _Rented_Car_DetailsState extends State<Rented_Car_Details> {
           ),
         ));
   }
-
 }
-

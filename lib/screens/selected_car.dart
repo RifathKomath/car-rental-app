@@ -12,14 +12,13 @@ import 'package:image_picker/image_picker.dart';
 
 class Selected_Car extends StatefulWidget {
   CarRental carRental;
-  Selected_Car({super.key, required this. carRental});
+  Selected_Car({super.key, required this.carRental});
 
   @override
   State<Selected_Car> createState() => _Selected_carState();
 }
 
 class _Selected_carState extends State<Selected_Car> {
-
   bool selecetedCarImg = false;
   List<String> imagePat = [];
   XFile? selectedImage;
@@ -29,8 +28,6 @@ class _Selected_carState extends State<Selected_Car> {
   List<String> imagePaths = [];
   XFile? selectedImages;
   bool hasSelectedImages = false;
-
-  
 
   final _formkey = GlobalKey<FormState>();
 
@@ -44,7 +41,7 @@ class _Selected_carState extends State<Selected_Car> {
   final _customername = TextEditingController();
   final _mobilenumber = TextEditingController();
   final _address = TextEditingController();
-  CarRentalService  carRental=CarRentalService();
+  CarRentalService carRental = CarRentalService();
 
   @override
   Widget build(BuildContext context) {
@@ -57,34 +54,31 @@ class _Selected_carState extends State<Selected_Car> {
               Padding(
                 padding: const EdgeInsets.only(right: 20, top: 10, bottom: 10),
                 child: ElevatedButton(
-                  onPressed: () async{
+                  onPressed: () async {
+                    if (_pickupdate.text.isNotEmpty ||
+                        _dropoffdate.text.isNotEmpty ||
+                        _notes.text.isNotEmpty ||
+                        _currentKm.text.isNotEmpty ||
+                        _advanceamount.text.isNotEmpty ||
+                        _customername.text.isNotEmpty ||
+                        _mobilenumber.text.isNotEmpty ||
+                        _address.text.isNotEmpty) {
+                      print('code started');
+                      validating();
 
-                      if (_pickupdate.text.isNotEmpty ||
-                    _dropoffdate.text.isNotEmpty ||
-                   _notes.text.isNotEmpty ||
-                    _currentKm.text.isNotEmpty ||
-                  _advanceamount.text.isNotEmpty ||
-                    _customername.text.isNotEmpty ||
-                    _mobilenumber.text.isNotEmpty ||
-                 _address.text.isNotEmpty)
+                      print('validator worked');
+                    } else {
+                      _formkey.currentState!.validate();
 
-                   {
-                    print('code started');
-                  validating();
-
-                  print('validator worked');
-                } else {
-                  _formkey.currentState!.validate();
-
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                        backgroundColor: Colors.black,
-                        behavior: SnackBarBehavior.floating,
-                        margin: EdgeInsets.all(10),
-                        content:
-                            Text('Please fill the fields and select an image')),
-                  );
-                }
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                            backgroundColor: Colors.black,
+                            behavior: SnackBarBehavior.floating,
+                            margin: EdgeInsets.all(10),
+                            content: Text(
+                                'Please fill the fields and select an image')),
+                      );
+                    }
                   },
                   child: Text(
                     'Save',
@@ -166,10 +160,11 @@ class _Selected_carState extends State<Selected_Car> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(
                                       width: 150,
-                                    height: 150,
+                                      height: 150,
                                       decoration: BoxDecoration(
                                           border: Border.all(),
-                                          borderRadius: BorderRadius.circular(5)),
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
                                       child: IconButton(
                                         onPressed: () {
                                           addCarImage(context);
@@ -379,10 +374,11 @@ class _Selected_carState extends State<Selected_Car> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(
                                       width: 150,
-                                    height: 150,
+                                      height: 150,
                                       decoration: BoxDecoration(
                                           border: Border.all(),
-                                          borderRadius: BorderRadius.circular(5)),
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
                                       child: IconButton(
                                         onPressed: () {
                                           addProofImage(context);
@@ -587,8 +583,6 @@ class _Selected_carState extends State<Selected_Car> {
   }
 //  car details image picker>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-
-
   // Future<void> validator() async {
   //   if (_formkey.currentState!.validate() && image25 != null) {
   //     final pickUp = _pickupdate.text.trim();
@@ -671,17 +665,13 @@ class _Selected_carState extends State<Selected_Car> {
   Future<void> addCarImage(BuildContext context) async {
     final imagePicker = ImagePicker();
     final pickedImage = await imagePicker.pickMultiImage();
-    if (pickedImage != null) {
-      setState(() {
-        imagePat.clear();
-        for (final multiImg in pickedImage) {
-          if (multiImg != null) {
-            imagePat.add(File(multiImg.path).path);
-          }
-        }
-        selecetedCarImg = imagePat.isNotEmpty;
-      });
-    }
+    setState(() {
+      imagePat.clear();
+      for (final multiImg in pickedImage) {
+        imagePat.add(multiImg.path);
+      }
+      selecetedCarImg = imagePat.isNotEmpty;
+    });
   }
 
   Future<void> addProofImage(BuildContext context) async {
@@ -691,49 +681,71 @@ class _Selected_carState extends State<Selected_Car> {
       setState(() {
         imagePaths.clear();
         for (final multiImges in pickedProofImage) {
-          if (multiImges != null) {
-            imagePaths.add(File(multiImges.path).path);
-          }
+          imagePaths.add(multiImges.path);
         }
         selecetedProofImg = imagePaths.isNotEmpty;
       });
     }
   }
 
-   Future<void> validating() async {
-   
-    if (_formkey.currentState!.validate() ) {
+  Future<void> validating() async {
+    if (_formkey.currentState!.validate()) {
       final pickup = _pickupdate.text.trim();
-      final dropoff =_dropoffdate.text.trim();
+      final dropoff = _dropoffdate.text.trim();
       final notes = _notes.text.trim().toString();
       final curkm = _currentKm.text.trim();
-      final adamount= _advanceamount.text.trim();
+      final adamount = _advanceamount.text.trim();
       final cutomerName = _customername.text.trim().toString();
       final mobileNumber = _mobilenumber.text.trim();
       final address = _address.text.trim();
-      
+
       // final selecteCarDetail = selectedCars(image1:imagePaths, pickUpDate: pickup, dropOffDate: dropoff, notes: notes, currentKm: curkm, advanceAmount: adamount, image2: imagePaths, customerName: cutomerName, mobileNumber: mobileNumber, address: address);
-      final carSelected=CarRental(imagex: widget.carRental.imagex, car:widget.carRental.car , brand: widget.carRental.brand, model:widget.carRental.model, fuel:widget.carRental.fuel, seat: widget.carRental.seat, number: widget.carRental.number, insurance: widget.carRental.insurance, pollution: widget.carRental.pollution, amount: widget.carRental.amount,status: true,id:widget.carRental.id,pickUpDate: pickup,dropOffDate: dropoff,notes: notes,currentKm: curkm,advanceAmount: adamount,customerName: cutomerName,mobileNumber: mobileNumber,address: address);
-       print('validation finished');
-   carRental.editDetails(carSelected);
+      final carSelected = CarRental(
+          imagex: widget.carRental.imagex,
+          car: widget.carRental.car,
+          brand: widget.carRental.brand,
+          model: widget.carRental.model,
+          fuel: widget.carRental.fuel,
+          seat: widget.carRental.seat,
+          number: widget.carRental.number,
+          insurance: widget.carRental.insurance,
+          pollution: widget.carRental.pollution,
+          amount: widget.carRental.amount,
+          status: true,
+          id: widget.carRental.id,
+          pickUpDate: pickup,
+          dropOffDate: dropoff,
+          notes: notes,
+          currentKm: curkm,
+          advanceAmount: adamount,
+          customerName: cutomerName,
+          mobileNumber: mobileNumber,
+          address: address,
+          image1: imagePat,
+          image2: imagePaths);
+      print('validation finished');
+      print(carSelected.image1);
+      await carRental.editDetails(carSelected);
       // await _selectedCarSevice.addDetails(selecteCarDetail);
 
-print('code finished');
+      print('code finished');
 
       imagePaths.clear();
-     imagePat.clear();
+      imagePat.clear();
       _pickupdate.clear();
-     _dropoffdate.clear();
-     _notes.clear();
+      _dropoffdate.clear();
+      _notes.clear();
       _currentKm.clear();
       _advanceamount.clear();
       _customername.clear();
       _mobilenumber.clear();
       _address.clear();
-      
-    
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) =>Bottom_Navigation(currentPage: 2,)));
+      print('object');
+
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => Bottom_Navigation(
+                currentPage: 2,
+              )));
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

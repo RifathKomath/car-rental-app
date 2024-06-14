@@ -8,7 +8,6 @@ import 'package:car_rental/screens/rented_cars_details.dart';
 import 'package:flutter/material.dart';
 
 class Rented_Cars extends StatefulWidget {
- 
   Rented_Cars({Key? key});
 
   @override
@@ -19,12 +18,8 @@ class _Rented_CarsState extends State<Rented_Cars> {
   late TextEditingController searchController;
   final CarRentalService _carRentalService = CarRentalService();
 
-  
-  
-
   List<CarRental> _list = [];
   List<CarRental> _filteredList = [];
-
 
   final style = TextStyle(
     fontSize: 14,
@@ -34,15 +29,17 @@ class _Rented_CarsState extends State<Rented_Cars> {
   void initState() {
     super.initState();
     searchController = TextEditingController();
-    _loadDetails();
+    // _loadDetails();
   }
-
+  String search='';
   Future<void> _loadDetails() async {
-    _carRentalService.updateValues();
+    await _carRentalService.updateValues();
     _list = await _carRentalService.getDetails();
-    _filteredList = _list; // Initialize the filtered list
-
-    setState(() {});
+  
+    _filteredList = CarRentalService.carListNotifier.value;
+    print(_filteredList[0].image1);
+    CarRentalService.carListNotifier
+        .notifyListeners();
   }
 
   @override
@@ -65,7 +62,10 @@ class _Rented_CarsState extends State<Rented_Cars> {
                       child: TextFormField(
                         controller: searchController,
                         onChanged: (value) {
+                          search=value;
                           _filterList(value);
+                          setState(() {
+                          });
                         },
                         style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
@@ -111,8 +111,10 @@ class _Rented_CarsState extends State<Rented_Cars> {
         child: ValueListenableBuilder(
           valueListenable: CarRentalService.carListNotifier,
           builder: (context, value, child) {
-            List<CarRental> listToShow =_filteredList.where((element) => element.status).toList();
-               
+            _filterList(search);
+            List<CarRental> listToShow =
+                _filteredList.where((element) => element.status).toList();
+
             return listToShow.isEmpty
                 ? Center(
                     child: Text(
@@ -124,7 +126,9 @@ class _Rented_CarsState extends State<Rented_Cars> {
                         onTap: () {
                           Navigator.of(context)
                               .push(MaterialPageRoute(
-                                  builder: (context) => Rented_Car_Details(carRental: listToShow[index],)))
+                                  builder: (context) => Rented_Car_Details(
+                                        carRental: listToShow[index],
+                                      )))
                               .then((value) => setState(() {}));
                         },
                         child: Container(
@@ -184,7 +188,6 @@ class _Rented_CarsState extends State<Rented_Cars> {
                                           style: TextStyle(color: Colors.red),
                                           textAlign: TextAlign.start,
                                         ),
-                                       
                                       ],
                                     ),
                                   ),
@@ -246,7 +249,7 @@ class _Rented_CarsState extends State<Rented_Cars> {
                   SizedBox(width: 15),
                   ElevatedButton(
                     onPressed: () async {
-                       car.status=false;
+                      car.status = false;
                       await _carRentalService.editDetails(car);
                       _loadDetails();
                       Navigator.pop(context); // Close the dialog after deletion
@@ -272,17 +275,18 @@ class _Rented_CarsState extends State<Rented_Cars> {
         });
   }
 
-    void _filterList(String value) {
+  void _filterList(String value) {
     if (value.isEmpty) {
-      _filteredList = _list;
+      _filteredList = CarRentalService.carListNotifier.value;
     } else {
-      _filteredList = _list
+      _filteredList = CarRentalService.carListNotifier.value
           .where((car) =>
               car.car.toLowerCase().contains(value.toLowerCase()) ||
               car.brand.toLowerCase().contains(value.toLowerCase()) ||
               car.model.toLowerCase().contains(value.toLowerCase()))
           .toList();
     }
-    setState(() {});
+    print(_filteredList[0].image1);
+    // setState(() {});
   }
 }
