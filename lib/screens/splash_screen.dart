@@ -1,6 +1,6 @@
 import 'package:car_rental/screens/login_page.dart';
 import 'package:flutter/material.dart';
-
+import 'package:lottie/lottie.dart';
 
 class Splash_Screen extends StatefulWidget {
   const Splash_Screen({super.key});

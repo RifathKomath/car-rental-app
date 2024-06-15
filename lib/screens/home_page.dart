@@ -32,10 +32,24 @@ class _Home_screenState extends State<Home_Screen> {
   }
 
   Future<void> _loadDetails() async {
-    await _carRentalService.updateValues();
+    _carRentalService.updateValues();
     _list = await _carRentalService.getDetails();
     _filteredList =  CarRentalService.carListNotifier.value; // Initialize the filtered list
  CarRentalService.carListNotifier.notifyListeners(); 
+  }
+
+  void _filterList(String value) {
+    if (value.isEmpty) {
+      _filteredList = _list;
+    } else {
+      _filteredList = _list
+          .where((car) =>
+              car.car.toLowerCase().contains(value.toLowerCase()) ||
+              car.brand.toLowerCase().contains(value.toLowerCase()) ||
+              car.model.toLowerCase().contains(value.toLowerCase()))
+          .toList();
+    }
+    setState(() {});
   }
 
   @override
@@ -136,7 +150,8 @@ class _Home_screenState extends State<Home_Screen> {
         child: ValueListenableBuilder(
           valueListenable: CarRentalService.carListNotifier,
           builder: (context, value, child) {
-            List<CarRental> listToShow = _filteredList.where((element) => !element.status).toList();
+            // final listToShow = searchController.text.isEmpty ? value : _filteredList;
+             List<CarRental>listToShow=value.where((element) => !element.status).toList();
             return listToShow.isEmpty
                 ? Center(
                     child: Text(
@@ -151,7 +166,7 @@ class _Home_screenState extends State<Home_Screen> {
                                   builder: (context) => Car_Details(
                                         carRental: listToShow[index],
                                       )))
-                              .then((value) => _loadDetails());
+                              .then((value) => setState(() {}));
                         },
                         child: Container(
                           child: Card(
@@ -290,19 +305,4 @@ class _Home_screenState extends State<Home_Screen> {
           );
         });
   }
-
-  void _filterList(String value) {
-    if (value.isEmpty) {
-      _filteredList = _list;
-    } else {
-      _filteredList = _list
-          .where((car) =>
-              car.car.toLowerCase().contains(value.toLowerCase()) ||
-              car.brand.toLowerCase().contains(value.toLowerCase()) ||
-              car.model.toLowerCase().contains(value.toLowerCase()))
-          .toList();
-    }
-    setState(() {});
-  }
-
 }

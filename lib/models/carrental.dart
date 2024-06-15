@@ -40,33 +40,33 @@ class CarRental {
   @HiveField(11)
    bool status;
 
-    @HiveField(12)
-    List<String>? image1;
 
-   @HiveField(13)
+   @HiveField(12)
    String? pickUpDate;
 
-  @HiveField(14)
+  @HiveField(13)
    String? dropOffDate;
 
-   @HiveField(15)
+   @HiveField(14)
    String?  notes;
 
-  @HiveField(16)
+  @HiveField(15)
    String? currentKm;
 
-    @HiveField(17)
+    @HiveField(16)
    String?  advanceAmount;
 
-  @HiveField(18)
-   List<String>? image2;
 
-    @HiveField(19)
+  @HiveField(17)
+   String? image2;
+
+
+    @HiveField(18)
    String?  customerName;
 
-  @HiveField(20)
+  @HiveField(19)
    String? mobileNumber;
-    @HiveField(21)
+    @HiveField(20)
    String? address;
 
 
@@ -84,7 +84,6 @@ class CarRental {
     required this.pollution,
     required this.amount,
     this.status=false,
-    this.image1,
     this.dropOffDate,
     this.pickUpDate,
     this.notes,

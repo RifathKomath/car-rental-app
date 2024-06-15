@@ -48,7 +48,7 @@ class _Filter_PageState extends State<Filter_Page> {
         iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Colors.blueGrey[900],
         title: Text(
-          'Apply filter',
+          'Filter',
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,

@@ -42,6 +42,20 @@ class _Rented_CarsState extends State<Rented_Cars> {
         .notifyListeners();
   }
 
+  void _filterList(String value) {
+    if (value.isEmpty) {
+      _filteredList = _list;
+    } else {
+      _filteredList = _list
+          .where((car) =>
+              car.car.toLowerCase().contains(value.toLowerCase()) ||
+              car.brand.toLowerCase().contains(value.toLowerCase()) ||
+              car.model.toLowerCase().contains(value.toLowerCase()))
+          .toList();
+    }
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,9 +125,8 @@ class _Rented_CarsState extends State<Rented_Cars> {
         child: ValueListenableBuilder(
           valueListenable: CarRentalService.carListNotifier,
           builder: (context, value, child) {
-            _filterList(search);
-            List<CarRental> listToShow =
-                _filteredList.where((element) => element.status).toList();
+            List<CarRental> listToShow =value.where((element) => element.status).toList();
+               
 
             return listToShow.isEmpty
                 ? Center(
@@ -126,9 +139,9 @@ class _Rented_CarsState extends State<Rented_Cars> {
                         onTap: () {
                           Navigator.of(context)
                               .push(MaterialPageRoute(
-                                  builder: (context) => Rented_Car_Details(
-                                        carRental: listToShow[index],
-                                      )))
+
+                                  builder: (context) => Rented_Car_Details()))
+
                               .then((value) => setState(() {}));
                         },
                         child: Container(
@@ -183,11 +196,7 @@ class _Rented_CarsState extends State<Rented_Cars> {
                                           style: style,
                                           textAlign: TextAlign.start,
                                         ),
-                                        Text(
-                                          "Drop off: ${listToShow[index].dropOffDate}",
-                                          style: TextStyle(color: Colors.red),
-                                          textAlign: TextAlign.start,
-                                        ),
+
                                       ],
                                     ),
                                   ),
@@ -275,18 +284,5 @@ class _Rented_CarsState extends State<Rented_Cars> {
         });
   }
 
-  void _filterList(String value) {
-    if (value.isEmpty) {
-      _filteredList = CarRentalService.carListNotifier.value;
-    } else {
-      _filteredList = CarRentalService.carListNotifier.value
-          .where((car) =>
-              car.car.toLowerCase().contains(value.toLowerCase()) ||
-              car.brand.toLowerCase().contains(value.toLowerCase()) ||
-              car.model.toLowerCase().contains(value.toLowerCase()))
-          .toList();
-    }
-    print(_filteredList[0].image1);
-    // setState(() {});
-  }
+
 }

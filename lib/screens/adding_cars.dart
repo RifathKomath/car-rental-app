@@ -509,18 +509,7 @@ class _Adding_carsState extends State<Adding_Cars> {
           number: reg_num,
           insurance: insurance,
           pollution: pollution,
-          amount: amount,
-          pickUpDate: null,
-          dropOffDate: null,
-          notes: null,
-          currentKm: null,
-          advanceAmount: null,
-          customerName: null,
-          mobileNumber: null,
-          address: null
-          
-          
-      );
+          amount: amount);
 
       await _carRentalSevice.addCar(newcar);
 
