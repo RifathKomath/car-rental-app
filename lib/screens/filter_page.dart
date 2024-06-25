@@ -4,14 +4,14 @@ import 'package:car_rental/models/carrental.dart';
 import 'package:car_rental/screens/car_details.dart';
 import 'package:flutter/material.dart';
 
-class Filter_Page extends StatefulWidget {
-  const Filter_Page({Key? key});
+class FilterPage extends StatefulWidget {
+  const FilterPage({Key? key});
 
   @override
-  State<Filter_Page> createState() => _Filter_PageState();
+  State<FilterPage> createState() => _Filter_PageState();
 }
 
-class _Filter_PageState extends State<Filter_Page> {
+class _Filter_PageState extends State<FilterPage> {
   final CarRentalService _carRentalService = CarRentalService();
   List<CarRental> _list = [];
   String? _selectedFuelType;
@@ -122,6 +122,7 @@ class _Filter_PageState extends State<Filter_Page> {
             ),
             Expanded(
               child: _list.isEmpty
+
                   ? Center(
                       child: Text("No available cars"),
                     )
@@ -187,7 +188,7 @@ class _Filter_PageState extends State<Filter_Page> {
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) =>
-                                        Car_Details(carRental: _list[index])));
+                                        CarDetails(carRental: _list[index])));
                               },
                             ),
                           ),

@@ -6,24 +6,24 @@ import 'package:car_rental/screens/editing_page.dart';
 import 'package:car_rental/screens/selected_car.dart';
 import 'package:flutter/material.dart';
 
-class Car_Details extends StatefulWidget {
+class CarDetails extends StatefulWidget {
   CarRental carRental;
 
-  Car_Details({Key? key, required this.carRental}) : super(key: key);
+  CarDetails({Key? key, required this.carRental}) : super(key: key);
 
   @override
-  State<Car_Details> createState() => _Car_detailsState();
+  State<CarDetails> createState() => _Car_detailsState();
 }
 
-class _Car_detailsState extends State<Car_Details> {
-  // final CarRentalService _carRentalService = CarRentalService();
+class _Car_detailsState extends State<CarDetails> {
+  final CarRentalService _carRentalService = CarRentalService();
 
   final textStyle = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
   final subTextStyle = TextStyle(fontSize: 16);
 
   @override
   void initState() {
-    // _carRentalService.updateValues();
+    _carRentalService.updateValues();
     super.initState();
   }
 
@@ -265,10 +265,10 @@ class _Car_detailsState extends State<Car_Details> {
                         
                         Row(
                           children: [
-                            Text('Amount of the car/day',
+                            Text('Amount of the car',
                                 style: textStyle),
                            SizedBox(
-                              width: 26.5,
+                              width: 59.5,
                             ),
                              Text(
                               ':',
@@ -318,7 +318,7 @@ class _Car_detailsState extends State<Car_Details> {
                           child: ElevatedButton(
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => Editing_Page(
+                                  builder: (context) => EditingPage(
                                       carRental: widget.carRental)));
                             },
                             child: Text(
@@ -344,7 +344,7 @@ class _Car_detailsState extends State<Car_Details> {
                           child: ElevatedButton(
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => Selected_Car(
+                                  builder: (context) => SelectedCar(
                                       carRental: widget.carRental)));
                             },
                             child: Text(
@@ -418,7 +418,7 @@ class _Car_detailsState extends State<Car_Details> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Bottom_Navigation()));
+                              builder: (context) => BottomNavigation()));
                     },
                     child: Text('OK', style: TextStyle(color: Colors.white)),
                     style: ButtonStyle(

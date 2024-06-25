@@ -1,25 +1,24 @@
 import 'dart:io';
 import 'package:car_rental/db_helper/car_rental_service.dart';
-import 'package:car_rental/db_helper/selected_cars_service.dart';
 import 'package:car_rental/models/carrental.dart';
-import 'package:car_rental/models/selected_car.dart';
+import 'package:car_rental/screens/due_cars.dart';
 import 'package:car_rental/screens/filter_page.dart';
 import 'package:car_rental/screens/rented_cars_details.dart';
+import 'package:car_rental/screens/side_bar.dart';
 import 'package:flutter/material.dart';
 
-class Rented_Cars extends StatefulWidget {
-  Rented_Cars({Key? key});
+class RentedCars extends StatefulWidget {
+  RentedCars({Key? key});
 
   @override
-  State<Rented_Cars> createState() => _Rented_CarsState();
+  State<RentedCars> createState() => _Rented_CarsState();
 }
 
-class _Rented_CarsState extends State<Rented_Cars> {
+class _Rented_CarsState extends State<RentedCars> {
   late TextEditingController searchController;
   final CarRentalService _carRentalService = CarRentalService();
 
   List<CarRental> _list = [];
-  List<CarRental> _filteredList = [];
 
   final style = TextStyle(
     fontSize: 14,
@@ -29,30 +28,12 @@ class _Rented_CarsState extends State<Rented_Cars> {
   void initState() {
     super.initState();
     searchController = TextEditingController();
-    // _loadDetails();
+    _loadDetails();
   }
-  String search='';
+
   Future<void> _loadDetails() async {
     await _carRentalService.updateValues();
     _list = await _carRentalService.getDetails();
-  
-    _filteredList = CarRentalService.carListNotifier.value;
-    print(_filteredList[0].image1);
-    CarRentalService.carListNotifier
-        .notifyListeners();
-  }
-
-  void _filterList(String value) {
-    if (value.isEmpty) {
-      _filteredList = _list;
-    } else {
-      _filteredList = _list
-          .where((car) =>
-              car.car.toLowerCase().contains(value.toLowerCase()) ||
-              car.brand.toLowerCase().contains(value.toLowerCase()) ||
-              car.model.toLowerCase().contains(value.toLowerCase()))
-          .toList();
-    }
     setState(() {});
   }
 
@@ -60,64 +41,55 @@ class _Rented_CarsState extends State<Rented_Cars> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(100),
-          child: AppBar(
-            backgroundColor: Colors.blueGrey[900],
-            iconTheme: IconThemeData(color: Colors.white),
-            bottom: PreferredSize(
-              preferredSize: Size.fromHeight(140),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      height: 45,
+        preferredSize: Size.fromHeight(100),
+        child: AppBar(
+          backgroundColor: Colors.blueGrey[900],
+          automaticallyImplyLeading: false,
+          iconTheme: IconThemeData(color: Colors.white),
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(140),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
                       width: 250,
-                      child: TextFormField(
-                        controller: searchController,
-                        onChanged: (value) {
-                          search=value;
-                          _filterList(value);
-                          setState(() {
-                          });
-                        },
-                        style: TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          labelText: 'Search',
-                          labelStyle: TextStyle(color: Colors.white),
-                          suffixIcon: Icon(Icons.search, color: Colors.white),
-                          border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15))),
-                        ),
+                      height: 41,
+                      child: SearchBar(
+                        shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10))),
+                            leading: Icon(Icons.search,color: Colors.white,),
+                            hintText: 'Search',
+                            controller: searchController,
+                            onChanged: (value) => _carRentalService.searchCar(value),
+                            backgroundColor: MaterialStatePropertyAll(Colors.white24),
+                            textStyle: MaterialStatePropertyAll(TextStyle(color: Colors.white)),
                       ),
                     ),
-                    SizedBox(
-                      width: 15,
+                  ),
+                 
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => DueCars()));
+                    },
+                    child: Icon(
+                      Icons.car_rental,
+                      color: Colors.white,
                     ),
-                    ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => Filter_Page()));
-                        },
-                        child: Icon(
-                          Icons.filter_alt_outlined,
-                          color: Colors.white,
-                        ),
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStatePropertyAll(Colors.white24),
-                            shape: MaterialStatePropertyAll(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)))))
-                  ],
-                ),
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll(Colors.white24),
+                        shape: MaterialStatePropertyAll(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10))))),
+                ],
               ),
             ),
-          )),
-
-      // drawer>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
+          ),
+        )),
       body: Container(
         height: double.infinity,
         width: double.infinity,
@@ -125,24 +97,19 @@ class _Rented_CarsState extends State<Rented_Cars> {
         child: ValueListenableBuilder(
           valueListenable: CarRentalService.carListNotifier,
           builder: (context, value, child) {
-            List<CarRental> listToShow =value.where((element) => element.status).toList();
-               
-
+           final listToShow = value.where((element) => element.status).toList();
             return listToShow.isEmpty
                 ? Center(
-                    child: Text(
-                    "No available cars",
-                  ))
+                    child: Text("No available cars"),
+                  )
                 : ListView.builder(
                     itemCount: listToShow.length,
                     itemBuilder: (context, index) => GestureDetector(
                         onTap: () {
                           Navigator.of(context)
                               .push(MaterialPageRoute(
-
-                                  builder: (context) => Rented_Car_Details()))
-
-                              .then((value) => setState(() {}));
+                                  builder: (context) => RentedCarDetails(carRental: listToShow[index])))
+                              .then((value) => _loadDetails());
                         },
                         child: Container(
                           child: Card(
@@ -178,8 +145,7 @@ class _Rented_CarsState extends State<Rented_Cars> {
                                   ),
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           "Name: ${listToShow[index].car}",
@@ -196,14 +162,18 @@ class _Rented_CarsState extends State<Rented_Cars> {
                                           style: style,
                                           textAlign: TextAlign.start,
                                         ),
-
+                                        Text(
+                                          "Drop off: ${listToShow[index].dropOffDate}",
+                                         style: TextStyle(color: Colors.red),
+                                          textAlign: TextAlign.start,
+                                        ),
                                       ],
                                     ),
                                   ),
                                   Column(
                                     children: [
                                       IconButton(
-                                          onPressed: () async {
+                                         onPressed: () async {
                                             deleteOption(listToShow[index]);
                                           },
                                           icon: Icon(
@@ -230,8 +200,8 @@ class _Rented_CarsState extends State<Rented_Cars> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Remove from rented list !'),
-            content: Text('Are you sure this car returned'),
+            title: Text('Delete !'),
+            content: Text('Are you sure want to delete this car from the list'),
             actions: [
               Row(
                 children: [
@@ -257,7 +227,7 @@ class _Rented_CarsState extends State<Rented_Cars> {
                   ),
                   SizedBox(width: 15),
                   ElevatedButton(
-                    onPressed: () async {
+                     onPressed: () async {
                       car.status = false;
                       await _carRentalService.editDetails(car);
                       _loadDetails();
@@ -283,6 +253,5 @@ class _Rented_CarsState extends State<Rented_Cars> {
           );
         });
   }
-
 
 }

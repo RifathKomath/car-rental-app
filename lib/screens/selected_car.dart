@@ -2,23 +2,21 @@ import 'dart:io';
 import 'package:car_rental/db_helper/car_rental_service.dart';
 import 'package:car_rental/db_helper/selected_cars_service.dart';
 import 'package:car_rental/models/carrental.dart';
-import 'package:car_rental/models/selected_car.dart';
 import 'package:car_rental/screens/bottom_navigation.dart';
-import 'package:car_rental/screens/rented_cars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 
-class Selected_Car extends StatefulWidget {
+
+class SelectedCar extends StatefulWidget {
   CarRental carRental;
-  Selected_Car({super.key, required this.carRental});
+  SelectedCar({super.key, required this.carRental});
 
   @override
-  State<Selected_Car> createState() => _Selected_carState();
+  State<SelectedCar> createState() => _Selected_carState();
 }
 
-class _Selected_carState extends State<Selected_Car> {
+class _Selected_carState extends State<SelectedCar> {
   bool selecetedCarImg = false;
   List<String> imagePat = [];
   XFile? selectedImage;
@@ -55,13 +53,13 @@ class _Selected_carState extends State<Selected_Car> {
                 padding: const EdgeInsets.only(right: 20, top: 10, bottom: 10),
                 child: ElevatedButton(
                   onPressed: () async {
-                    if (_pickupdate.text.isNotEmpty ||
-                        _dropoffdate.text.isNotEmpty ||
-                        _notes.text.isNotEmpty ||
-                        _currentKm.text.isNotEmpty ||
-                        _advanceamount.text.isNotEmpty ||
-                        _customername.text.isNotEmpty ||
-                        _mobilenumber.text.isNotEmpty ||
+                    if (_pickupdate.text.isNotEmpty &&
+                        _dropoffdate.text.isNotEmpty &&
+                        _notes.text.isNotEmpty &&
+                        _currentKm.text.isNotEmpty &&
+                        _advanceamount.text.isNotEmpty &&
+                        _customername.text.isNotEmpty &&
+                        _mobilenumber.text.isNotEmpty &&
                         _address.text.isNotEmpty) {
                       print('code started');
                       validating();
@@ -206,6 +204,7 @@ class _Selected_carState extends State<Selected_Car> {
                                 onTap: () {
                                   _selectedpickupDate();
                                 },
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                               ),
                             ),
                             SizedBox(
@@ -234,6 +233,7 @@ class _Selected_carState extends State<Selected_Car> {
                                 onTap: () {
                                   _selecteddropoffDate();
                                 },
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                               ),
                             ),
                             SizedBox(
@@ -261,6 +261,7 @@ class _Selected_carState extends State<Selected_Car> {
                                     return null;
                                   }
                                 },
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                               ),
                             ),
                             SizedBox(
@@ -293,6 +294,7 @@ class _Selected_carState extends State<Selected_Car> {
                                     return null;
                                   }
                                 },
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                               ),
                             ),
                             SizedBox(
@@ -324,6 +326,7 @@ class _Selected_carState extends State<Selected_Car> {
                                   FilteringTextInputFormatter.deny(
                                       RegExp(r'\s')),
                                 ],
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                               ),
                             ),
                             SizedBox(
@@ -430,6 +433,7 @@ class _Selected_carState extends State<Selected_Car> {
                                     return null;
                                   }
                                 },
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                               ),
                             ),
 
@@ -465,6 +469,7 @@ class _Selected_carState extends State<Selected_Car> {
                                   FilteringTextInputFormatter.deny(
                                       RegExp(r'\s')),
                                 ],
+                                 autovalidateMode: AutovalidateMode.onUserInteraction,
                               ),
                             ),
 
@@ -494,6 +499,7 @@ class _Selected_carState extends State<Selected_Car> {
                                     return null;
                                   }
                                 },
+                                 autovalidateMode: AutovalidateMode.onUserInteraction,
                               ),
                             ),
 
@@ -677,16 +683,14 @@ class _Selected_carState extends State<Selected_Car> {
   Future<void> addProofImage(BuildContext context) async {
     final imagePick = ImagePicker();
     final pickedProofImage = await imagePick.pickMultiImage();
-    if (pickedProofImage != null) {
-      setState(() {
-        imagePaths.clear();
-        for (final multiImges in pickedProofImage) {
-          imagePaths.add(multiImges.path);
-        }
-        selecetedProofImg = imagePaths.isNotEmpty;
-      });
+    setState(() {
+      imagePaths.clear();
+      for (final multiImges in pickedProofImage) {
+        imagePaths.add(multiImges.path);
+      }
+      selecetedProofImg = imagePaths.isNotEmpty;
+    });
     }
-  }
 
   Future<void> validating() async {
     if (_formkey.currentState!.validate()) {
@@ -694,18 +698,40 @@ class _Selected_carState extends State<Selected_Car> {
       final dropoff = _dropoffdate.text.trim();
       final notes = _notes.text.trim().toString();
       final curkm = _currentKm.text.trim();
-
-      final adamount= _advanceamount.text.trim();
-      final cutomerName = _customername.text.trim().toUpperCase().toString();
-
+      final adamount = _advanceamount.text.trim();
+      final cutomerName = _customername.text.trim().toString();
       final mobileNumber = _mobilenumber.text.trim();
       final address = _address.text.trim();
 
       // final selecteCarDetail = selectedCars(image1:imagePaths, pickUpDate: pickup, dropOffDate: dropoff, notes: notes, currentKm: curkm, advanceAmount: adamount, image2: imagePaths, customerName: cutomerName, mobileNumber: mobileNumber, address: address);
 
-      final carSelected=CarRental(imagex: widget.carRental.imagex, car:widget.carRental.car , brand: widget.carRental.brand, model:widget.carRental.model, fuel:widget.carRental.fuel, seat: widget.carRental.seat, number: widget.carRental.number, insurance: widget.carRental.insurance, pollution: widget.carRental.pollution, amount: widget.carRental.amount,status: true,id:widget.carRental.id);
-       print('validation finished');
-   carRental.editDetails(carSelected);
+      final carSelected = CarRental(
+        imagex: widget.carRental.imagex,
+        car: widget.carRental.car,
+        brand: widget.carRental.brand,
+        model: widget.carRental.model,
+        fuel: widget.carRental.fuel,
+        seat: widget.carRental.seat,
+        number: widget.carRental.number,
+        insurance: widget.carRental.insurance,
+        pollution: widget.carRental.pollution,
+        amount: widget.carRental.amount,
+        status: true,
+        id: widget.carRental.id,
+        pickUpDate: pickup,
+        dropOffDate: dropoff,
+        notes: notes,
+        currentKm: curkm,
+        advanceAmount: adamount,
+        customerName: cutomerName,
+        mobileNumber: mobileNumber,
+        address: address,
+        image1: imagePat,
+        image2: imagePaths,
+      
+      );
+      print('validation finished');
+      carRental.editDetails(carSelected);
 
       // await _selectedCarSevice.addDetails(selecteCarDetail);
 
@@ -724,7 +750,7 @@ class _Selected_carState extends State<Selected_Car> {
       print('object');
 
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => Bottom_Navigation(
+          builder: (context) => BottomNavigation(
                 currentPage: 2,
               )));
 

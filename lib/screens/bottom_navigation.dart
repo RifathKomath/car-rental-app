@@ -5,18 +5,18 @@ import 'package:car_rental/screens/home_page.dart';
 import 'package:car_rental/screens/rented_cars.dart';
 import 'package:flutter/material.dart';
 
-class Bottom_Navigation extends StatefulWidget {
+class BottomNavigation extends StatefulWidget {
   int currentPage;
-   Bottom_Navigation({super.key,this.currentPage=0});
+   BottomNavigation({super.key,this.currentPage=0});
 
   @override
-  State<Bottom_Navigation> createState() => _Bottom_navigationState();
+  State<BottomNavigation> createState() => _Bottom_navigationState();
 }
 
-class _Bottom_navigationState extends State<Bottom_Navigation> {
+class _Bottom_navigationState extends State<BottomNavigation> {
   int _selectedIndex = 0;
 
-  final _Screen = [Home_Screen(), Adding_Cars(), Rented_Cars()];
+  final _Screen = [HomeScreen(), AddingCars(), RentedCars()];
   @override
   void initState() {
     // TODO: implement initState
@@ -42,16 +42,16 @@ class _Bottom_navigationState extends State<Bottom_Navigation> {
           items: [
             BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.home,
+                  Icons.directions_car,
                   color: Colors.white,
                   size: 35,
                 ),
-                label: 'Home'),
+                label: 'Available cars'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.add, color: Colors.white, size: 35),
                 label: 'Add New Car'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.directions_car_outlined,
+                icon: Icon(Icons.car_rental_rounded,
                     color: Colors.white, size: 35),
                 label: 'Rented cars')
           ],

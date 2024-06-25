@@ -1,16 +1,23 @@
 import 'package:car_rental/db_helper/signup_service.dart';
-import 'package:car_rental/screens/side_bar_Screens/about_page.dart';
+// import 'package:car_rental/models/carrental.dart';
+// import 'package:car_rental/screens/side_bar_Screens/about_page.dart';
 import 'package:car_rental/screens/login_page.dart';
-import 'package:car_rental/screens/side_bar_Screens/contact_page.dart';
-import 'package:car_rental/screens/side_bar_Screens/history_page.dart';
-import 'package:car_rental/screens/side_bar_Screens/privacy_page.dart';
-import 'package:car_rental/screens/side_bar_Screens/revenue_page.dart';
+// import 'package:car_rental/screens/side_bar_Screens/contact_page.dart';
+// import 'package:car_rental/screens/side_bar_Screens/history_page.dart';
+// import 'package:car_rental/screens/side_bar_Screens/privacy_page.dart';
+// import 'package:car_rental/screens/side_bar_Screens/revenue_page.dart';
+import 'package:car_rental/screens/side_bar_screens/about_page.dart';
+import 'package:car_rental/screens/side_bar_screens/contact_page.dart';
+import 'package:car_rental/screens/side_bar_screens/history_page.dart';
+import 'package:car_rental/screens/side_bar_screens/privacy_page.dart';
+import 'package:car_rental/screens/side_bar_screens/revenue_page.dart';
 import 'package:car_rental/screens/side_bar_screens/terms_page.dart';
 import 'package:flutter/material.dart';
-import 'package:car_rental/models/signup.dart';
+// import 'package:car_rental/models/signup.dart';
 
-class Side_Bar extends StatelessWidget {
-  const Side_Bar({super.key});
+class SideBar extends StatelessWidget {
+
+   SideBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +44,7 @@ class Side_Bar extends StatelessWidget {
             leading: Icon(Icons.note),
             onTap: () {
               Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => About_Page()));
+                  .push(MaterialPageRoute(builder: (context) => AboutPage()));
             },
           ),
           ListTile(
@@ -46,7 +53,7 @@ class Side_Bar extends StatelessWidget {
             splashColor: Colors.black12,
             onTap: () {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => History_Page()));
+                  MaterialPageRoute(builder: (context) => HistoryPage()));
             },
           ),
           ListTile(
@@ -55,7 +62,7 @@ class Side_Bar extends StatelessWidget {
             leading: Icon(Icons.currency_rupee_outlined),
             onTap: () {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => Revenue_Page()));
+                  MaterialPageRoute(builder: (context) => RevenuePage()));
             },
           ),
           ListTile(
@@ -64,7 +71,7 @@ class Side_Bar extends StatelessWidget {
             leading: Icon(Icons.privacy_tip_outlined),
             onTap: () {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => Privacy_Page()));
+                  MaterialPageRoute(builder: (context) =>PrivacyPage()));
             },
           ),
           ListTile(
@@ -73,7 +80,7 @@ class Side_Bar extends StatelessWidget {
             splashColor: Colors.black12,
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => Terms_Condtions_Screen()));
+                  builder: (context) => TermsCondtionsScreen()));
             },
           ),
           ListTile(
@@ -82,7 +89,7 @@ class Side_Bar extends StatelessWidget {
             leading: Icon(Icons.call),
             onTap: () {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => Contact_Page()));
+                  MaterialPageRoute(builder: (context) => ContactPage()));
             },
           ),
           ListTile(
@@ -118,7 +125,7 @@ class Side_Bar extends StatelessWidget {
                             currentUserNotifier.value = null; // Reset current user
                             Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
-                                    builder: (context) => Login_Screen()),
+                                    builder: (context) => LoginScreen()),
                                 (route) => false);
                           },
                           child: Text('OK', style: TextStyle(color: Colors.white)),

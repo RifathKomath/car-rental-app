@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-class Signup_Screen extends StatefulWidget {
-  const Signup_Screen({super.key});
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  State<Signup_Screen> createState() => _Signup_screenState();
+  State<SignupScreen> createState() => _Signup_screenState();
 }
 
-class _Signup_screenState extends State<Signup_Screen> {
+class _Signup_screenState extends State<SignupScreen> {
   bool _passwordsecured = true;
   bool _passwordunsecured = true;
 
@@ -208,7 +208,7 @@ class _Signup_screenState extends State<Signup_Screen> {
                               );
                               Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
-                                    builder: (context) => Login_Screen()),
+                                    builder: (context) => LoginScreen()),
                                 (route) => false,
                               );
                             }
@@ -238,7 +238,7 @@ class _Signup_screenState extends State<Signup_Screen> {
                               onPressed: () {
                                 Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
-                                        builder: (context) => Login_Screen()));
+                                        builder: (context) => LoginScreen()));
                               },
                               child: Text('Login'))
                         ],

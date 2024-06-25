@@ -6,16 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
-class Editing_Page extends StatefulWidget {
+class EditingPage extends StatefulWidget {
   CarRental carRental;
 
-  Editing_Page({super.key, required this.carRental});
+  EditingPage({super.key, required this.carRental});
 
   @override
-  State<Editing_Page> createState() => _Adding_carsState();
+  State<EditingPage> createState() => _Adding_carsState();
 }
 
-class _Adding_carsState extends State<Editing_Page> {
+class _Adding_carsState extends State<EditingPage> {
   File? image25;
   String? imagepath;
 
@@ -220,6 +220,7 @@ class _Adding_carsState extends State<Editing_Page> {
                   inputFormatters: [
                     FilteringTextInputFormatter.deny(RegExp(r'\s'))
                   ],
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
               ),
 
@@ -260,7 +261,9 @@ class _Adding_carsState extends State<Editing_Page> {
                     }
                     return null;
                   },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
+                
               ),
 
               // Model>>>>>>>>>>>>>>>>>>
@@ -294,6 +297,7 @@ class _Adding_carsState extends State<Editing_Page> {
                       return null;
                     }
                   },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
               ),
 
@@ -335,6 +339,7 @@ class _Adding_carsState extends State<Editing_Page> {
                     }
                     return null;
                   },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
               ),
 
@@ -376,6 +381,7 @@ class _Adding_carsState extends State<Editing_Page> {
                     }
                     return null;
                   },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
               ),
 
@@ -409,6 +415,7 @@ class _Adding_carsState extends State<Editing_Page> {
                   inputFormatters: [
                     FilteringTextInputFormatter.deny(RegExp(r'\s'))
                   ],
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
               ),
 
@@ -442,6 +449,7 @@ class _Adding_carsState extends State<Editing_Page> {
                   onTap: () {
                     _selectedinsuranceDate();
                   },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
               ),
 
@@ -476,6 +484,7 @@ class _Adding_carsState extends State<Editing_Page> {
                   onTap: () {
                     _selectedpollutionDate();
                   },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
               ),
 
@@ -510,6 +519,7 @@ class _Adding_carsState extends State<Editing_Page> {
                       return null;
                     }
                   },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
               ),
 
@@ -569,7 +579,7 @@ class _Adding_carsState extends State<Editing_Page> {
       Navigator.of(context).pushReplacement(
         // Push the same page again
         MaterialPageRoute(
-          builder: (context) => Car_Details(carRental: newcar),
+          builder: (context) => CarDetails(carRental: newcar),
         ),
       );
 

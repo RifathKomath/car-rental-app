@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(primaryColor: Colors.blue),
         title: 'car_rental',
         debugShowCheckedModeBanner: false,
-        home: Splash_Screen(),
+        home: SplashScreen(),
       ),
     );
   }

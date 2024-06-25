@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
-class Adding_Cars extends StatefulWidget {
-  const Adding_Cars({super.key});
+class AddingCars extends StatefulWidget {
+  const AddingCars({super.key});
 
   @override
-  State<Adding_Cars> createState() => _Adding_carsState();
+  State<AddingCars> createState() => _Adding_carsState();
 }
 
-class _Adding_carsState extends State<Adding_Cars> {
+class _Adding_carsState extends State<AddingCars> {
   File? image25;
   String? imagepath;
 
@@ -184,6 +184,7 @@ class _Adding_carsState extends State<Adding_Cars> {
                       return null;
                     }
                   },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
               ),
 
@@ -224,6 +225,7 @@ class _Adding_carsState extends State<Adding_Cars> {
                     }
                     return null;
                   },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
               ),
 
@@ -258,6 +260,7 @@ class _Adding_carsState extends State<Adding_Cars> {
                       return null;
                     }
                   },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
               ),
 
@@ -299,6 +302,7 @@ class _Adding_carsState extends State<Adding_Cars> {
                     }
                     return null;
                   },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
               ),
 
@@ -340,6 +344,7 @@ class _Adding_carsState extends State<Adding_Cars> {
                     }
                     return null;
                   },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
               ),
 
@@ -370,6 +375,7 @@ class _Adding_carsState extends State<Adding_Cars> {
                       return null;
                     }
                   },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   inputFormatters: [
                     FilteringTextInputFormatter.deny(RegExp(r'\s'))
                   ],
@@ -406,6 +412,7 @@ class _Adding_carsState extends State<Adding_Cars> {
                   onTap: () {
                     _selectedinsuranceDate();
                   },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
               ),
 
@@ -440,7 +447,9 @@ class _Adding_carsState extends State<Adding_Cars> {
                   onTap: () {
                     _selectedpollutionDate();
                   },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
+
               ),
 
               // Amount >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -474,6 +483,7 @@ class _Adding_carsState extends State<Adding_Cars> {
                       return null;
                     }
                   },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
               ),
 
@@ -489,7 +499,7 @@ class _Adding_carsState extends State<Adding_Cars> {
 
   Future<void> validator() async {
     if (_formkey.currentState!.validate() && image25 != null) {
-      final car = _nameController.text.trim();
+      final car = _nameController.text.toString();
       final brand = selectedBrandTypes!;
       final model = _modelController.text.trim().toString();
       final fuel = selectedFueltypes!;
@@ -500,16 +510,26 @@ class _Adding_carsState extends State<Adding_Cars> {
       final amount = _amountController.text.trim().toString();
 
       final newcar = CarRental(
-          imagex: imagepath!,
-          car: car,
-          brand: brand,
-          model: model,
-          fuel: fuel,
-          seat: seat,
-          number: reg_num,
-          insurance: insurance,
-          pollution: pollution,
-          amount: amount);
+        imagex: imagepath!,
+        car: car,
+        brand: brand,
+        model: model,
+        fuel: fuel,
+        seat: seat,
+        number: reg_num,
+        insurance: insurance,
+        pollution: pollution,
+        amount: amount,
+        pickUpDate: null,
+        dropOffDate: null,
+        notes: null,
+        currentKm: null,
+        advanceAmount: null,
+        customerName: null,
+        mobileNumber: null,
+        address: null,
+        history: null
+      );
 
       await _carRentalSevice.addCar(newcar);
 
@@ -525,7 +545,7 @@ class _Adding_carsState extends State<Adding_Cars> {
       _amountController.clear();
 
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => Bottom_Navigation()));
+          .push(MaterialPageRoute(builder: (context) => BottomNavigation()));
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -573,7 +593,7 @@ class _Adding_carsState extends State<Adding_Cars> {
   Future<void> _selectedpollutionDate() async {
     DateTime? pickeded = await showDatePicker(
         context: context,
-        firstDate:DateTime.now(),
+        firstDate: DateTime.now(),
         lastDate: DateTime(2100),
         initialDate: DateTime.now());
 

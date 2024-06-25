@@ -1,23 +1,21 @@
-
-import 'package:car_rental/models/selected_car.dart';
-import 'package:car_rental/models/selected_car.dart';
-import 'package:car_rental/models/selected_car.dart';
-import 'package:car_rental/models/selected_car.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+import 'dart:io';
+import 'package:car_rental/db_helper/car_rental_service.dart';
+import 'package:car_rental/models/carrental.dart';
+import 'package:car_rental/screens/bottom_navigation.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
-
-class Rented_Car_Details extends StatefulWidget {
-
-  Rented_Car_Details({super.key});
+class RentedCarDetails extends StatefulWidget {
+  CarRental carRental;
+  RentedCarDetails({super.key, required this.carRental});
 
   @override
-  State<Rented_Car_Details> createState() => _Rented_Car_DetailsState();
+  State<RentedCarDetails> createState() => _Rented_Car_DetailsState();
 }
 
-class _Rented_Car_DetailsState extends State<Rented_Car_Details> {
+class _Rented_Car_DetailsState extends State<RentedCarDetails> {
+  final CarRentalService _carRentalService = CarRentalService();
   final textStyle = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
 
   final subTextStyle = TextStyle(fontSize: 16);
@@ -28,6 +26,7 @@ class _Rented_Car_DetailsState extends State<Rented_Car_Details> {
 
   @override
   Widget build(BuildContext context) {
+    double balanceAmount = widget.carRental.calculateBalance();
     return DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -90,26 +89,7 @@ class _Rented_Car_DetailsState extends State<Rented_Car_Details> {
                               ),
                             ],
                           ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.notifications,
-                                color: Colors.red,
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                'Expiring in :',
-                                style:
-                                    TextStyle(color: Colors.red, fontSize: 17),
-                              ),
-                            ],
-                          ),
+                          Text('Drop off date : ${widget.carRental.dropOffDate}',style: TextStyle(fontSize: 16,color: Colors.red),),
                           SizedBox(
                             height: 20,
                           ),
@@ -119,15 +99,16 @@ class _Rented_Car_DetailsState extends State<Rented_Car_Details> {
                           ),
                           Row(
                             children: [
+
                               SizedBox(
                                 width: 20,
                               ),
                               Text(
-                                'Reg_Number',
+                                'Car name',
                                 style: textStyle,
                               ),
                               SizedBox(
-                                width: 80,
+                                width: 105,
                               ),
                               Text(
                                 ':',
@@ -137,7 +118,7 @@ class _Rented_Car_DetailsState extends State<Rented_Car_Details> {
                                 width: 20,
                               ),
                               Text(
-                                'null',
+                                '${widget.carRental.car}',
                                 style: subTextStyle,
                               )
                             ],
@@ -152,11 +133,98 @@ class _Rented_Car_DetailsState extends State<Rented_Car_Details> {
                                 width: 20,
                               ),
                               Text(
-                                'Amount/Month',
+                                'Brand',
                                 style: textStyle,
                               ),
                               SizedBox(
-                                width: 63,
+                                width: 132,
+                              ),
+                              Text(
+                                ':',
+                                style: subTextStyle,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                '${widget.carRental.brand}',
+                                style: subTextStyle,
+                              )
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15, right: 15),
+                            child: Divider(),
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                'Model',
+                                style: textStyle,
+                              ),
+                              SizedBox(
+                                width: 129,
+                              ),
+                              Text(
+                                ':',
+                                style: subTextStyle,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                '${widget.carRental.model}',
+                                style: subTextStyle,
+                              )
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15, right: 15),
+                            child: Divider(),
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                'Fuel type',
+                                style: textStyle,
+                              ),
+                              SizedBox(
+                                width: 107,
+                              ),
+                              Text(
+                                ':',
+                                style: subTextStyle,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                '${widget.carRental.fuel}',
+                                style: subTextStyle,
+                              )
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15, right: 15),
+                            child: Divider(),
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                'Total amount',
+                                style: textStyle,
+                              ),
+                              SizedBox(
+                                width: 78,
                               ),
                               Text(
                                 ':',
@@ -170,11 +238,8 @@ class _Rented_Car_DetailsState extends State<Rented_Car_Details> {
                                 size: 16,
                               ),
                               Text(
-                                'null',
+                                '${widget.carRental.amount}',
                                 style: subTextStyle,
-                              ),
-                              SizedBox(
-                                width: 5,
                               ),
                               Text(
                                 '/-',
@@ -210,11 +275,8 @@ class _Rented_Car_DetailsState extends State<Rented_Car_Details> {
                                 size: 16,
                               ),
                               Text(
-                                'null',
+                                '${widget.carRental.advanceAmount}',
                                 style: subTextStyle,
-                              ),
-                              SizedBox(
-                                width: 5,
                               ),
                               Text(
                                 '/-',
@@ -252,12 +314,9 @@ class _Rented_Car_DetailsState extends State<Rented_Car_Details> {
                                 color: Colors.green,
                               ),
                               Text(
-                                'null',
+                                '$balanceAmount',
                                 style: TextStyle(
                                     color: Colors.green, fontSize: 16),
-                              ),
-                              SizedBox(
-                                width: 5,
                               ),
                               Text(
                                 '/-',
@@ -271,38 +330,49 @@ class _Rented_Car_DetailsState extends State<Rented_Car_Details> {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(20.0),
-
-                            child: Card(
-                                color: Colors.white,
-                                shape: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12)),
-                                child: Row(
-                                  children: [
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            'Notes :',
-                                            style: textStyle,
+                            child: Container(
+                              width: double.infinity,
+                              child: Card(
+                                  color: Colors.white,
+                                  shape: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12)),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: Text(
+                                          'Notes :',
+                                          style: textStyle,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                        height: 10,
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 8,bottom: 8),
+                                            child: Text(
+                                              '${widget.carRental.notes}',
+                                              style: subTextStyle,
+                                            ),
                                           ),
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                          'null',
-                                          style: subTextStyle,
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                )),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      )
+                                    ],
+                                  )),
+                            ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(left: 20, right: 20),
+                            padding: const EdgeInsets.only(left: 24, right: 24),
                             child: Form(
                               key: formkey,
                               child: TextFormField(
@@ -310,7 +380,7 @@ class _Rented_Car_DetailsState extends State<Rented_Car_Details> {
                                   decoration: InputDecoration(
                                       label: Text('History of the car'),
                                       border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(20),
+                                        borderRadius: BorderRadius.circular(12),
                                       ),
                                       hintText:
                                           'Please add history of the car'),
@@ -324,21 +394,35 @@ class _Rented_Car_DetailsState extends State<Rented_Car_Details> {
                             ),
                           ),
                           SizedBox(
-                            height: 20,
+                            height: 30,
                           ),
                           Row(
                             children: [
                               SizedBox(
-                                width: 170,
+                                width: 187,
                               ),
                               Container(
                                   width: 150,
                                   height: 50,
                                   child: TextButton.icon(
                                     onPressed: () {
-                                      formkey.currentState!.validate();
+                                      if (historyOfCars.text.isNotEmpty) {
+                                        validating();
+                                      } else {
+                                        formkey.currentState!.validate();
+
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                              backgroundColor: Colors.black,
+                                              behavior:
+                                                  SnackBarBehavior.floating,
+                                              margin: EdgeInsets.all(10),
+                                              content: Text(
+                                                  'Please fill the fields')),
+                                        );
+                                      }
                                     },
-                                    
                                     label: Text(
                                       'Save',
                                       style: TextStyle(color: Colors.white),
@@ -374,15 +458,30 @@ class _Rented_Car_DetailsState extends State<Rented_Car_Details> {
                           SizedBox(
                             height: 20,
                           ),
-
-                          Container(
-                               height: 170,
-                  width: 290,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(color: Colors.black),
-                              )),
-
+                          CarouselSlider(
+                            items: widget.carRental.image2
+                                    ?.map((image) => Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            image: DecorationImage(
+                                              image: FileImage(
+                                                File(image),
+                                              ),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          width: 330,
+                                          height: 200,
+                                        ))
+                                    .toList() ??
+                                [],
+                            options: CarouselOptions(
+                              height: 200,
+                              viewportFraction: 1.0,
+                              enableInfiniteScroll: false,
+                            ),
+                          ),
                           SizedBox(
                             height: 50,
                           ),
@@ -402,17 +501,17 @@ class _Rented_Car_DetailsState extends State<Rented_Car_Details> {
                                     style: textStyle,
                                   ),
                                   SizedBox(
-                                    width: 56,
+                                    width: 16,
                                   ),
                                   Text(
                                     ':',
                                     style: subTextStyle,
                                   ),
                                   SizedBox(
-                                    width: 20,
+                                    width: 10,
                                   ),
                                   Text(
-                                    'null',
+                                    '${widget.carRental.customerName}',
                                     style: subTextStyle,
                                   ),
                                 ],
@@ -432,25 +531,32 @@ class _Rented_Car_DetailsState extends State<Rented_Car_Details> {
                                     style: textStyle,
                                   ),
                                   SizedBox(
-                                    width: 62,
+                                    width: 22,
                                   ),
                                   Text(
                                     ':',
                                     style: subTextStyle,
                                   ),
-
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Text(
-                                    'null',
-                                    style: subTextStyle,
-                                  )
+                                  TextButton(
+                                      onPressed: () {
+                                        FlutterPhoneDirectCaller.callNumber(
+                                            '${widget.carRental.mobileNumber}');
+                                      },
+                                      child: Text(
+                                          '${widget.carRental.mobileNumber}')),
                                 ],
                               ),
                               Padding(
                                 padding:
                                     const EdgeInsets.only(left: 15, right: 15),
+                                child: Text(
+                                  'For calling , tap on the mobile number',
+                                  // style: TextStyle(color: Colors.yellow),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 15, right: 15, top: 15),
                                 child: Divider(),
                               ),
                               Row(
@@ -463,17 +569,17 @@ class _Rented_Car_DetailsState extends State<Rented_Car_Details> {
                                     style: textStyle,
                                   ),
                                   SizedBox(
-                                    width: 115,
+                                    width: 74,
                                   ),
                                   Text(
                                     ':',
                                     style: subTextStyle,
                                   ),
                                   SizedBox(
-                                    width: 20,
+                                    width: 10,
                                   ),
                                   Text(
-                                    'null',
+                                    '${widget.carRental.address}',
                                     style: subTextStyle,
                                   )
                                 ],
@@ -494,4 +600,70 @@ class _Rented_Car_DetailsState extends State<Rented_Car_Details> {
           ),
         ));
   }
-}
+
+  Future<void> validating() async {
+    if (formkey.currentState!.validate()) {
+      final history = historyOfCars.text.trim();
+      
+
+      // final selecteCarDetail = selectedCars(image1:imagePaths, pickUpDate: pickup, dropOffDate: dropoff, notes: notes, currentKm: curkm, advanceAmount: adamount, image2: imagePaths, customerName: cutomerName, mobileNumber: mobileNumber, address: address);
+
+      final carSelected = CarRental(
+        imagex: widget.carRental.imagex,
+        car: widget.carRental.car,
+        brand: widget.carRental.brand,
+        model: widget.carRental.model,
+        fuel: widget.carRental.fuel,
+        seat: widget.carRental.seat,
+        number: widget.carRental.number,
+        insurance: widget.carRental.insurance,
+        pollution: widget.carRental.pollution,
+        amount: widget.carRental.amount,
+        pickUpDate: widget.carRental.pickUpDate,
+        dropOffDate: widget.carRental.dropOffDate,
+        notes: widget.carRental.notes,
+        currentKm: widget.carRental.currentKm,
+        advanceAmount: widget.carRental.advanceAmount,
+        customerName: widget.carRental.customerName,
+        mobileNumber: widget.carRental.mobileNumber,
+        address: widget.carRental.address,
+        status: true,
+        id: widget.carRental.id,
+        history: history
+      );
+      print('validation finished');
+    _carRentalService.editDetails(carSelected);
+
+      // await _selectedCarSevice.addDetails(selecteCarDetail);
+
+      print('code finished');
+
+     historyOfCars.clear();
+      print('object');
+
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => BottomNavigation(
+                currentPage: 2,
+              )));
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            backgroundColor: Colors.black,
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.all(10),
+            content: Text('Successfully added')),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            backgroundColor: Colors.black,
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.all(10),
+            content: Text('Please fill the fields')),
+      );
+    }
+  }
+
+
+} 
+

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-class Contact_Page extends StatelessWidget {
-  const Contact_Page({super.key});
+class ContactPage extends StatelessWidget {
+  const ContactPage({super.key});
 
   @override
   Widget build(BuildContext context) {

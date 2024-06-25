@@ -40,34 +40,38 @@ class CarRental {
   @HiveField(11)
    bool status;
 
+    @HiveField(12)
+    List<String>? image1;
 
-   @HiveField(12)
+   @HiveField(13)
    String? pickUpDate;
 
-  @HiveField(13)
+  @HiveField(14)
    String? dropOffDate;
 
-   @HiveField(14)
+   @HiveField(15)
    String?  notes;
 
-  @HiveField(15)
+  @HiveField(16)
    String? currentKm;
 
-    @HiveField(16)
+    @HiveField(17)
    String?  advanceAmount;
 
+  @HiveField(18)
+   List<String>? image2;
 
-  @HiveField(17)
-   String? image2;
-
-
-    @HiveField(18)
+    @HiveField(19)
    String?  customerName;
 
-  @HiveField(19)
+  @HiveField(20)
    String? mobileNumber;
-    @HiveField(20)
+
+    @HiveField(21)
    String? address;
+
+   @HiveField(22)
+   String?  history;
 
 
 
@@ -84,6 +88,7 @@ class CarRental {
     required this.pollution,
     required this.amount,
     this.status=false,
+    this.image1,
     this.dropOffDate,
     this.pickUpDate,
     this.notes,
@@ -92,6 +97,13 @@ class CarRental {
     this.image2,
     this.customerName,
     this.mobileNumber,
-    this.address
+    this.address,
+    this.history
   });
+
+  double calculateBalance() {
+    double amountValue = double.tryParse(amount) ?? 0.0;
+    double advanceValue = double.tryParse(advanceAmount ?? '0.0') ?? 0.0;
+    return amountValue - advanceValue;
+  }
 }

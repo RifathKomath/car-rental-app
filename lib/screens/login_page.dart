@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-class Login_Screen extends StatefulWidget {
-  const Login_Screen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<Login_Screen> createState() => _Login_screenState();
+  State<LoginScreen> createState() => _Login_screenState();
 }
 
-class _Login_screenState extends State<Login_Screen> {
+class _Login_screenState extends State<LoginScreen> {
   bool _securePassword = true;
 
   final _username = TextEditingController();
@@ -151,7 +151,7 @@ class _Login_screenState extends State<Login_Screen> {
                                   Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              Bottom_Navigation()),
+                                              BottomNavigation()),
                                       (route) => false);
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
@@ -192,7 +192,7 @@ class _Login_screenState extends State<Login_Screen> {
                                   onPressed: () {
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
-                                            builder: (context) => Signup_Screen()));
+                                            builder: (context) => SignupScreen()));
                                   },
                                   child: Text('Sign up for free'))
                             ],

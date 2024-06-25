@@ -6,10 +6,8 @@ import 'package:hive_flutter/adapters.dart';
 class CarRentalService {
   static Box<CarRental>? carServiceBox;
 
- static ValueNotifier<List<CarRental>> carListNotifier =
+  static ValueNotifier<List<CarRental>> carListNotifier =
       ValueNotifier<List<CarRental>>([]);
-
-  // ValueNotifier<List<CarRental>> tripslists = ValueNotifier([]);
 
   Future<void> openBox() async {
     carServiceBox = await Hive.openBox<CarRental>('cars');
@@ -19,18 +17,17 @@ class CarRentalService {
     await carServiceBox!.close();
   }
 
-  // add new car
+  // Add new car
   Future<void> addCar(CarRental details) async {
     if (carServiceBox == null) {
       await openBox();
     }
     details.id = await carServiceBox!.add(details);
     carServiceBox?.put(details.id, details);
-    // refreshCarList(); // Refresh the list after adding a new car
-   await updateValues();
+    await updateValues();
   }
 
-  // get details
+  // Get details
   Future<List<CarRental>> getDetails() async {
     if (carServiceBox == null) {
       await openBox();
@@ -38,47 +35,43 @@ class CarRentalService {
     return carServiceBox!.values.toList();
   }
 
-Future<void> deleteDetails(int index) async {
+  // Delete car by ID
+  Future<void> deleteDetails(int? id) async {
     if (carServiceBox == null) {
       await openBox();
     }
-
-    await carServiceBox!.deleteAt(index);
+    await carServiceBox!.delete(id);
+    await updateValues();
   }
 
-
-  // update
+  // Update car details
   Future<void> editDetails(CarRental value) async {
     if (carServiceBox == null) {
       await openBox();
     }
-   await carServiceBox?.put(value.id, value);
-    var data =await carServiceBox?.get(value.id);
-    print(data?.car);
-     // refreshCarList();
-   await updateValues();
+    carServiceBox?.put(value.id, value);
+    await updateValues();
   }
 
-
-  // Method to refresh the car list
-  // Future<void> refreshCarList() async {
-  //   carListNotifier.value = await getDetails();
-  // }
-
+  // Update the ValueNotifier with current values
   Future<void> updateValues() async {
     if (carServiceBox == null) {
-     await openBox();
+      await openBox();
     }
-    carListNotifier.value.clear();
-    carListNotifier.value.addAll(carServiceBox!.values);
+    carListNotifier.value = carServiceBox!.values.toList();
     carListNotifier.notifyListeners();
   }
 
-//   Future<void> deleteCar(int id) async {
-//   final userBox = await Hive.openBox<CarRental>('cars');
-//   print(id);
-//   userBox.delete(id);
-//   print(userBox.values.length);
-//   updateValues();
-// }
+  // Search car by name
+  Future<void> searchCar(String value) async {
+    if (carServiceBox == null) {
+      await openBox();
+    }
+    final searchResults = carServiceBox!.values
+        .where((element) =>
+            element.car.toLowerCase().contains(value.toLowerCase()))
+        .toList();
+    carListNotifier.value = searchResults;
+    carListNotifier.notifyListeners();
+  }
 }
