@@ -296,7 +296,7 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
                               Text(
                                 'Balance amount',
                                 style: TextStyle(
-                                    color: Colors.green, fontSize: 16),
+                                    fontWeight: FontWeight.bold, fontSize: 16),
                               ),
                               SizedBox(
                                 width: 56,

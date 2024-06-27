@@ -125,8 +125,8 @@ class _Adding_carsState extends State<AddingCars> {
               Stack(
                 children: [
                   Container(
-                    width: 250,
-                    height: 150,
+                     height: 170,
+                  width: 290,
                     decoration: BoxDecoration(
                         border: Border.all(),
                         image: image25 != null

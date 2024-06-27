@@ -75,7 +75,7 @@ class SideBar extends StatelessWidget {
             },
           ),
           ListTile(
-            title: Text('Terms&Conditions'),
+            title: Text('Terms & Conditions'),
             leading: Icon(Icons.history),
             splashColor: Colors.black12,
             onTap: () {
