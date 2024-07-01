@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
-
 class SelectedCar extends StatefulWidget {
   CarRental carRental;
   SelectedCar({super.key, required this.carRental});
@@ -28,8 +27,6 @@ class _Selected_carState extends State<SelectedCar> {
   bool hasSelectedImages = false;
 
   final _formkey = GlobalKey<FormState>();
-
-  final selectedCarService _selectedCarSevice = selectedCarService();
 
   final _pickupdate = TextEditingController();
   final _dropoffdate = TextEditingController();
@@ -204,7 +201,8 @@ class _Selected_carState extends State<SelectedCar> {
                                 onTap: () {
                                   _selectedpickupDate();
                                 },
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                               ),
                             ),
                             SizedBox(
@@ -233,7 +231,8 @@ class _Selected_carState extends State<SelectedCar> {
                                 onTap: () {
                                   _selecteddropoffDate();
                                 },
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                               ),
                             ),
                             SizedBox(
@@ -261,7 +260,8 @@ class _Selected_carState extends State<SelectedCar> {
                                     return null;
                                   }
                                 },
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                               ),
                             ),
                             SizedBox(
@@ -280,7 +280,7 @@ class _Selected_carState extends State<SelectedCar> {
                                 ],
                                 decoration: InputDecoration(
                                   icon: Icon(Icons.mode_of_travel_outlined),
-                                  label: Text('Current Km :'),
+                                  label: Text('Initial Km :'),
                                   hintText: 'Enter the current km ',
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(25),
@@ -289,12 +289,13 @@ class _Selected_carState extends State<SelectedCar> {
                                 keyboardType: TextInputType.datetime,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Enter the current km';
+                                    return 'Enter the initial km';
                                   } else {
                                     return null;
                                   }
                                 },
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                               ),
                             ),
                             SizedBox(
@@ -326,7 +327,8 @@ class _Selected_carState extends State<SelectedCar> {
                                   FilteringTextInputFormatter.deny(
                                       RegExp(r'\s')),
                                 ],
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                               ),
                             ),
                             SizedBox(
@@ -433,7 +435,8 @@ class _Selected_carState extends State<SelectedCar> {
                                     return null;
                                   }
                                 },
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                               ),
                             ),
 
@@ -469,7 +472,8 @@ class _Selected_carState extends State<SelectedCar> {
                                   FilteringTextInputFormatter.deny(
                                       RegExp(r'\s')),
                                 ],
-                                 autovalidateMode: AutovalidateMode.onUserInteraction,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                               ),
                             ),
 
@@ -499,7 +503,8 @@ class _Selected_carState extends State<SelectedCar> {
                                     return null;
                                   }
                                 },
-                                 autovalidateMode: AutovalidateMode.onUserInteraction,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                               ),
                             ),
 
@@ -690,7 +695,7 @@ class _Selected_carState extends State<SelectedCar> {
       }
       selecetedProofImg = imagePaths.isNotEmpty;
     });
-    }
+  }
 
   Future<void> validating() async {
     if (_formkey.currentState!.validate()) {
@@ -728,7 +733,6 @@ class _Selected_carState extends State<SelectedCar> {
         address: address,
         image1: imagePat,
         image2: imagePaths,
-      
       );
       print('validation finished');
       carRental.editDetails(carSelected);

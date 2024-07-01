@@ -78,10 +78,7 @@ class RevenuePageState extends State<RevenuePage> {
           ),
         
         ),
-      ),
-      floatingActionButton: FloatingActionButton.extended(onPressed: (){
-        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>FloatingAction()));
-      },label: Text('Car of the month',style: TextStyle(color: Colors.white),),backgroundColor: Colors.blueGrey[900],),
+      ), 
       body: Container(
         height: double.infinity,
         width: double.infinity,

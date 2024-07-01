@@ -56,15 +56,15 @@ class SideBar extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => HistoryPage()));
             },
           ),
-          ListTile(
-            title: Text('Revenue'),
-            splashColor: Colors.black12,
-            leading: Icon(Icons.currency_rupee_outlined),
-            onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => RevenuePage()));
-            },
-          ),
+          // ListTile(
+          //   title: Text('Revenue'),
+          //   splashColor: Colors.black12,
+          //   leading: Icon(Icons.currency_rupee_outlined),
+          //   onTap: () {
+          //     Navigator.of(context).push(
+          //         MaterialPageRoute(builder: (context) => RevenuePage()));
+          //   },
+          // ),
           ListTile(
             title: Text('Privacy Policy'),
             splashColor: Colors.black12,
@@ -141,7 +141,7 @@ class SideBar extends StatelessWidget {
                   });
             },
           ),
-          SizedBox(height: 30,),
+          SizedBox(height: 50,),
           Container(
             width: 10,
             height: 30,

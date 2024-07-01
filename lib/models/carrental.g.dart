@@ -40,13 +40,14 @@ class CarRentalAdapter extends TypeAdapter<CarRental> {
       mobileNumber: fields[20] as String?,
       address: fields[21] as String?,
       history: fields[22] as String?,
+      drivenKm: fields[23] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, CarRental obj) {
     writer
-      ..writeByte(23)
+      ..writeByte(24)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -92,7 +93,9 @@ class CarRentalAdapter extends TypeAdapter<CarRental> {
       ..writeByte(21)
       ..write(obj.address)
       ..writeByte(22)
-      ..write(obj.history);
+      ..write(obj.history)
+      ..writeByte(23)
+      ..write(obj.drivenKm);
   }
 
   @override

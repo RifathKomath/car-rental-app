@@ -89,6 +89,7 @@ class _Login_screenState extends State<LoginScreen> {
                               inputFormatters: [
                                 FilteringTextInputFormatter.deny(RegExp(r'\s'))
                               ],
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
                             ),
                           ),
                   
@@ -116,14 +117,15 @@ class _Login_screenState extends State<LoginScreen> {
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter the Password';
-                                } else if (value.length < 6) {
-                                  return 'Password should be at least six characters';
+                                } else if (value.length < 11) {
+                                  return 'Password should be at least eleven characters';
                                 }
                                 return null;
                               },
                               inputFormatters: [
                                 FilteringTextInputFormatter.deny(RegExp(r'\s'))
                               ],
+                           autovalidateMode: AutovalidateMode.onUserInteraction,
                             ),
                           ),
                   

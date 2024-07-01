@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 
 class FloatingAction extends StatelessWidget {
   const FloatingAction({super.key});
@@ -17,7 +16,7 @@ class FloatingAction extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              child: null
+              child:null
               
             )
           ],

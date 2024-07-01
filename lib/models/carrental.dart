@@ -38,42 +38,43 @@ class CarRental {
   late String amount;
 
   @HiveField(11)
-   bool status;
+  bool status;
 
-    @HiveField(12)
-    List<String>? image1;
+  @HiveField(12)
+  List<String>? image1;
 
-   @HiveField(13)
-   String? pickUpDate;
+  @HiveField(13)
+  String? pickUpDate;
 
   @HiveField(14)
-   String? dropOffDate;
+  String? dropOffDate;
 
-   @HiveField(15)
-   String?  notes;
+  @HiveField(15)
+  String? notes;
 
   @HiveField(16)
-   String? currentKm;
+  String? currentKm;
 
-    @HiveField(17)
-   String?  advanceAmount;
+  @HiveField(17)
+  String? advanceAmount;
 
   @HiveField(18)
-   List<String>? image2;
+  List<String>? image2;
 
-    @HiveField(19)
-   String?  customerName;
+  @HiveField(19)
+  String? customerName;
 
   @HiveField(20)
-   String? mobileNumber;
+  String? mobileNumber;
 
-    @HiveField(21)
-   String? address;
+  @HiveField(21)
+  String? address;
 
-   @HiveField(22)
-   String?  history;
+  @HiveField(22)
+  String? history;
 
-
+  @HiveField(23)
+  String? drivenKm;
 
   CarRental({
     this.id,
@@ -87,7 +88,7 @@ class CarRental {
     required this.insurance,
     required this.pollution,
     required this.amount,
-    this.status=false,
+    this.status = false,
     this.image1,
     this.dropOffDate,
     this.pickUpDate,
@@ -98,12 +99,32 @@ class CarRental {
     this.customerName,
     this.mobileNumber,
     this.address,
-    this.history
+    this.history,
+    this.drivenKm,
   });
 
-  double calculateBalance() {
-    double amountValue = double.tryParse(amount) ?? 0.0;
-    double advanceValue = double.tryParse(advanceAmount ?? '0.0') ?? 0.0;
-    return amountValue - advanceValue;
+  double _parseDouble(String? value, [double defaultValue = 0.0]) {
+    return double.tryParse(value ?? '') ?? defaultValue;
+  }
+
+  double calculateAdditionalKm() {
+    double currentKmValue = _parseDouble(currentKm);
+    double drivenKmValue = _parseDouble(drivenKm);
+    double distance = drivenKmValue - currentKmValue;
+    return (distance > 800) ? distance - 800 : 0.0;
+  }
+
+  double calculateExtraRate() {
+    double additionalKm = calculateAdditionalKm();
+    return (additionalKm > 0) ? (additionalKm / 10).ceil() * 100 : 0.0;
+  }
+
+  double calculateTotalRate() {
+    double amountValue = _parseDouble(amount);
+    double advanceValue = _parseDouble(advanceAmount);
+    double difference = amountValue - advanceValue;
+    double extraRate = calculateExtraRate();
+    
+    return difference + extraRate;
   }
 }

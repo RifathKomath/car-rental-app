@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:car_rental/db_helper/car_rental_service.dart';
 import 'package:car_rental/models/carrental.dart';
 import 'package:car_rental/screens/bottom_navigation.dart';
+import 'package:car_rental/screens/total_balance.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -24,9 +25,11 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
 
   final formkey = GlobalKey<FormState>();
 
+  final _formkey = GlobalKey<FormState>();
+  final balance = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    double balanceAmount = widget.carRental.calculateBalance();
     return DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -89,7 +92,10 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
                               ),
                             ],
                           ),
-                          Text('Drop off date : ${widget.carRental.dropOffDate}',style: TextStyle(fontSize: 16,color: Colors.red),),
+                          Text(
+                            'Drop off date : ${widget.carRental.dropOffDate}',
+                            style: TextStyle(fontSize: 16, color: Colors.red),
+                          ),
                           SizedBox(
                             height: 20,
                           ),
@@ -99,7 +105,6 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
                           ),
                           Row(
                             children: [
-
                               SizedBox(
                                 width: 20,
                               ),
@@ -308,20 +313,126 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
                               SizedBox(
                                 width: 16,
                               ),
-                              Icon(
-                                Icons.currency_rupee,
-                                size: 16,
-                                color: Colors.green,
-                              ),
-                              Text(
-                                '$balanceAmount',
-                                style: TextStyle(
-                                    color: Colors.green, fontSize: 16),
-                              ),
-                              Text(
-                                '/-',
-                                style: subTextStyle,
-                              )
+                              // Icon(
+                              //   Icons.currency_rupee,
+                              //   size: 16,
+                              //   color: Colors.green,
+                              // ),
+                              // Text(
+                              //   '$balanceAmount',
+                              //   style: TextStyle(
+                              //       color: Colors.green, fontSize: 16),
+                              // ),
+                              // Text(
+                              //   '/-',
+                              //   style: subTextStyle,
+                              // )
+
+                              TextButton(
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext) {
+                                          return AlertDialog(
+                                            title: Text('Enter current Km'),
+                                            content: Form(
+                                              key: _formkey,
+                                              child: TextFormField(
+                                                controller: balance,
+                                                keyboardType: TextInputType.number,
+                                                decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5))),
+                                                validator: (value) {
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    return 'Please fill the field';
+                                                  } else {
+                                                    return null;
+                                                  }
+                                                },
+                                                autovalidateMode:
+                                                    AutovalidateMode
+                                                        .onUserInteraction,
+                                              ),
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(context);
+                                                },
+                                                child: Text(
+                                                  'Cancel',
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                                style: ButtonStyle(
+                                                    backgroundColor:
+                                                        MaterialStatePropertyAll(
+                                                            Colors
+                                                                .blueGrey[900]),
+                                                    shape: MaterialStatePropertyAll(
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10)))),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  if (balance.text.isNotEmpty) {
+                                                    _formkey.currentState!
+                                                        .validate();
+                                                    validatin();
+                                                  } else {
+                                                    _formkey.currentState!
+                                                        .validate();
+
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                          backgroundColor:
+                                                              Colors.black,
+                                                          behavior:
+                                                              SnackBarBehavior
+                                                                  .floating,
+                                                          margin:
+                                                              EdgeInsets.all(
+                                                                  10),
+                                                          content: Text(
+                                                              'Please fill the fields')),
+                                                    );
+                                                  }
+                                                },
+                                                child: Text(
+                                                  'Ok',
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                                style: ButtonStyle(
+                                                    backgroundColor:
+                                                        MaterialStatePropertyAll(
+                                                            Colors
+                                                                .blueGrey[900]),
+                                                    shape: MaterialStatePropertyAll(
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10)))),
+                                              ),
+                                            ],
+                                          );
+                                        });
+                                  },
+                                  child: Text(
+                                    'Tap to see',
+                                    style: TextStyle(color: Colors.green),
+                                  ))
                             ],
                           ),
                           Padding(
@@ -356,7 +467,8 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Padding(
-                                            padding: const EdgeInsets.only(left: 8,bottom: 8),
+                                            padding: const EdgeInsets.only(
+                                                left: 8, bottom: 8),
                                             child: Text(
                                               '${widget.carRental.notes}',
                                               style: subTextStyle,
@@ -376,21 +488,24 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
                             child: Form(
                               key: formkey,
                               child: TextFormField(
-                                  controller: historyOfCars,
-                                  decoration: InputDecoration(
-                                      label: Text('History of the car'),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      hintText:
-                                          'Please add history of the car'),
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please provide the history of this car';
-                                    } else {
-                                      return null;
-                                    }
-                                  }),
+                                controller: historyOfCars,
+                                decoration: InputDecoration(
+                                    label: Text('History of the car'),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    hintText: 'Please add history of the car'),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please provide the history of this car';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                keyboardType: TextInputType.number,
+                              ),
                             ),
                           ),
                           SizedBox(
@@ -501,7 +616,7 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
                                     style: textStyle,
                                   ),
                                   SizedBox(
-                                    width: 16,
+                                    width: 1,
                                   ),
                                   Text(
                                     ':',
@@ -531,7 +646,7 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
                                     style: textStyle,
                                   ),
                                   SizedBox(
-                                    width: 22,
+                                    width: 7,
                                   ),
                                   Text(
                                     ':',
@@ -550,7 +665,7 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
                                 padding:
                                     const EdgeInsets.only(left: 15, right: 15),
                                 child: Text(
-                                  'For calling , tap on the mobile number',
+                                  'For call , tap on the mobile number',
                                   // style: TextStyle(color: Colors.yellow),
                                 ),
                               ),
@@ -569,7 +684,7 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
                                     style: textStyle,
                                   ),
                                   SizedBox(
-                                    width: 74,
+                                    width: 60,
                                   ),
                                   Text(
                                     ':',
@@ -604,41 +719,39 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
   Future<void> validating() async {
     if (formkey.currentState!.validate()) {
       final history = historyOfCars.text.trim();
-      
 
       // final selecteCarDetail = selectedCars(image1:imagePaths, pickUpDate: pickup, dropOffDate: dropoff, notes: notes, currentKm: curkm, advanceAmount: adamount, image2: imagePaths, customerName: cutomerName, mobileNumber: mobileNumber, address: address);
 
       final carSelected = CarRental(
-        imagex: widget.carRental.imagex,
-        car: widget.carRental.car,
-        brand: widget.carRental.brand,
-        model: widget.carRental.model,
-        fuel: widget.carRental.fuel,
-        seat: widget.carRental.seat,
-        number: widget.carRental.number,
-        insurance: widget.carRental.insurance,
-        pollution: widget.carRental.pollution,
-        amount: widget.carRental.amount,
-        pickUpDate: widget.carRental.pickUpDate,
-        dropOffDate: widget.carRental.dropOffDate,
-        notes: widget.carRental.notes,
-        currentKm: widget.carRental.currentKm,
-        advanceAmount: widget.carRental.advanceAmount,
-        customerName: widget.carRental.customerName,
-        mobileNumber: widget.carRental.mobileNumber,
-        address: widget.carRental.address,
-        status: true,
-        id: widget.carRental.id,
-        history: history
-      );
+          imagex: widget.carRental.imagex,
+          car: widget.carRental.car,
+          brand: widget.carRental.brand,
+          model: widget.carRental.model,
+          fuel: widget.carRental.fuel,
+          seat: widget.carRental.seat,
+          number: widget.carRental.number,
+          insurance: widget.carRental.insurance,
+          pollution: widget.carRental.pollution,
+          amount: widget.carRental.amount,
+          pickUpDate: widget.carRental.pickUpDate,
+          dropOffDate: widget.carRental.dropOffDate,
+          notes: widget.carRental.notes,
+          currentKm: widget.carRental.currentKm,
+          advanceAmount: widget.carRental.advanceAmount,
+          customerName: widget.carRental.customerName,
+          mobileNumber: widget.carRental.mobileNumber,
+          address: widget.carRental.address,
+          status: true,
+          id: widget.carRental.id,
+          history: history);
       print('validation finished');
-    _carRentalService.editDetails(carSelected);
+      _carRentalService.editDetails(carSelected);
 
       // await _selectedCarSevice.addDetails(selecteCarDetail);
 
       print('code finished');
 
-     historyOfCars.clear();
+      historyOfCars.clear();
       print('object');
 
       Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -664,6 +777,67 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
     }
   }
 
+  Future<void> validatin() async {
+    if (_formkey.currentState!.validate()) {
+      final km = balance.text.trim();
 
-} 
+      // final selecteCarDetail = selectedCars(image1:imagePaths, pickUpDate: pickup, dropOffDate: dropoff, notes: notes, currentKm: curkm, advanceAmount: adamount, image2: imagePaths, customerName: cutomerName, mobileNumber: mobileNumber, address: address);
 
+      final carSelect = CarRental(
+          imagex: widget.carRental.imagex,
+          car: widget.carRental.car,
+          brand: widget.carRental.brand,
+          model: widget.carRental.model,
+          fuel: widget.carRental.fuel,
+          seat: widget.carRental.seat,
+          number: widget.carRental.number,
+          insurance: widget.carRental.insurance,
+          pollution: widget.carRental.pollution,
+          amount: widget.carRental.amount,
+          pickUpDate: widget.carRental.pickUpDate,
+          dropOffDate: widget.carRental.dropOffDate,
+          notes: widget.carRental.notes,
+          currentKm: widget.carRental.currentKm,
+          advanceAmount: widget.carRental.advanceAmount,
+          customerName: widget.carRental.customerName,
+          mobileNumber: widget.carRental.mobileNumber,
+          address: widget.carRental.address,
+          status: true,
+          id: widget.carRental.id,
+          drivenKm: km);
+      print('validation finished');
+
+      _carRentalService.editDetails(carSelect);
+
+      // await _selectedCarSevice.addDetails(selecteCarDetail);
+
+      print('code finished');
+
+      balance.clear();
+
+      print('object');
+
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => totalBalance(carRental:carSelect)));
+
+         
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            backgroundColor: Colors.black,
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.all(10),
+            content: Text('Successfully added')),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            backgroundColor: Colors.black,
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.all(10),
+            content: Text('Please fill the fields')),
+      );
+       
+    }
+  }
+}

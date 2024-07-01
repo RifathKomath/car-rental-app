@@ -100,7 +100,7 @@ class _Rented_CarsState extends State<RentedCars> {
            final listToShow = value.where((element) => element.status).toList();
             return listToShow.isEmpty
                 ? Center(
-                    child: Text("No available cars"),
+                    child: Text("No rented cars"),
                   )
                 : ListView.builder(
                     itemCount: listToShow.length,

@@ -89,6 +89,7 @@ class _Signup_screenState extends State<SignupScreen> {
                           inputFormatters: [
                             FilteringTextInputFormatter.deny(RegExp(r'\s'))
                           ],
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                         ),
                       ),
 
@@ -120,6 +121,7 @@ class _Signup_screenState extends State<SignupScreen> {
                           inputFormatters: [
                             FilteringTextInputFormatter.deny(RegExp(r'\s'))
                           ],
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                         ),
                       ),
 
@@ -148,6 +150,7 @@ class _Signup_screenState extends State<SignupScreen> {
                           inputFormatters: [
                             FilteringTextInputFormatter.deny(RegExp(r'\s'))
                           ],
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                         ),
                       ),
 
