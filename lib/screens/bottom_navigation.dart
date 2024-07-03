@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class BottomNavigation extends StatefulWidget {
   int currentPage;
-   BottomNavigation({super.key,this.currentPage=0});
+  BottomNavigation({super.key, this.currentPage = 0});
 
   @override
   State<BottomNavigation> createState() => _Bottom_navigationState();
@@ -22,15 +22,12 @@ class _Bottom_navigationState extends State<BottomNavigation> {
     // TODO: implement initState
     super.initState();
     setState(() {
-       _selectedIndex=widget.currentPage;
+      _selectedIndex = widget.currentPage;
     });
-   
   }
 
   @override
-  Widget build(BuildContext context) { 
-    
-    
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: _Screen[_selectedIndex],

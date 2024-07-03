@@ -54,12 +54,18 @@ class _Home_ScreenState extends State<HomeScreen> {
                       child: SearchBar(
                         shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
-                            leading: Icon(Icons.search,color: Colors.white,),
-                            hintText: 'Search',
-                            controller: searchController,
-                            onChanged: (value) => _carRentalService.searchCar(value),
-                            backgroundColor: MaterialStatePropertyAll(Colors.white24),
-                            textStyle: MaterialStatePropertyAll(TextStyle(color: Colors.white)),
+                        leading: Icon(
+                          Icons.search,
+                          color: Colors.white,
+                        ),
+                        hintText: 'Search',
+                        controller: searchController,
+                        onChanged: (value) =>
+                            _carRentalService.searchCar(value),
+                        backgroundColor:
+                            MaterialStatePropertyAll(Colors.white24),
+                        textStyle: MaterialStatePropertyAll(
+                            TextStyle(color: Colors.white)),
                       ),
                     ),
                   ),

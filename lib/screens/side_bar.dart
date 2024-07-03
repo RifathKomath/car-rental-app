@@ -16,8 +16,7 @@ import 'package:flutter/material.dart';
 // import 'package:car_rental/models/signup.dart';
 
 class SideBar extends StatelessWidget {
-
-   SideBar({super.key});
+  SideBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +29,7 @@ class SideBar extends StatelessWidget {
             builder: (context, value, child) {
               return UserAccountsDrawerHeader(
                 accountName: Text(
-                 '${value?.username}',
+                  '${value?.username}',
                   style: TextStyle(fontSize: 25),
                 ),
                 accountEmail: null,
@@ -52,8 +51,8 @@ class SideBar extends StatelessWidget {
             leading: Icon(Icons.history),
             splashColor: Colors.black12,
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => HistoryPage()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => HistoryPage()));
             },
           ),
           // ListTile(
@@ -70,8 +69,8 @@ class SideBar extends StatelessWidget {
             splashColor: Colors.black12,
             leading: Icon(Icons.privacy_tip_outlined),
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) =>PrivacyPage()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => PrivacyPage()));
             },
           ),
           ListTile(
@@ -88,13 +87,19 @@ class SideBar extends StatelessWidget {
             splashColor: Colors.black12,
             leading: Icon(Icons.call),
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => ContactPage()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => ContactPage()));
             },
           ),
           ListTile(
-            title: Text('Logout', style: TextStyle(color: Colors.red),),
-            leading: Icon(Icons.logout, color: Colors.red,),
+            title: Text(
+              'Logout',
+              style: TextStyle(color: Colors.red),
+            ),
+            leading: Icon(
+              Icons.logout,
+              color: Colors.red,
+            ),
             splashColor: Colors.black12,
             onTap: () {
               showDialog(
@@ -112,9 +117,11 @@ class SideBar extends StatelessWidget {
                             Navigator.pop(context);
                           },
                           child: Text('Cancel',
-                              style: TextStyle(color: Colors.blueGrey[900], fontSize: 18)),
+                              style: TextStyle(
+                                  color: Colors.blueGrey[900], fontSize: 18)),
                           style: ButtonStyle(
-                            backgroundColor: MaterialStatePropertyAll(Colors.white),
+                            backgroundColor:
+                                MaterialStatePropertyAll(Colors.white),
                             shape: MaterialStatePropertyAll(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10))),
@@ -122,15 +129,18 @@ class SideBar extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            currentUserNotifier.value = null; // Reset current user
+                            currentUserNotifier.value =
+                                null; // Reset current user
                             Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
                                     builder: (context) => LoginScreen()),
                                 (route) => false);
                           },
-                          child: Text('OK', style: TextStyle(color: Colors.white)),
+                          child:
+                              Text('OK', style: TextStyle(color: Colors.white)),
                           style: ButtonStyle(
-                            backgroundColor: MaterialStatePropertyAll(Colors.grey[900]),
+                            backgroundColor:
+                                MaterialStatePropertyAll(Colors.grey[900]),
                             shape: MaterialStatePropertyAll(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10))),
@@ -141,12 +151,14 @@ class SideBar extends StatelessWidget {
                   });
             },
           ),
-          SizedBox(height: 50,),
+          SizedBox(
+            height: 50,
+          ),
           Container(
-            width: 10,
-            height: 30,
-            child: Image.asset('assets/easy-rent-high-resolution-logo-transparent (1).png')
-          )
+              width: 10,
+              height: 30,
+              child: Image.asset(
+                  'assets/easy-rent-high-resolution-logo-transparent (1).png'))
         ],
       ),
     );

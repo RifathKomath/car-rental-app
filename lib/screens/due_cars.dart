@@ -57,7 +57,7 @@ class _dueCarsState extends State<DueCars> {
                       padding: const EdgeInsets.only(top: 14),
                       child: Container(
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 8,right: 8),
+                          padding: const EdgeInsets.only(left: 8, right: 8),
                           child: Card(
                             color: Colors.white,
                             // margin: EdgeInsets.symmetric(vertical: 8.0),
@@ -104,7 +104,7 @@ class _dueCarsState extends State<DueCars> {
                                           style: TextStyle(fontSize: 14),
                                           textAlign: TextAlign.start,
                                         ),
-                      
+
                                         Text(
                                           "Reg No: ${data[index].number}",
                                           style: TextStyle(
@@ -117,7 +117,7 @@ class _dueCarsState extends State<DueCars> {
                                               fontSize: 14, color: Colors.red),
                                           textAlign: TextAlign.start,
                                         ),
-                      
+
                                         //    TextButton(
                                         // onPressed: () {
                                         //   FlutterPhoneDirectCaller.callNumber(

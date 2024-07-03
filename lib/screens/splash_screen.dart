@@ -19,16 +19,14 @@ class _Splash_screenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        
         child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-           
-                            Container(
-                              width: 300,
-                              child: Image.asset('assets/easy-rent-high-resolution-logo-transparent (1).png')
-                              )
+            Container(
+                width: 300,
+                child: Image.asset(
+                    'assets/easy-rent-high-resolution-logo-transparent (1).png'))
           ],
         ),
       ),

@@ -51,8 +51,8 @@ class _Login_screenState extends State<LoginScreen> {
                               children: [
                                 Text(
                                   'LOGIN',
-                                  style:
-                                      TextStyle(color: Colors.black, fontSize: 23),
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 23),
                                 ),
                               ],
                             ),
@@ -61,24 +61,24 @@ class _Login_screenState extends State<LoginScreen> {
                             padding: const EdgeInsets.only(left: 15, right: 15),
                             child: Divider(),
                           ),
-                  
+
                           SizedBox(
                             height: 20,
                           ),
-                  
+
                           // username/Email>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-                  
+
                           Padding(
-                            padding:
-                                const EdgeInsets.only(left: 15, right: 15, top: 15),
+                            padding: const EdgeInsets.only(
+                                left: 15, right: 15, top: 15),
                             child: TextFormField(
                               controller: _username,
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(25)),
                                   label: Text('User name'),
-                                  labelStyle:
-                                      TextStyle(color: Colors.black, fontSize: 13)),
+                                  labelStyle: TextStyle(
+                                      color: Colors.black, fontSize: 13)),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter the Username';
@@ -89,19 +89,20 @@ class _Login_screenState extends State<LoginScreen> {
                               inputFormatters: [
                                 FilteringTextInputFormatter.deny(RegExp(r'\s'))
                               ],
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                             ),
                           ),
-                  
+
                           SizedBox(
                             height: 8,
                           ),
-                  
+
                           // password>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-                  
+
                           Padding(
-                            padding:
-                                const EdgeInsets.only(left: 15, right: 15, top: 25),
+                            padding: const EdgeInsets.only(
+                                left: 15, right: 15, top: 25),
                             child: TextFormField(
                               controller: _password,
                               decoration: InputDecoration(
@@ -110,8 +111,8 @@ class _Login_screenState extends State<LoginScreen> {
                                   borderRadius: BorderRadius.circular(25),
                                 ),
                                 label: Text('Password:'),
-                                labelStyle:
-                                    TextStyle(color: Colors.black, fontSize: 13),
+                                labelStyle: TextStyle(
+                                    color: Colors.black, fontSize: 13),
                               ),
                               obscureText: _securePassword,
                               validator: (value) {
@@ -125,14 +126,15 @@ class _Login_screenState extends State<LoginScreen> {
                               inputFormatters: [
                                 FilteringTextInputFormatter.deny(RegExp(r'\s'))
                               ],
-                           autovalidateMode: AutovalidateMode.onUserInteraction,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                             ),
                           ),
-                  
+
                           SizedBox(height: 15),
-                  
+
                           //  button>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-                  
+
                           ElevatedButton(
                             onPressed: () async {
                               if (_formkey.currentState!.validate()) {
@@ -144,10 +146,11 @@ class _Login_screenState extends State<LoginScreen> {
                                         child: CircularProgressIndicator(),
                                       );
                                     });
-                  
+
                                 final user = await Signupservice.loginUser(
-                                    _username.text.trim(), _password.text.trim());
-                  
+                                    _username.text.trim(),
+                                    _password.text.trim());
+
                                 Navigator.pop(context);
                                 if (user != null) {
                                   Navigator.of(context).pushAndRemoveUntil(
@@ -174,16 +177,16 @@ class _Login_screenState extends State<LoginScreen> {
                               style: TextStyle(color: Colors.white),
                             ),
                             style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStatePropertyAll(Colors.blueGrey[900]),
+                              backgroundColor: MaterialStatePropertyAll(
+                                  Colors.blueGrey[900]),
                               shape: MaterialStatePropertyAll(
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10))),
                             ),
                           ),
-                  
+
                           SizedBox(height: 15),
-                  
+
                           Row(
                             children: [
                               SizedBox(
@@ -194,25 +197,23 @@ class _Login_screenState extends State<LoginScreen> {
                                   onPressed: () {
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
-                                            builder: (context) => SignupScreen()));
+                                            builder: (context) =>
+                                                SignupScreen()));
                                   },
                                   child: Text('Sign up for free'))
                             ],
                           ),
-                           SizedBox(height: 70,),
+                          SizedBox(
+                            height: 70,
+                          ),
                           Container(
-                            
-                            width: 280,
-                            child: Image.asset('assets/easy-rent-high-resolution-logo-transparent (1).png')
-                            )
-                         
-                        ]
-                        ),
+                              width: 280,
+                              child: Image.asset(
+                                  'assets/easy-rent-high-resolution-logo-transparent (1).png'))
+                        ]),
                       ),
-                      
                     ],
                   ),
-                  
                 ],
               ),
             ),

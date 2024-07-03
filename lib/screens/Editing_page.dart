@@ -263,7 +263,6 @@ class _Adding_carsState extends State<EditingPage> {
                   },
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
-                
               ),
 
               // Model>>>>>>>>>>>>>>>>>>
@@ -562,7 +561,6 @@ class _Adding_carsState extends State<EditingPage> {
 
       await _carRentalSevice.editDetails(newcar);
 
-
       image25 = null;
       _nameController.clear();
       _brandController.clear();
@@ -582,9 +580,6 @@ class _Adding_carsState extends State<EditingPage> {
           builder: (context) => CarDetails(carRental: newcar),
         ),
       );
-
-
-
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

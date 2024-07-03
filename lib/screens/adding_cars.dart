@@ -5,6 +5,7 @@ import 'package:car_rental/screens/bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class AddingCars extends StatefulWidget {
   const AddingCars({super.key});
@@ -125,8 +126,8 @@ class _Adding_carsState extends State<AddingCars> {
               Stack(
                 children: [
                   Container(
-                     height: 170,
-                  width: 290,
+                    height: 170,
+                    width: 290,
                     decoration: BoxDecoration(
                         border: Border.all(),
                         image: image25 != null
@@ -410,7 +411,7 @@ class _Adding_carsState extends State<AddingCars> {
                     }
                   },
                   onTap: () {
-                    _selectedinsuranceDate();
+                    _selectedInsuranceDate();
                   },
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
@@ -445,11 +446,10 @@ class _Adding_carsState extends State<AddingCars> {
                     }
                   },
                   onTap: () {
-                    _selectedpollutionDate();
+                    _selectedPollutionDate();
                   },
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
-
               ),
 
               // Amount >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -510,27 +510,28 @@ class _Adding_carsState extends State<AddingCars> {
       final amount = _amountController.text.trim().toString();
 
       final newcar = CarRental(
-        imagex: imagepath!,
-        car: car,
-        brand: brand,
-        model: model,
-        fuel: fuel,
-        seat: seat,
-        number: reg_num,
-        insurance: insurance,
-        pollution: pollution,
-        amount: amount,
-        pickUpDate: null,
-        dropOffDate: null,
-        notes: null,
-        currentKm: null,
-        advanceAmount: null,
-        customerName: null,
-        mobileNumber: null,
-        address: null,
-        history: null,
-        drivenKm: null
-      );
+          imagex: imagepath!,
+          car: car,
+          brand: brand,
+          model: model,
+          fuel: fuel,
+          seat: seat,
+          number: reg_num,
+          insurance: insurance,
+          pollution: pollution,
+          amount: amount,
+          pickUpDate: null,
+          dropOffDate: null,
+          notes: null,
+          currentKm: null,
+          advanceAmount: null,
+          customerName: null,
+          mobileNumber: null,
+          address: null,
+          history: null,
+          drivenKm: null,
+          image1: [imagepath!],
+          image2: [imagepath!]);
 
       await _carRentalSevice.addCar(newcar);
 
@@ -577,21 +578,22 @@ class _Adding_carsState extends State<AddingCars> {
     });
   }
 
-  Future<void> _selectedinsuranceDate() async {
-    DateTime? pickeded = await showDatePicker(
-        context: context,
-        firstDate: DateTime.now(),
-        lastDate: DateTime(2100),
-        initialDate: DateTime.now());
+Future<void> _selectedInsuranceDate() async {
+  DateTime? pickeded = await showDatePicker(
+      context: context,
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2100),
+      initialDate: DateTime.now());
 
-    if (pickeded != null) {
-      setState(() {
-        _insuranceController.text = pickeded.toString().split(" ")[0];
-      });
-    }
+  if (pickeded != null) {
+    setState(() {
+      _insuranceController.text = DateFormat('dd-MM-yyyy').format(pickeded);        
+    });
   }
+}
 
-  Future<void> _selectedpollutionDate() async {
+
+  Future<void> _selectedPollutionDate() async {
     DateTime? pickeded = await showDatePicker(
         context: context,
         firstDate: DateTime.now(),
@@ -600,7 +602,7 @@ class _Adding_carsState extends State<AddingCars> {
 
     if (pickeded != null) {
       setState(() {
-        _pollutionController.text = pickeded.toString().split(" ")[0];
+        _pollutionController.text = DateFormat('dd-MM-yyyy').format(pickeded);
       });
     }
   }

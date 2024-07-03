@@ -339,7 +339,8 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
                                               key: _formkey,
                                               child: TextFormField(
                                                 controller: balance,
-                                                keyboardType: TextInputType.number,
+                                                keyboardType:
+                                                    TextInputType.number,
                                                 decoration: InputDecoration(
                                                     border: OutlineInputBorder(
                                                         borderRadius:
@@ -504,7 +505,7 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
                                 },
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
-                                keyboardType: TextInputType.number,
+                                
                               ),
                             ),
                           ),
@@ -597,9 +598,9 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
                               enableInfiniteScroll: false,
                             ),
                           ),
-                          SizedBox(
-                            height: 50,
-                          ),
+                          // SizedBox(
+                          //   height: 50,
+                          // ),
                           Padding(
                             padding: const EdgeInsets.only(left: 15, right: 15),
                             child: Divider(),
@@ -817,10 +818,8 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
 
       print('object');
 
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => totalBalance(carRental:carSelect)));
-
-         
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => TotalBalance(carRental: carSelect)));
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -837,7 +836,6 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
             margin: EdgeInsets.all(10),
             content: Text('Please fill the fields')),
       );
-       
     }
   }
 }

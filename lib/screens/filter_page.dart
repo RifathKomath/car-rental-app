@@ -122,7 +122,6 @@ class _Filter_PageState extends State<FilterPage> {
             ),
             Expanded(
               child: _list.isEmpty
-
                   ? Center(
                       child: Text("No available cars"),
                     )

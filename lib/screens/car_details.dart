@@ -75,18 +75,20 @@ class _Car_detailsState extends State<CarDetails> {
                     padding: const EdgeInsets.only(left: 18),
                     child: Column(
                       children: [
-                        SizedBox(height: 10,),
-                         Padding(
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
                           padding: const EdgeInsets.only(right: 20),
                           child: Divider(),
                         ),
                         Row(
                           children: [
                             Text('Car name', style: textStyle),
-                           SizedBox(
+                            SizedBox(
                               width: 122,
                             ),
-                             Text(
+                            Text(
                               ':',
                               style: subTextStyle,
                             ),
@@ -99,7 +101,7 @@ class _Car_detailsState extends State<CarDetails> {
                             )
                           ],
                         ),
-                         Padding(
+                        Padding(
                           padding: const EdgeInsets.only(right: 20),
                           child: Divider(),
                         ),
@@ -109,7 +111,7 @@ class _Car_detailsState extends State<CarDetails> {
                             SizedBox(
                               width: 103.5,
                             ),
-                             Text(
+                            Text(
                               ':',
                               style: subTextStyle,
                             ),
@@ -130,7 +132,7 @@ class _Car_detailsState extends State<CarDetails> {
                             SizedBox(
                               width: 146,
                             ),
-                             Text(
+                            Text(
                               ':',
                               style: subTextStyle,
                             ),
@@ -143,7 +145,7 @@ class _Car_detailsState extends State<CarDetails> {
                             )
                           ],
                         ),
-                         Padding(
+                        Padding(
                           padding: const EdgeInsets.only(right: 20),
                           child: Divider(),
                         ),
@@ -153,7 +155,7 @@ class _Car_detailsState extends State<CarDetails> {
                             SizedBox(
                               width: 124.7,
                             ),
-                             Text(
+                            Text(
                               ':',
                               style: subTextStyle,
                             ),
@@ -166,7 +168,7 @@ class _Car_detailsState extends State<CarDetails> {
                             )
                           ],
                         ),
-                         Padding(
+                        Padding(
                           padding: const EdgeInsets.only(right: 20),
                           child: Divider(),
                         ),
@@ -176,7 +178,7 @@ class _Car_detailsState extends State<CarDetails> {
                             SizedBox(
                               width: 92,
                             ),
-                             Text(
+                            Text(
                               ':',
                               style: subTextStyle,
                             ),
@@ -199,7 +201,7 @@ class _Car_detailsState extends State<CarDetails> {
                             SizedBox(
                               width: 97,
                             ),
-                             Text(
+                            Text(
                               ':',
                               style: subTextStyle,
                             ),
@@ -212,7 +214,7 @@ class _Car_detailsState extends State<CarDetails> {
                             )
                           ],
                         ),
-                         Padding(
+                        Padding(
                           padding: const EdgeInsets.only(right: 20),
                           child: Divider(),
                         ),
@@ -222,7 +224,7 @@ class _Car_detailsState extends State<CarDetails> {
                             SizedBox(
                               width: 80,
                             ),
-                             Text(
+                            Text(
                               ':',
                               style: subTextStyle,
                             ),
@@ -235,7 +237,7 @@ class _Car_detailsState extends State<CarDetails> {
                             )
                           ],
                         ),
-                         Padding(
+                        Padding(
                           padding: const EdgeInsets.only(right: 20),
                           child: Divider(),
                         ),
@@ -245,7 +247,7 @@ class _Car_detailsState extends State<CarDetails> {
                             SizedBox(
                               width: 87,
                             ),
-                             Text(
+                            Text(
                               ':',
                               style: subTextStyle,
                             ),
@@ -258,19 +260,17 @@ class _Car_detailsState extends State<CarDetails> {
                             )
                           ],
                         ),
-                         Padding(
+                        Padding(
                           padding: const EdgeInsets.only(right: 20),
                           child: Divider(),
                         ),
-                        
                         Row(
                           children: [
-                            Text('Amount of the car/day',
-                                style: textStyle),
-                           SizedBox(
+                            Text('Amount of the car/day', style: textStyle),
+                            SizedBox(
                               width: 26.5,
                             ),
-                             Text(
+                            Text(
                               ':',
                               style: subTextStyle,
                             ),
@@ -334,7 +334,6 @@ class _Car_detailsState extends State<CarDetails> {
                                     Colors.blueGrey[900])),
                           ),
                         ),
-                        
                         Container(
                           width: 140,
                           height: 50,

@@ -6,6 +6,7 @@ import 'package:car_rental/screens/bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class SelectedCar extends StatefulWidget {
   CarRental carRental;
@@ -574,7 +575,7 @@ class _Selected_carState extends State<SelectedCar> {
 
     if (pickeded != null) {
       setState(() {
-        _dropoffdate.text = pickeded.toString().split(" ")[0];
+        _dropoffdate.text = DateFormat('dd-MM-yyyy').format(pickeded);
       });
     }
   }
@@ -588,90 +589,10 @@ class _Selected_carState extends State<SelectedCar> {
 
     if (picked != null) {
       setState(() {
-        _pickupdate.text = picked.toString().split(" ")[0];
+        _pickupdate.text = DateFormat('dd-MM-yyyy').format(picked);
       });
     }
   }
-//  car details image picker>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-  // Future<void> validator() async {
-  //   if (_formkey.currentState!.validate() && image25 != null) {
-  //     final pickUp = _pickupdate.text.trim();
-  //     final dropOff = _dropoffdate.text.trim();
-  //     final notes = _notes.text.trim().toString();
-  //     final currentKiloMeter = _currentKm.text.trim();
-  //     final AdvaAmount = _advanceamount.text.trim();
-
-  //     final rentalDetails = selectedCars(
-  //         image1: imagepath!,
-  //         pickUpDate: pickUp,
-  //         dropOffDate: dropOff,
-  //         notes: notes,
-  //         currentKm: currentKiloMeter,
-  //         advanceAmount: AdvaAmount);
-
-  //     await _selectedCarSevice.addDetails(rentalDetails);
-
-  //     image25 = null;
-  //     _pickupdate.clear();
-  //     _dropoffdate.clear();
-  //     _notes.clear();
-  //     _currentKm.clear();
-  //     _advanceamount.clear();
-
-  //     // ScaffoldMessenger.of(context).showSnackBar(
-  //     //   SnackBar(
-  //     //       backgroundColor: Colors.black,
-  //     //       behavior: SnackBarBehavior.floating,
-  //     //       margin: EdgeInsets.all(10),
-  //     //       content: Text('Please fill the customer details also for that swipe to left')),
-  //     // );
-  //   } else {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(
-  //           backgroundColor: Colors.black,
-  //           behavior: SnackBarBehavior.floating,
-  //           margin: EdgeInsets.all(10),
-  //           content: Text('Please fill the fields and select an image')),
-  //     );
-  //   }
-  // }
-
-  // Future<void> validating() async {
-  //   if (_formkey.currentState!.validate() && image24 != null) {
-  //     final name = _customername.text.trim();
-  //     final mobileNumber = _mobilenumber.text.trim();
-  //     final address = _address.text.trim().toString();
-
-  //     final rentalDetailsSec = selectedCarSecTab(
-  //         image2: imagepaths!,
-  //         customerName: name,
-  //         mobileNumber: mobileNumber,
-  //         address: address);
-
-  //     await _selectedCarTabSevice.addDetail(rentalDetailsSec);
-
-  //     image24 = null;
-  //     _customername.clear();
-  //     _mobilenumber.clear();
-  //     _address.clear();
-
-  //     // ScaffoldMessenger.of(context).showSnackBar(
-  //     //   SnackBar(
-  //     //       backgroundColor: Colors.black,
-  //     //       behavior: SnackBarBehavior.floating,
-  //     //       margin: EdgeInsets.all(10),
-  //     //       content: Text('Please fill the customer details also for that swipe to left')),
-  //     // );
-  //   } else {
-  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //         backgroundColor: Colors.blueGrey[900],
-  //         behavior: SnackBarBehavior.floating,
-  //         margin: EdgeInsets.all(10),
-  //         content: Text('Successfully saved')));
-  //     _formkey.currentState!.validate();
-  //   }
-  // }
 
   Future<void> addCarImage(BuildContext context) async {
     final imagePicker = ImagePicker();
@@ -704,7 +625,7 @@ class _Selected_carState extends State<SelectedCar> {
       final notes = _notes.text.trim().toString();
       final curkm = _currentKm.text.trim();
       final adamount = _advanceamount.text.trim();
-      final cutomerName = _customername.text.trim().toString();
+      final cutomerName = _customername.text.trim();
       final mobileNumber = _mobilenumber.text.trim();
       final address = _address.text.trim();
 

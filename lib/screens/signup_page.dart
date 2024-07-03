@@ -40,7 +40,7 @@ class _Signup_screenState extends State<SignupScreen> {
                 children: [
                   Container(
                     width: 330,
-                        height: 630,
+                    height: 630,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white,
@@ -246,14 +246,14 @@ class _Signup_screenState extends State<SignupScreen> {
                               child: Text('Login'))
                         ],
                       ),
-                       SizedBox(height: 100,),
-                          Container(
-                            
-                            width: 280,
-                            child: Image.asset('assets/easy-rent-high-resolution-logo-transparent (1).png')
-                            )
-                    ]
-                    ),
+                      SizedBox(
+                        height: 100,
+                      ),
+                      Container(
+                          width: 280,
+                          child: Image.asset(
+                              'assets/easy-rent-high-resolution-logo-transparent (1).png'))
+                    ]),
                   ),
                 ],
               ),

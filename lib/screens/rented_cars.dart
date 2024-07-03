@@ -41,55 +41,61 @@ class _Rented_CarsState extends State<RentedCars> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(100),
-        child: AppBar(
-          backgroundColor: Colors.blueGrey[900],
-          automaticallyImplyLeading: false,
-          iconTheme: IconThemeData(color: Colors.white),
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(140),
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      width: 250,
-                      height: 41,
-                      child: SearchBar(
-                        shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10))),
-                            leading: Icon(Icons.search,color: Colors.white,),
-                            hintText: 'Search',
-                            controller: searchController,
-                            onChanged: (value) => _carRentalService.searchCar(value),
-                            backgroundColor: MaterialStatePropertyAll(Colors.white24),
-                            textStyle: MaterialStatePropertyAll(TextStyle(color: Colors.white)),
+          preferredSize: Size.fromHeight(100),
+          child: AppBar(
+            backgroundColor: Colors.blueGrey[900],
+            automaticallyImplyLeading: false,
+            iconTheme: IconThemeData(color: Colors.white),
+            bottom: PreferredSize(
+              preferredSize: Size.fromHeight(140),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        width: 250,
+                        height: 41,
+                        child: SearchBar(
+                          shape: MaterialStatePropertyAll(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10))),
+                          leading: Icon(
+                            Icons.search,
+                            color: Colors.white,
+                          ),
+                          hintText: 'Search',
+                          controller: searchController,
+                          onChanged: (value) =>
+                              _carRentalService.searchCar(value),
+                          backgroundColor:
+                              MaterialStatePropertyAll(Colors.white24),
+                          textStyle: MaterialStatePropertyAll(
+                              TextStyle(color: Colors.white)),
+                        ),
                       ),
                     ),
-                  ),
-                 
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => DueCars()));
-                    },
-                    child: Icon(
-                      Icons.car_rental,
-                      color: Colors.white,
-                    ),
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll(Colors.white24),
-                        shape: MaterialStatePropertyAll(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10))))),
-                ],
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => DueCars()));
+                        },
+                        child: Icon(
+                          Icons.car_rental,
+                          color: Colors.white,
+                        ),
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStatePropertyAll(Colors.white24),
+                            shape: MaterialStatePropertyAll(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10))))),
+                  ],
+                ),
               ),
             ),
-          ),
-        )),
+          )),
       body: Container(
         height: double.infinity,
         width: double.infinity,
@@ -97,7 +103,8 @@ class _Rented_CarsState extends State<RentedCars> {
         child: ValueListenableBuilder(
           valueListenable: CarRentalService.carListNotifier,
           builder: (context, value, child) {
-           final listToShow = value.where((element) => element.status).toList();
+            final listToShow =
+                value.where((element) => element.status).toList();
             return listToShow.isEmpty
                 ? Center(
                     child: Text("No rented cars"),
@@ -108,7 +115,8 @@ class _Rented_CarsState extends State<RentedCars> {
                         onTap: () {
                           Navigator.of(context)
                               .push(MaterialPageRoute(
-                                  builder: (context) => RentedCarDetails(carRental: listToShow[index])))
+                                  builder: (context) => RentedCarDetails(
+                                      carRental: listToShow[index])))
                               .then((value) => _loadDetails());
                         },
                         child: Container(
@@ -145,7 +153,8 @@ class _Rented_CarsState extends State<RentedCars> {
                                   ),
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           "Name: ${listToShow[index].car}",
@@ -164,7 +173,7 @@ class _Rented_CarsState extends State<RentedCars> {
                                         ),
                                         Text(
                                           "Drop off: ${listToShow[index].dropOffDate}",
-                                         style: TextStyle(color: Colors.red),
+                                          style: TextStyle(color: Colors.red),
                                           textAlign: TextAlign.start,
                                         ),
                                       ],
@@ -173,7 +182,7 @@ class _Rented_CarsState extends State<RentedCars> {
                                   Column(
                                     children: [
                                       IconButton(
-                                         onPressed: () async {
+                                          onPressed: () async {
                                             deleteOption(listToShow[index]);
                                           },
                                           icon: Icon(
@@ -227,7 +236,7 @@ class _Rented_CarsState extends State<RentedCars> {
                   ),
                   SizedBox(width: 15),
                   ElevatedButton(
-                     onPressed: () async {
+                    onPressed: () async {
                       car.status = false;
                       await _carRentalService.editDetails(car);
                       _loadDetails();
@@ -253,5 +262,4 @@ class _Rented_CarsState extends State<RentedCars> {
           );
         });
   }
-
 }
