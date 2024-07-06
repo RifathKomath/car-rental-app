@@ -35,7 +35,7 @@ class CarRentalAdapter extends TypeAdapter<CarRental> {
       notes: fields[15] as String?,
       currentKm: fields[16] as String?,
       advanceAmount: fields[17] as String?,
-      image2: (fields[18] as List?)?.cast<String>(),
+      image2: fields[18] as dynamic,
       customerName: fields[19] as String?,
       mobileNumber: fields[20] as String?,
       address: fields[21] as String?,

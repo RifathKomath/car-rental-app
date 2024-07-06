@@ -28,7 +28,7 @@ class _historyDetailPageState extends State<historyDetailPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'History of car',
+          'History of rented car',
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.blueGrey[900],

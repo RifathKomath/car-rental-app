@@ -1,7 +1,9 @@
+import 'package:car_rental/models/carrental.dart';
 import 'package:flutter/material.dart';
 
 class RevenuePageDetail extends StatefulWidget {
-  const RevenuePageDetail({super.key});
+  CarRental carRental;
+   RevenuePageDetail({super.key,required this.carRental});
 
   @override
   State<RevenuePageDetail> createState() => _RevenuePageDetailState();
@@ -14,9 +16,10 @@ class _RevenuePageDetailState extends State<RevenuePageDetail> {
       appBar: AppBar(
           backgroundColor: Colors.blueGrey[900],
           iconTheme: IconThemeData(color: Colors.white),
-          title: Text('Revenue of the car',style: TextStyle(color: Colors.white),),
+          title: Text('Revenue of rented car',style: TextStyle(color: Colors.white),),
           centerTitle: true,
       ),
+
     );
   }
 }

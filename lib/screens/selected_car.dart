@@ -17,15 +17,18 @@ class SelectedCar extends StatefulWidget {
 }
 
 class _Selected_carState extends State<SelectedCar> {
-  bool selecetedCarImg = false;
-  List<String> imagePat = [];
-  XFile? selectedImage;
-  bool hasSelectedImage = false;
+  // bool selecetedCarImg = false;
+  // List<String> imagePat = [];
+  // XFile? selectedImage;
+  // bool hasSelectedImage = false;
 
-  bool selecetedProofImg = false;
-  List<String> imagePaths = [];
-  XFile? selectedImages;
-  bool hasSelectedImages = false;
+  // bool selecetedProofImg = false;
+  // List<String> imagePaths = [];
+  // XFile? selectedImages;
+  // bool hasSelectedImages = false;
+
+  File? image24;
+  String? imagepat;
 
   final _formkey = GlobalKey<FormState>();
 
@@ -124,58 +127,99 @@ class _Selected_carState extends State<SelectedCar> {
                             SizedBox(
                               height: 20,
                             ),
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: [
-                                  ...List.generate(
-                                    imagePat.length,
-                                    (index) => Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        width: 250,
-                                        height: 150,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                          border:
-                                              Border.all(color: Colors.black),
-                                          image: DecorationImage(
-                                            image: imagePat.isNotEmpty
-                                                ? FileImage(
-                                                    File(imagePat[index]))
-                                                : const AssetImage("")
-                                                    as ImageProvider,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                            SizedBox(
+                              height: 170,
+                              width: 290,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(),
+                                  borderRadius: BorderRadius.circular(7),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(5),
+                                  child: Image.file(
+                                    File(widget.carRental.imagex),
+                                    fit: BoxFit.cover,
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      width: 150,
-                                      height: 150,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(),
-                                          borderRadius:
-                                              BorderRadius.circular(5)),
-                                      child: IconButton(
-                                        onPressed: () {
-                                          addCarImage(context);
-                                        },
-                                        icon: Icon(
-                                          Icons.add_a_photo,
-                                          size: 50,
-                                          color: Colors.blueGrey[900],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
+                            // SingleChildScrollView(
+                            //   scrollDirection: Axis.horizontal,
+                            //   child: Row(
+                            //     children: [
+                            //       ...List.generate(
+                            //         selectedImag.length,
+                            //         (index) => Padding(
+                            //           padding: const EdgeInsets.all(8.0),
+                            //           child: Container(
+                            //             width: 250,
+                            //             height: 150,
+                            //             decoration: BoxDecoration(
+                            //               borderRadius:
+                            //                   BorderRadius.circular(5),
+                            //               border:
+                            //                   Border.all(color: Colors.black),
+                            //               image: DecorationImage(
+                            //                 image: selectedImag.isNotEmpty
+                            //                     ? FileImage(
+                            //                         File(imagePat[index]))
+                            //                     : const AssetImage("")
+                            //                         as ImageProvider,
+                            //                 fit: BoxFit.cover,
+                            //               ),
+                            //             ),
+                            //           ),
+                            //         ),
+                            //       ),
+                            // Padding(
+                            //   padding: const EdgeInsets.all(8.0),
+                            //   child: Container(
+                            //     width: 150,
+                            //     height: 150,
+                            //     decoration: BoxDecoration(
+                            //         border: Border.all(),
+                            //         borderRadius: BorderRadius.circular(5)),
+                            //     child: IconButton(
+                            //       onPressed: () {
+                            //         // addCarImage(context);
+                            //         // pickImage();
+                            //       },
+                            //       icon: Icon(
+                            //         Icons.add_a_photo,
+                            //         size: 50,
+                            //         color: Colors.blueGrey[900],
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
+                            //     ],
+                            //   ),
+                            // ),
+                            // SizedBox(
+                            //   height: MediaQuery.of(context).size.height * 0.5,
+                            //   child: GridView.builder(
+                            //     gridDelegate:
+                            //         const SliverGridDelegateWithFixedCrossAxisCount(
+                            //       crossAxisCount: 3,
+                            //       mainAxisExtent: 130.0,
+                            //       crossAxisSpacing: 4.0,
+                            //     ),
+                            //     itemBuilder: (context, index) {
+                            //       return GestureDetector(
+                            //         onTap: () {},
+                            //         onLongPress: () {
+                            //           // DeleteImage.deleteImageWhileAddingTrip(context, index,selectedImages, onImageDeleted);
+                            //         },
+                            //         child: Image.file(
+                            //           selectedImag[index],
+                            //           fit: BoxFit.cover,
+                            //         ),
+                            //       );
+                            //     },
+                            //     itemCount: selectedImag.length,
+                            //   ),
+                            // ),
                             SizedBox(
                               height: 30,
                             ),
@@ -335,7 +379,6 @@ class _Selected_carState extends State<SelectedCar> {
                             SizedBox(
                               height: 30,
                             ),
-                            // Additional widgets (e.g., buttons) can be added here
                           ],
                         ),
                       ),
@@ -348,58 +391,92 @@ class _Selected_carState extends State<SelectedCar> {
                         padding: const EdgeInsets.only(top: 20),
                         child: Column(
                           children: [
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: [
-                                  ...List.generate(
-                                    imagePaths.length,
-                                    (index) => Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        width: 250,
-                                        height: 150,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                          border:
-                                              Border.all(color: Colors.black),
-                                          image: DecorationImage(
-                                            image: imagePaths.isNotEmpty
-                                                ? FileImage(
-                                                    File(imagePaths[index]))
-                                                : const AssetImage("")
-                                                    as ImageProvider,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
+                            Stack(
+                              children: [
+                                Container(
+                                  height: 170,
+                                  width: 290,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(),
+                                      image: image24 != null
+                                          ? DecorationImage(
+                                              image: FileImage(image24!),
+                                              fit: BoxFit.cover,
+                                            )
+                                          : null,
+                                      borderRadius: BorderRadius.circular(10)),
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  right: 5,
+                                  child: IconButton(
+                                    onPressed: () {
+                                      // addphoto(context);
+                                      getimage(ImageSource.gallery);
+                                      // Navigator.of(context).pop();
+                                    },
+                                    icon: const Icon(
+                                      Icons.add_a_photo_outlined,
+                                      color: Colors.black,
                                     ),
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    iconSize: 30,
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      width: 150,
-                                      height: 150,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(),
-                                          borderRadius:
-                                              BorderRadius.circular(5)),
-                                      child: IconButton(
-                                        onPressed: () {
-                                          addProofImage(context);
-                                        },
-                                        icon: Icon(
-                                          Icons.add_a_photo,
-                                          size: 50,
-                                          color: Colors.blueGrey[900],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
+                            // SingleChildScrollView(
+                            //   scrollDirection: Axis.horizontal,
+                            //   child: Row(
+                            //     children: [
+                            //       ...List.generate(
+                            //         imagePaths.length,
+                            //         (index) => Padding(
+                            //           padding: const EdgeInsets.all(8.0),
+                            //           child: Container(
+                            //             width: 250,
+                            //             height: 150,
+                            //             decoration: BoxDecoration(
+                            //               borderRadius:
+                            //                   BorderRadius.circular(5),
+                            //               border:
+                            //                   Border.all(color: Colors.black),
+                            //               image: DecorationImage(
+                            //                 image: imagePaths.isNotEmpty
+                            //                     ? FileImage(
+                            //                         File(imagePaths[index]))
+                            //                     : const AssetImage("")
+                            //                         as ImageProvider,
+                            //                 fit: BoxFit.cover,
+                            //               ),
+                            //             ),
+                            //           ),
+                            //         ),
+                            //       ),
+                            //       Padding(
+                            //         padding: const EdgeInsets.all(8.0),
+                            //         child: Container(
+                            //           width: 150,
+                            //           height: 150,
+                            //           decoration: BoxDecoration(
+                            //               border: Border.all(),
+                            //               borderRadius:
+                            //                   BorderRadius.circular(5)),
+                            //           child: IconButton(
+                            //             onPressed: () {
+                            //               addProofImage(context);
+                            //             },
+                            //             icon: Icon(
+                            //               Icons.add_a_photo,
+                            //               size: 50,
+                            //               color: Colors.blueGrey[900],
+                            //             ),
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
 
                             SizedBox(
                               height: 5,
@@ -514,46 +591,6 @@ class _Selected_carState extends State<SelectedCar> {
                             SizedBox(
                               height: 30,
                             ),
-                            // Row(
-                            //   children: [
-                            //     SizedBox(
-                            //       width: 235,
-                            //     ),
-                            //     ElevatedButton(
-                            //       onPressed: () {
-                            //         if (_customername.text.isNotEmpty ||
-                            //             _mobilenumber.text.isNotEmpty ||
-                            //             _address.text.isNotEmpty) {
-                            //           validating();
-                            //         } else {
-                            //           _formkey.currentState!.validate() &&
-                            //               image24 != null;
-
-                            //           ScaffoldMessenger.of(context)
-                            //               .showSnackBar(
-                            //             SnackBar(
-                            //                 backgroundColor: Colors.black,
-                            //                 behavior: SnackBarBehavior.floating,
-                            //                 margin: EdgeInsets.all(10),
-                            //                 content: Text(
-                            //                     'Please fill the fields and select an image')),
-                            //           );
-                            //         }
-                            //       },
-                            //       child: Text(
-                            //         'Save',
-                            //         style: TextStyle(color: Colors.white),
-                            //       ),
-                            //       style: ButtonStyle(
-                            //           shape: MaterialStatePropertyAll(
-                            //               RoundedRectangleBorder(
-                            //                   borderRadius:
-                            //                       BorderRadius.circular(10))),
-                            //           backgroundColor: MaterialStatePropertyAll(
-                            //               Colors.black)),
-                            //     ),
-                            //   ],
-                            // )
                           ],
                         ),
                       ),
@@ -594,27 +631,48 @@ class _Selected_carState extends State<SelectedCar> {
     }
   }
 
-  Future<void> addCarImage(BuildContext context) async {
-    final imagePicker = ImagePicker();
-    final pickedImage = await imagePicker.pickMultiImage();
-    setState(() {
-      imagePat.clear();
-      for (final multiImg in pickedImage) {
-        imagePat.add(multiImg.path);
-      }
-      selecetedCarImg = imagePat.isNotEmpty;
-    });
-  }
+  // Future<void> addCarImage(BuildContext context) async {
+  //   final imagePicker = ImagePicker();
+  //   final pickedImage = await imagePicker.pickMultiImage();
+  //   setState(() {
+  //     imagePat.clear();
+  //     for (final multiImg in pickedImage) {
+  //       imagePat.add(multiImg.path);
+  //     }
+  //     selecetedCarImg = imagePat.isNotEmpty;
+  //   });
+  // }
+  // Future<void> pickImage() async {
+  //   final List<XFile> images =
+  //       await ImagePicker().pickMultiImage(imageQuality: 50);
 
-  Future<void> addProofImage(BuildContext context) async {
-    final imagePick = ImagePicker();
-    final pickedProofImage = await imagePick.pickMultiImage();
+  //   if (images.isNotEmpty) {
+  //     setState(() {
+  //       selectedImag.addAll(images.map((xfile) => File(xfile.path)).toList());
+  //     });
+  //   }
+  // }
+
+  // Future<void> addProofImage(BuildContext context) async {
+  //   final imagePick = ImagePicker();
+  //   final pickedProofImage = await imagePick.pickMultiImage();
+  //   setState(() {
+  //     imagePaths.clear();
+  //     for (final multiImges in pickedProofImage) {
+  //       imagePaths.add(multiImges.path);
+  //     }
+  //     selecetedProofImg = imagePaths.isNotEmpty;
+  //   });
+  // }
+
+  Future<void> getimage(ImageSource source) async {
+    final image = await ImagePicker().pickImage(source: source);
+    if (image == null) {
+      return;
+    }
     setState(() {
-      imagePaths.clear();
-      for (final multiImges in pickedProofImage) {
-        imagePaths.add(multiImges.path);
-      }
-      selecetedProofImg = imagePaths.isNotEmpty;
+      image24 = File(image.path);
+      imagepat = image.path.toString();
     });
   }
 
@@ -629,41 +687,33 @@ class _Selected_carState extends State<SelectedCar> {
       final mobileNumber = _mobilenumber.text.trim();
       final address = _address.text.trim();
 
-      // final selecteCarDetail = selectedCars(image1:imagePaths, pickUpDate: pickup, dropOffDate: dropoff, notes: notes, currentKm: curkm, advanceAmount: adamount, image2: imagePaths, customerName: cutomerName, mobileNumber: mobileNumber, address: address);
-
       final carSelected = CarRental(
-        imagex: widget.carRental.imagex,
-        car: widget.carRental.car,
-        brand: widget.carRental.brand,
-        model: widget.carRental.model,
-        fuel: widget.carRental.fuel,
-        seat: widget.carRental.seat,
-        number: widget.carRental.number,
-        insurance: widget.carRental.insurance,
-        pollution: widget.carRental.pollution,
-        amount: widget.carRental.amount,
-        status: true,
-        id: widget.carRental.id,
-        pickUpDate: pickup,
-        dropOffDate: dropoff,
-        notes: notes,
-        currentKm: curkm,
-        advanceAmount: adamount,
-        customerName: cutomerName,
-        mobileNumber: mobileNumber,
-        address: address,
-        image1: imagePat,
-        image2: imagePaths,
-      );
+          imagex: widget.carRental.imagex,
+          car: widget.carRental.car,
+          brand: widget.carRental.brand,
+          model: widget.carRental.model,
+          fuel: widget.carRental.fuel,
+          seat: widget.carRental.seat,
+          number: widget.carRental.number,
+          insurance: widget.carRental.insurance,
+          pollution: widget.carRental.pollution,
+          amount: widget.carRental.amount,
+          status: true,
+          id: widget.carRental.id,
+          pickUpDate: pickup,
+          dropOffDate: dropoff,
+          notes: notes,
+          currentKm: curkm,
+          advanceAmount: adamount,
+          customerName: cutomerName,
+          mobileNumber: mobileNumber,
+          address: address,
+          image2: imagepat!);
       print('validation finished');
       carRental.editDetails(carSelected);
 
-      // await _selectedCarSevice.addDetails(selecteCarDetail);
-
       print('code finished');
 
-      imagePaths.clear();
-      imagePat.clear();
       _pickupdate.clear();
       _dropoffdate.clear();
       _notes.clear();

@@ -11,28 +11,31 @@ class AddingCars extends StatefulWidget {
   const AddingCars({super.key});
 
   @override
-  State<AddingCars> createState() => _Adding_carsState();
+  State<AddingCars> createState() => _AddingCarsState();
 }
 
-class _Adding_carsState extends State<AddingCars> {
+class _AddingCarsState extends State<AddingCars> {
   File? image25;
   String? imagepath;
+
+  final _formKey = GlobalKey<FormState>();
+  final _carRentalService = CarRentalService();
 
   final _nameController = TextEditingController();
   final _brandController = TextEditingController();
   final _modelController = TextEditingController();
   final _fuelController = TextEditingController();
   final _seatController = TextEditingController();
-  final _regnumberController = TextEditingController();
+  final _regNumberController = TextEditingController();
   final _insuranceController = TextEditingController();
   final _pollutionController = TextEditingController();
   final _amountController = TextEditingController();
 
-  final _formkey = GlobalKey<FormState>();
+  String? selectedBrandType;
+  String? selectedSeatType;
+  String? selectedFuelType;
 
-  final CarRentalService _carRentalSevice = CarRentalService();
-
-  List<String> BrandTypes = [
+  final List<String> brandTypes = [
     'Toyota',
     'Jeep',
     'Suzuki',
@@ -48,25 +51,15 @@ class _Adding_carsState extends State<AddingCars> {
     'Kia',
     'Mahindra'
   ];
-  String? selectedBrandTypes;
 
-  List<String> seatTypes = [
-    '2',
-    '4',
-    '5',
-    '6',
-    '7',
-  ];
-  String? selectedSeattypes;
-
-  List<String> fuelTypes = [
+  final List<String> seatTypes = ['2', '4', '5', '6', '7'];
+  final List<String> fuelTypes = [
     'Diesel',
     'Petrol',
     'CNG',
     'Electric',
-    'Other',
+    'Other'
   ];
-  String? selectedFueltypes;
 
   @override
   Widget build(BuildContext context) {
@@ -74,422 +67,137 @@ class _Adding_carsState extends State<AddingCars> {
       appBar: AppBar(
         backgroundColor: Colors.blueGrey[900],
         automaticallyImplyLeading: false,
-        iconTheme: IconThemeData(color: Colors.white),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 20, top: 10, bottom: 10),
             child: ElevatedButton(
-              onPressed: () {
-                if (_nameController.text.isNotEmpty ||
-                    _brandController.text.isNotEmpty ||
-                    _modelController.text.isNotEmpty ||
-                    _fuelController.text.isNotEmpty ||
-                    _seatController.text.isNotEmpty ||
-                    _regnumberController.text.isNotEmpty ||
-                    _insuranceController.text.isNotEmpty ||
-                    _pollutionController.text.isNotEmpty ||
-                    _amountController.text.isNotEmpty) {
-                  validator();
-                } else {
-                  _formkey.currentState!.validate() && image25 != null;
-
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                        backgroundColor: Colors.black,
-                        behavior: SnackBarBehavior.floating,
-                        margin: EdgeInsets.all(10),
-                        content:
-                            Text('Please fill the fields and select an image')),
-                  );
-                }
-              },
-              child: Text(
-                'Save',
-                style: TextStyle(color: Colors.white, fontSize: 17),
-              ),
+              onPressed: _saveCar,
+              child: const Text('Save',
+                  style: TextStyle(color: Colors.white, fontSize: 17)),
               style: ButtonStyle(
-                  shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
-                  backgroundColor: MaterialStatePropertyAll(Colors.white24)),
+                  backgroundColor: MaterialStateProperty.all(Colors.white24)),
             ),
           )
         ],
       ),
       body: SingleChildScrollView(
         child: Form(
-          key: _formkey,
+          key: _formKey,
           child: Column(
             children: [
-              SizedBox(
-                height: 20,
+              const SizedBox(height: 20),
+              _buildImagePicker(),
+              const SizedBox(height: 30),
+              _buildTextField(
+                controller: _nameController,
+                icon: Icons.directions_car_filled,
+                label: 'Car name :',
+                hintText: 'Please enter the car name',
+                validator: (value) =>
+                    value == null || value.isEmpty ? 'Car name is empty' : null,
               ),
-              Stack(
-                children: [
-                  Container(
-                    height: 170,
-                    width: 290,
-                    decoration: BoxDecoration(
-                        border: Border.all(),
-                        image: image25 != null
-                            ? DecorationImage(
-                                image: FileImage(image25!),
-                                fit: BoxFit.cover,
-                              )
-                            : null,
-                        borderRadius: BorderRadius.circular(15)),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 5,
-                    child: IconButton(
-                      onPressed: () {
-                        // addphoto(context);
-                        getimage(ImageSource.gallery);
-                        // Navigator.of(context).pop();
-                      },
-                      icon: const Icon(
-                        Icons.add_a_photo_outlined,
-                        color: Colors.black,
-                      ),
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      iconSize: 30,
-                    ),
-                  ),
+              const SizedBox(height: 20),
+              _buildDropdownButton(
+                value: selectedBrandType,
+                items: brandTypes,
+                icon: Icons.directions_car_filled,
+                label: 'Brand :',
+                onChanged: (newValue) =>
+                    setState(() => selectedBrandType = newValue),
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Please select a brand'
+                    : null,
+              ),
+              const SizedBox(height: 20),
+              _buildTextField(
+                controller: _modelController,
+                icon: Icons.calendar_month,
+                label: 'Model :',
+                hintText: 'Please enter the model year',
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
                 ],
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Car model is empty'
+                    : null,
               ),
-
-              // Name>>>>>>>>>>>>>>>>
-
-              SizedBox(
-                height: 30,
+              const SizedBox(height: 20),
+              _buildDropdownButton(
+                value: selectedFuelType,
+                items: fuelTypes,
+                icon: Icons.ev_station_sharp,
+                label: 'Fuel type :',
+                onChanged: (newValue) =>
+                    setState(() => selectedFuelType = newValue),
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Please select a fuel type'
+                    : null,
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 20,
-                  right: 27,
-                ),
-                child: TextFormField(
-                  controller: _nameController,
-                  decoration: InputDecoration(
-                      // filled: true,
-                      icon: Icon(Icons.directions_car_filled),
-                      label: Text(' Car name :'),
-                      hintText: 'Please enter the car Name',
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25))),
-                  keyboardType: TextInputType.name,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Car Name is Empty ';
-                    } else {
-                      return null;
-                    }
-                  },
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                ),
+              const SizedBox(height: 20),
+              _buildDropdownButton(
+                value: selectedSeatType,
+                items: seatTypes,
+                icon: Icons.airline_seat_recline_extra_sharp,
+                label: 'Seat capacity :',
+                onChanged: (newValue) =>
+                    setState(() => selectedSeatType = newValue),
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Please select a seat capacity'
+                    : null,
               ),
-
-              SizedBox(
-                height: 20,
+              const SizedBox(height: 20),
+              _buildTextField(
+                controller: _regNumberController,
+                icon: Icons.onetwothree_rounded,
+                label: 'Reg Number :',
+                hintText: 'Please enter the car reg number',
+                inputFormatters: [
+                  FilteringTextInputFormatter.deny(RegExp(r'\s'))
+                ],
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Reg number is empty'
+                    : null,
               ),
-              // Brand>>>>>>>>>>>>>>>>>>
-
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 20,
-                  right: 27,
-                ),
-                child: DropdownButtonFormField<String>(
-                  borderRadius: BorderRadius.circular(40),
-                  value: selectedBrandTypes,
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedBrandTypes = newValue;
-                    });
-                  },
-                  items: BrandTypes.map((mode) {
-                    return DropdownMenuItem<String>(
-                      value: mode,
-                      child: Text(mode),
-                    );
-                  }).toList(),
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(25))),
-                    //  filled: true,
-                    icon: Icon(Icons.directions_car_filled),
-                    label: Text('Brand :'),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please select one Brand';
-                    }
-                    return null;
-                  },
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                ),
+              const SizedBox(height: 20),
+              _buildDatePickerField(
+                controller: _insuranceController,
+                icon: Icons.note,
+                label: 'Insurance Upto :',
+                hintText: 'Please enter the insurance date',
+                onTap: _selectInsuranceDate,
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Insurance is empty'
+                    : null,
               ),
-
-              // Model>>>>>>>>>>>>>>>>>>
-
-              SizedBox(
-                height: 20,
+              const SizedBox(height: 20),
+              _buildDatePickerField(
+                controller: _pollutionController,
+                icon: Icons.note,
+                label: 'Pollution Upto :',
+                hintText: 'Please enter the pollution date',
+                onTap: _selectPollutionDate,
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Pollution is empty'
+                    : null,
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 20,
-                  right: 27,
-                ),
-                child: TextFormField(
-                  controller: _modelController,
-                  decoration: InputDecoration(
-                      icon: Icon(Icons.calendar_month),
-                      label: Text('Model :'),
-                      // filled: true,
-                      hintText: 'Please enter the model year',
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25))),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                    FilteringTextInputFormatter.deny(RegExp(r'\s'))
-                  ],
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Car Model is Empty ';
-                    } else {
-                      return null;
-                    }
-                  },
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                ),
+              const SizedBox(height: 20),
+              _buildTextField(
+                controller: _amountController,
+                icon: Icons.currency_rupee_rounded,
+                label: 'Amount of the Car :',
+                hintText: 'Please enter the amount of the car',
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                ],
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Car amount is empty'
+                    : null,
               ),
-
-              SizedBox(
-                height: 20,
-              ),
-
-              // Fuel>>>>>>>>>>>>>>>>>>>>>>
-
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 20,
-                  right: 27,
-                ),
-                child: DropdownButtonFormField<String>(
-                  borderRadius: BorderRadius.circular(40),
-                  value: selectedFueltypes,
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedFueltypes = newValue;
-                    });
-                  },
-                  items: fuelTypes.map((mode) {
-                    return DropdownMenuItem<String>(
-                      value: mode,
-                      child: Text(mode),
-                    );
-                  }).toList(),
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(25))),
-                    //  filled: true,
-                    icon: Icon(Icons.ev_station_sharp),
-                    label: Text('Fuel type :'),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please select one item';
-                    }
-                    return null;
-                  },
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                ),
-              ),
-
-              // Seat capacity>>>>>>>>>>>>>>>>>>>
-
-              SizedBox(
-                height: 20,
-              ),
-
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 20,
-                  right: 27,
-                ),
-                child: DropdownButtonFormField<String>(
-                  borderRadius: BorderRadius.circular(40),
-                  value: selectedSeattypes,
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedSeattypes = newValue;
-                    });
-                  },
-                  items: seatTypes.map((mode) {
-                    return DropdownMenuItem<String>(
-                      value: mode,
-                      child: Text(mode),
-                    );
-                  }).toList(),
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(25))),
-                    //  filled: true,
-                    icon: Icon(Icons.airline_seat_recline_extra_sharp),
-                    label: Text('Seat capacity :'),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please select one item';
-                    }
-                    return null;
-                  },
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                ),
-              ),
-
-              // Reg number>>>>>>>>>>>>>>>>>>>>>>>>>
-
-              SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 20,
-                  right: 27,
-                ),
-                child: TextFormField(
-                  controller: _regnumberController,
-                  decoration: InputDecoration(
-                    // filled: true,
-                    icon: Icon(Icons.onetwothree_rounded),
-                    label: Text('Reg Number :'),
-                    hintText: 'Please enter the car Reg Number',
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25)),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Reg number is Empty';
-                    } else {
-                      return null;
-                    }
-                  },
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.deny(RegExp(r'\s'))
-                  ],
-                ),
-              ),
-
-              // Insurance>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-              SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 20,
-                  right: 27,
-                ),
-                child: TextFormField(
-                  controller: _insuranceController,
-                  readOnly: true,
-                  decoration: InputDecoration(
-                      // filled: true,
-                      icon: Icon(Icons.note),
-                      label: Text('Insurance Upto :'),
-                      hintText: 'Please enter the Insurance date',
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25))),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Insurance is Empty';
-                    } else {
-                      return null;
-                    }
-                  },
-                  onTap: () {
-                    _selectedInsuranceDate();
-                  },
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                ),
-              ),
-
-              // Pollution>>>>>>>>>>>>>>>>>>>>>>
-
-              SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 20,
-                  right: 27,
-                ),
-                child: TextFormField(
-                  controller: _pollutionController,
-                  readOnly: true,
-                  decoration: InputDecoration(
-                      // filled: true,
-                      icon: Icon(Icons.note),
-                      label: Text('Pollution Upto :'),
-                      hintText: 'Please enter the pollution date',
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25))),
-                  keyboardType: TextInputType.datetime,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Pollution is Empty';
-                    } else {
-                      return null;
-                    }
-                  },
-                  onTap: () {
-                    _selectedPollutionDate();
-                  },
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                ),
-              ),
-
-              // Amount >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-              SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 20,
-                  right: 27,
-                ),
-                child: TextFormField(
-                  controller: _amountController,
-                  decoration: InputDecoration(
-                      // filled: true,
-                      icon: Icon(Icons.currency_rupee_rounded),
-                      label: Text('Amount of the Car :'),
-                      hintText: 'Please enter amount of the car ',
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25))),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                    FilteringTextInputFormatter.deny(RegExp(r'\s'))
-                  ],
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Car amount is Empty';
-                    } else {
-                      return null;
-                    }
-                  },
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                ),
-              ),
-
-              SizedBox(
-                height: 50,
-              )
+              const SizedBox(height: 50),
             ],
           ),
         ),
@@ -497,113 +205,167 @@ class _Adding_carsState extends State<AddingCars> {
     );
   }
 
-  Future<void> validator() async {
-    if (_formkey.currentState!.validate() && image25 != null) {
-      final car = _nameController.text.toString();
-      final brand = selectedBrandTypes!;
-      final model = _modelController.text.trim().toString();
-      final fuel = selectedFueltypes!;
-      final seat = selectedSeattypes!;
-      final reg_num = _regnumberController.text.trim().toUpperCase().toString();
-      final insurance = _insuranceController.text.trim();
-      final pollution = _pollutionController.text.trim();
-      final amount = _amountController.text.trim().toString();
-
-      final newcar = CarRental(
-          imagex: imagepath!,
-          car: car,
-          brand: brand,
-          model: model,
-          fuel: fuel,
-          seat: seat,
-          number: reg_num,
-          insurance: insurance,
-          pollution: pollution,
-          amount: amount,
-          pickUpDate: null,
-          dropOffDate: null,
-          notes: null,
-          currentKm: null,
-          advanceAmount: null,
-          customerName: null,
-          mobileNumber: null,
-          address: null,
-          history: null,
-          drivenKm: null,
-          image1: [imagepath!],
-          image2: [imagepath!]);
-
-      await _carRentalSevice.addCar(newcar);
-
-      image25 = null;
-      _nameController.clear();
-      _brandController.clear();
-      _modelController.clear();
-      _fuelController.clear();
-      _seatController.clear();
-      _regnumberController.clear();
-      _insuranceController.clear();
-      _pollutionController.clear();
-      _amountController.clear();
-
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => BottomNavigation()));
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            backgroundColor: Colors.black,
-            behavior: SnackBarBehavior.floating,
-            margin: EdgeInsets.all(10),
-            content: Text('Successfully added')),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            backgroundColor: Colors.black,
-            behavior: SnackBarBehavior.floating,
-            margin: EdgeInsets.all(10),
-            content: Text('Please fill the fields and select an image')),
-      );
-    }
+  Widget _buildImagePicker() {
+    return Stack(
+      children: [
+        Container(
+          height: 170,
+          width: 290,
+          decoration: BoxDecoration(
+              border: Border.all(),
+              image: image25 != null
+                  ? DecorationImage(
+                      image: FileImage(image25!), fit: BoxFit.cover)
+                  : null,
+              borderRadius: BorderRadius.circular(10)),
+        ),
+        Positioned(
+          bottom: 0,
+          right: 5,
+          child: IconButton(
+            onPressed: () => _pickImage(ImageSource.gallery),
+            icon: const Icon(Icons.add_a_photo_outlined, color: Colors.black),
+            color: const Color.fromARGB(255, 255, 255, 255),
+            iconSize: 30,
+          ),
+        ),
+      ],
+    );
   }
 
-  Future<void> getimage(ImageSource source) async {
-    final image = await ImagePicker().pickImage(source: source);
-    if (image == null) {
-      return;
-    }
-    setState(() {
-      image25 = File(image.path);
-      imagepath = image.path.toString();
-    });
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required IconData icon,
+    required String label,
+    required String hintText,
+    TextInputType keyboardType = TextInputType.text,
+    List<TextInputFormatter>? inputFormatters,
+    String? Function(String?)? validator,
+    void Function()? onTap,
+    bool readOnly = false,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: TextFormField(
+        controller: controller,
+        decoration: InputDecoration(
+          icon: Icon(icon),
+          labelText: label,
+          hintText: hintText,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
+        ),
+        keyboardType: keyboardType,
+        inputFormatters: inputFormatters,
+        validator: validator,
+        onTap: onTap,
+        readOnly: readOnly,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+      ),
+    );
   }
 
-Future<void> _selectedInsuranceDate() async {
-  DateTime? pickeded = await showDatePicker(
-      context: context,
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2100),
-      initialDate: DateTime.now());
-
-  if (pickeded != null) {
-    setState(() {
-      _insuranceController.text = DateFormat('dd-MM-yyyy').format(pickeded);        
-    });
+  Widget _buildDropdownButton({
+    required String? value,
+    required List<String> items,
+    required IconData icon,
+    required String label,
+    void Function(String?)? onChanged,
+    String? Function(String?)? validator,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: DropdownButtonFormField<String>(
+        value: value,
+        onChanged: onChanged,
+        items: items
+            .map((item) =>
+                DropdownMenuItem<String>(value: item, child: Text(item)))
+            .toList(),
+        decoration: InputDecoration(
+          icon: Icon(icon),
+          labelText: label,
+          border: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(25))),
+        ),
+        validator: validator,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+      ),
+    );
   }
-}
 
+  Widget _buildDatePickerField({
+    required TextEditingController controller,
+    required IconData icon,
+    required String label,
+    required String hintText,
+    void Function()? onTap,
+    String? Function(String?)? validator,
+  }) {
+    return _buildTextField(
+      controller: controller,
+      icon: icon,
+      label: label,
+      hintText: hintText,
+      onTap: onTap,
+      readOnly: true,
+      validator: validator,
+    );
+  }
 
-  Future<void> _selectedPollutionDate() async {
-    DateTime? pickeded = await showDatePicker(
-        context: context,
-        firstDate: DateTime.now(),
-        lastDate: DateTime(2100),
-        initialDate: DateTime.now());
-
-    if (pickeded != null) {
+  Future<void> _pickImage(ImageSource source) async {
+    final pickedFile = await ImagePicker().pickImage(source: source);
+    if (pickedFile != null) {
       setState(() {
-        _pollutionController.text = DateFormat('dd-MM-yyyy').format(pickeded);
+        image25 = File(pickedFile.path);
+        imagepath = pickedFile.path;
       });
+    }
+  }
+
+  Future<void> _selectInsuranceDate() async {
+    final selectedDate = await _selectDate();
+    if (selectedDate != null) {
+      _insuranceController.text = DateFormat('dd-MM-yyyy').format(selectedDate);
+    }
+  }
+
+  Future<void> _selectPollutionDate() async {
+    final selectedDate = await _selectDate();
+    if (selectedDate != null) {
+      _pollutionController.text = DateFormat('dd-MM-yyyy').format(selectedDate);
+    }
+  }
+
+  Future<DateTime?> _selectDate() async {
+    final now = DateTime.now();
+    return await showDatePicker(
+      context: context,
+      initialDate: now,
+      firstDate: DateTime(now.year - 5),
+      lastDate: DateTime(now.year + 5),
+    );
+  }
+
+  void _saveCar() {
+    if (_formKey.currentState!.validate() && image25 != null) {
+      final newCar = CarRental(
+        imagex: imagepath,
+        car: _nameController.text,
+        brand: selectedBrandType!,
+        model: _modelController.text,
+        fuel: selectedFuelType!,
+        seat: selectedSeatType!,
+        number: _regNumberController.text,
+        insurance: _insuranceController.text,
+        pollution: _pollutionController.text,
+        amount: _amountController.text,
+      );
+      _carRentalService.addCar(newCar);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => BottomNavigation()));
+    } else if (image25 == null) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Image is empty')));
     }
   }
 }

@@ -1,11 +1,5 @@
 import 'package:car_rental/db_helper/signup_service.dart';
-// import 'package:car_rental/models/carrental.dart';
-// import 'package:car_rental/screens/side_bar_Screens/about_page.dart';
 import 'package:car_rental/screens/login_page.dart';
-// import 'package:car_rental/screens/side_bar_Screens/contact_page.dart';
-// import 'package:car_rental/screens/side_bar_Screens/history_page.dart';
-// import 'package:car_rental/screens/side_bar_Screens/privacy_page.dart';
-// import 'package:car_rental/screens/side_bar_Screens/revenue_page.dart';
 import 'package:car_rental/screens/side_bar_screens/about_page.dart';
 import 'package:car_rental/screens/side_bar_screens/contact_page.dart';
 import 'package:car_rental/screens/side_bar_screens/history_page.dart';
@@ -13,7 +7,7 @@ import 'package:car_rental/screens/side_bar_screens/privacy_page.dart';
 import 'package:car_rental/screens/side_bar_screens/revenue_page.dart';
 import 'package:car_rental/screens/side_bar_screens/terms_page.dart';
 import 'package:flutter/material.dart';
-// import 'package:car_rental/models/signup.dart';
+
 
 class SideBar extends StatelessWidget {
   SideBar({super.key});
@@ -55,15 +49,15 @@ class SideBar extends StatelessWidget {
                   .push(MaterialPageRoute(builder: (context) => HistoryPage()));
             },
           ),
-          // ListTile(
-          //   title: Text('Revenue'),
-          //   splashColor: Colors.black12,
-          //   leading: Icon(Icons.currency_rupee_outlined),
-          //   onTap: () {
-          //     Navigator.of(context).push(
-          //         MaterialPageRoute(builder: (context) => RevenuePage()));
-          //   },
-          // ),
+          ListTile(
+            title: Text('Revenue'),
+            splashColor: Colors.black12,
+            leading: Icon(Icons.currency_rupee_outlined),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => RevenuePage()));
+            },
+          ),
           ListTile(
             title: Text('Privacy Policy'),
             splashColor: Colors.black12,

@@ -18,6 +18,7 @@ class RentedCarDetails extends StatefulWidget {
 class _Rented_Car_DetailsState extends State<RentedCarDetails> {
   final CarRentalService _carRentalService = CarRentalService();
   final textStyle = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
+    List<File> selectedImag = [];
 
   final subTextStyle = TextStyle(fontSize: 16);
 
@@ -66,30 +67,47 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
                           ),
                           Column(
                             children: [
-                              CarouselSlider(
-                                items: widget.carRental.image1
-                                        ?.map((image) => Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                                image: DecorationImage(
-                                                  image: FileImage(
-                                                    File(image),
-                                                  ),
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                              width: 330,
-                                              height: 200,
-                                            ))
-                                        .toList() ??
-                                    [],
-                                options: CarouselOptions(
-                                  height: 200,
-                                  viewportFraction: 1.0,
-                                  enableInfiniteScroll: false,
-                                ),
-                              ),
+                               SizedBox(
+                  height: 170,
+                  width: 290,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(),
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(5),
+                      child: Image.file(
+                        File(widget.carRental.imagex),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20,)
+                              // CarouselSlider(
+                              //   items: widget.carRental.image1
+                              //           ?.map((image) => Container(
+                              //                 decoration: BoxDecoration(
+                              //                   borderRadius:
+                              //                       BorderRadius.circular(15),
+                              //                   image: DecorationImage(
+                              //                     image: FileImage(
+                              //                         selectedImag[widget.carRental.image1]),
+                              //                     fit: BoxFit.cover,
+                              //                   ),
+                              //                 ),
+                              //                 width: 330,
+                              //                 height: 200,
+                              //               ))
+                              //           .toList() ??
+                              //       [],
+                              //   options: CarouselOptions(
+                              //     height: 200,
+                              //     viewportFraction: 1.0,
+                              //     enableInfiniteScroll: false,
+                              //   ),
+                              // ),
                             ],
                           ),
                           Text(
@@ -97,7 +115,7 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
                             style: TextStyle(fontSize: 16, color: Colors.red),
                           ),
                           SizedBox(
-                            height: 20,
+                            height: 13,
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 15, right: 15),
@@ -505,7 +523,6 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
                                 },
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
-                                
                               ),
                             ),
                           ),
@@ -574,35 +591,52 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
                           SizedBox(
                             height: 20,
                           ),
-                          CarouselSlider(
-                            items: widget.carRental.image2
-                                    ?.map((image) => Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            image: DecorationImage(
-                                              image: FileImage(
-                                                File(image),
-                                              ),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                          width: 330,
-                                          height: 200,
-                                        ))
-                                    .toList() ??
-                                [],
-                            options: CarouselOptions(
-                              height: 200,
-                              viewportFraction: 1.0,
-                              enableInfiniteScroll: false,
-                            ),
-                          ),
+                           SizedBox(
+                  height: 170,
+                  width: 290,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(),
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(5),
+                      child: Image.file(
+                        File(widget.carRental.image2),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ),
+                          // CarouselSlider(
+                          //   items: widget.carRental.image2
+                          //           ?.map((image) => Container(
+                          //                 decoration: BoxDecoration(
+                          //                   borderRadius:
+                          //                       BorderRadius.circular(15),
+                          //                   image: DecorationImage(
+                          //                     image: FileImage(
+                          //                       File(image),
+                          //                     ),
+                          //                     fit: BoxFit.cover,
+                          //                   ),
+                          //                 ),
+                          //                 width: 330,
+                          //                 height: 200,
+                          //               ))
+                          //           .toList() ??
+                          //       [],
+                          //   options: CarouselOptions(
+                          //     height: 200,
+                          //     viewportFraction: 1.0,
+                          //     enableInfiniteScroll: false,
+                          //   ),
+                          // ),
                           // SizedBox(
                           //   height: 50,
                           // ),
                           Padding(
-                            padding: const EdgeInsets.only(left: 15, right: 15),
+                            padding: const EdgeInsets.only(left: 15, right: 15,top: 20),
                             child: Divider(),
                           ),
                           Column(

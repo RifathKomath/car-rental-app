@@ -59,7 +59,7 @@ class CarRental {
   String? advanceAmount;
 
   @HiveField(18)
-  List<String>? image2;
+  final image2;
 
   @HiveField(19)
   String? customerName;
