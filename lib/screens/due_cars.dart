@@ -8,11 +8,12 @@ class DueCars extends StatefulWidget {
   const DueCars({super.key});
 
   @override
-  State<DueCars> createState() => _dueCarsState();
+  State<DueCars> createState() => _DueCarsState();
 }
 
-class _dueCarsState extends State<DueCars> {
+class _DueCarsState extends State<DueCars> {
   CarRentalService carRentalService = CarRentalService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,15 +30,28 @@ class _dueCarsState extends State<DueCars> {
         valueListenable: CarRentalService.carListNotifier,
         builder: (context, value, child) {
           List<CarRental> data = value.where((element) {
-            var date = [];
-            if (element.dropOffDate != null) {
-              date = element.dropOffDate!.split('-').toList();
+            if (element.dropOffDate == null || element.dropOffDate!.isEmpty) {
+              return false;
+            }
+            var dateParts = element.dropOffDate!.split('-');
+            if (dateParts.length != 3) {
+              return false;
             }
 
-            return element.status &&
-                DateTime.now().month >= int.parse(date[1]) &&
-                DateTime.now().day >= int.parse(date[2]);
+            DateTime dropOffDate;
+            try {
+              dropOffDate = DateTime(
+                int.parse(dateParts[0]),
+                int.parse(dateParts[1]),
+                int.parse(dateParts[2]),
+              );
+            } catch (e) {
+              return false;
+            }
+
+            return element.status && DateTime.now().isAfter(dropOffDate);
           }).toList();
+
           return data.isEmpty
               ? Center(
                   child: Text("No due cars"),
@@ -60,7 +74,6 @@ class _dueCarsState extends State<DueCars> {
                           padding: const EdgeInsets.only(left: 8, right: 8),
                           child: Card(
                             color: Colors.white,
-                            // margin: EdgeInsets.symmetric(vertical: 8.0),
                             elevation: 5.0,
                             shape: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12)),
@@ -82,6 +95,9 @@ class _dueCarsState extends State<DueCars> {
                                         child: Image.file(
                                           File(data[index].imagex),
                                           fit: BoxFit.cover,
+                                          errorBuilder: (context, error, stackTrace) {
+                                            return Icon(Icons.error);
+                                          },
                                         ),
                                       ),
                                     ),
@@ -104,7 +120,6 @@ class _dueCarsState extends State<DueCars> {
                                           style: TextStyle(fontSize: 14),
                                           textAlign: TextAlign.start,
                                         ),
-
                                         Text(
                                           "Reg No: ${data[index].number}",
                                           style: TextStyle(
@@ -117,14 +132,6 @@ class _dueCarsState extends State<DueCars> {
                                               fontSize: 14, color: Colors.red),
                                           textAlign: TextAlign.start,
                                         ),
-
-                                        //    TextButton(
-                                        // onPressed: () {
-                                        //   FlutterPhoneDirectCaller.callNumber(
-                                        //       '${value[index].mobileNumber}');
-                                        // },
-                                        // child: Text(
-                                        //     '${value[index].mobileNumber}')),
                                       ],
                                     ),
                                   ),

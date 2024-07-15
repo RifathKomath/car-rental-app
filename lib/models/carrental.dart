@@ -76,6 +76,9 @@ class CarRental {
   @HiveField(23)
   String? drivenKm;
 
+  @HiveField(24)
+  bool paid;
+
   CarRental({
     this.id,
     required this.imagex,
@@ -101,6 +104,7 @@ class CarRental {
     this.address,
     this.history,
     this.drivenKm,
+    this.paid = false,
   });
 
   double _parseDouble(String? value, [double defaultValue = 0.0]) {

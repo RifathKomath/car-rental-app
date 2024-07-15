@@ -42,12 +42,9 @@ class _Rented_CarsState extends State<HistoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(100),
+          preferredSize: Size.fromHeight(110),
           child: AppBar(
-            title: Text('History of rented cars',style: TextStyle(color: Colors.white),),
-            centerTitle: true,
             backgroundColor: Colors.blueGrey[900],
-            automaticallyImplyLeading: false,
             iconTheme: IconThemeData(color: Colors.white),
             bottom: PreferredSize(
               preferredSize: Size.fromHeight(140),

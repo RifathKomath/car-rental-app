@@ -41,6 +41,7 @@ class CarRentalAdapter extends TypeAdapter<CarRental> {
       address: fields[21] as String?,
       history: fields[22] as String?,
       drivenKm: fields[23] as String?,
+      
     );
   }
 

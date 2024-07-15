@@ -5,7 +5,6 @@ import 'package:car_rental/screens/bottom_navigation.dart';
 import 'package:car_rental/screens/total_balance.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
 class RentedCarDetails extends StatefulWidget {
   CarRental carRental;
