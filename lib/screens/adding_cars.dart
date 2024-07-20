@@ -355,7 +355,7 @@ class _AddingCarsState extends State<AddingCars> {
         model: _modelController.text,
         fuel: selectedFuelType!,
         seat: selectedSeatType!,
-        number: _regNumberController.text,
+        number: _regNumberController.text.toUpperCase(),
         insurance: _insuranceController.text,
         pollution: _pollutionController.text,
         amount: _amountController.text,
