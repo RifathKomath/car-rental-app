@@ -267,6 +267,13 @@ class _EditingPageState extends State<EditingPage> {
       );
 
       await _carRentalService.editDetails(carRental);
+       ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            backgroundColor: Colors.black,
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.all(10),
+            content: Text('Successfully Edited')),
+      );
       Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) => CarDetails(carRental: carRental),
       ));

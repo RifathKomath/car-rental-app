@@ -134,64 +134,66 @@ class _Filter_PageState extends State<FilterPage> {
                           return SizedBox.shrink();
                         }
                         return Container(
-                          child: Card(
-                            color: Colors.white,
-                            margin: EdgeInsets.symmetric(vertical: 8.0),
-                            elevation: 5.0,
-                            shape: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: ListTile(
-                              leading: SizedBox(
-                                height: 200,
-                                width: 120,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(5),
-                                    child: Image.file(
-                                      File(info.imagex),
-                                      fit: BoxFit.cover,
+                        child: Card(
+                          color: Colors.white,
+                          margin: EdgeInsets.symmetric(vertical: 8.0),
+                          elevation: 5.0,
+                          shape: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12)),
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                SizedBox(
+                                  height: 70,
+                                  width: 110,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(),
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(5),
+                                      child: Image.file(
+                                        File(_list[index].imagex),
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              title: Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 8, bottom: 8),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Name: ${info.car}",
-                                      style: style,
-                                      textAlign: TextAlign.start,
-                                    ),
-                                    Text(
-                                      "Brand: ${info.brand}",
-                                      style: style,
-                                      textAlign: TextAlign.start,
-                                    ),
-                                    Text(
-                                      "Model: ${info.model}",
-                                      style: style,
-                                      textAlign: TextAlign.start,
-                                    ),
-                                  ],
+                                SizedBox(
+                                  width: 10,
                                 ),
-                              ),
-                              onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) =>
-                                        CarDetails(carRental: _list[index])));
-                              },
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Name: ${_list[index].car}",
+                                        style: TextStyle(fontSize: 14),
+                                        textAlign: TextAlign.start,
+                                      ),
+                                      Text(
+                                        "Brand: ${_list[index].brand}",
+                                        style: TextStyle(fontSize: 14),
+                                        textAlign: TextAlign.start,
+                                      ),
+                                      Text(
+                                        "Model: ${_list[index].model}",
+                                        style: TextStyle(fontSize: 14),
+                                        textAlign: TextAlign.start,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                               
+                              ],
                             ),
                           ),
-                        );
+                        ),
+                      );
                       }),
             ),
           ],

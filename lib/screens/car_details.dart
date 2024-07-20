@@ -317,7 +317,7 @@ class _Car_detailsState extends State<CarDetails> {
                               color: Colors.blueGrey[900]),
                           child: ElevatedButton(
                             onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
+                              Navigator.of(context).pushReplacement(MaterialPageRoute(
                                   builder: (context) => EditingPage(
                                       carRental: widget.carRental)));
                             },

@@ -361,7 +361,15 @@ class _AddingCarsState extends State<AddingCars> {
         amount: _amountController.text,
       );
       _carRentalService.addCar(newCar);
-      Navigator.push(
+
+            ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            backgroundColor: Colors.black,
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.all(10),
+            content: Text('Successfully added')),
+      );
+            Navigator.push(
           context, MaterialPageRoute(builder: (_) => BottomNavigation()));
     } else if (image25 == null) {
       ScaffoldMessenger.of(context)
