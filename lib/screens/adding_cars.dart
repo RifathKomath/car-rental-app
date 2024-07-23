@@ -341,7 +341,7 @@ class _AddingCarsState extends State<AddingCars> {
     return await showDatePicker(
       context: context,
       initialDate: now,
-      firstDate: DateTime(now.year - 5),
+      firstDate: DateTime(now.year -2),
       lastDate: DateTime(now.year + 5),
     );
   }
@@ -373,7 +373,12 @@ class _AddingCarsState extends State<AddingCars> {
           context, MaterialPageRoute(builder: (_) => BottomNavigation()));
     } else if (image25 == null) {
       ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Image is empty')));
+          .showSnackBar(const SnackBar(content: Text('Image is empty'),
+          backgroundColor: Colors.black,
+          margin: EdgeInsets.all(10),
+          behavior: SnackBarBehavior.floating),
+          
+          );
     }
   }
 }

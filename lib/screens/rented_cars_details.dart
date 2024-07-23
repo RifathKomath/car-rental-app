@@ -84,29 +84,7 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
                   ),
                 ),
                 SizedBox(height: 20,)
-                              // CarouselSlider(
-                              //   items: widget.carRental.image1
-                              //           ?.map((image) => Container(
-                              //                 decoration: BoxDecoration(
-                              //                   borderRadius:
-                              //                       BorderRadius.circular(15),
-                              //                   image: DecorationImage(
-                              //                     image: FileImage(
-                              //                         selectedImag[widget.carRental.image1]),
-                              //                     fit: BoxFit.cover,
-                              //                   ),
-                              //                 ),
-                              //                 width: 330,
-                              //                 height: 200,
-                              //               ))
-                              //           .toList() ??
-                              //       [],
-                              //   options: CarouselOptions(
-                              //     height: 200,
-                              //     viewportFraction: 1.0,
-                              //     enableInfiniteScroll: false,
-                              //   ),
-                              // ),
+                            
                             ],
                           ),
                           Text(
@@ -330,21 +308,6 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
                               SizedBox(
                                 width: 16,
                               ),
-                              // Icon(
-                              //   Icons.currency_rupee,
-                              //   size: 16,
-                              //   color: Colors.green,
-                              // ),
-                              // Text(
-                              //   '$balanceAmount',
-                              //   style: TextStyle(
-                              //       color: Colors.green, fontSize: 16),
-                              // ),
-                              // Text(
-                              //   '/-',
-                              //   style: subTextStyle,
-                              // )
-
                               TextButton(
                                   onPressed: () {
                                     showDialog(
@@ -607,33 +570,6 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
                     ),
                   ),
                 ),
-                          // CarouselSlider(
-                          //   items: widget.carRental.image2
-                          //           ?.map((image) => Container(
-                          //                 decoration: BoxDecoration(
-                          //                   borderRadius:
-                          //                       BorderRadius.circular(15),
-                          //                   image: DecorationImage(
-                          //                     image: FileImage(
-                          //                       File(image),
-                          //                     ),
-                          //                     fit: BoxFit.cover,
-                          //                   ),
-                          //                 ),
-                          //                 width: 330,
-                          //                 height: 200,
-                          //               ))
-                          //           .toList() ??
-                          //       [],
-                          //   options: CarouselOptions(
-                          //     height: 200,
-                          //     viewportFraction: 1.0,
-                          //     enableInfiniteScroll: false,
-                          //   ),
-                          // ),
-                          // SizedBox(
-                          //   height: 50,
-                          // ),
                           Padding(
                             padding: const EdgeInsets.only(left: 15, right: 15,top: 20),
                             child: Divider(),
@@ -754,8 +690,6 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
     if (formkey.currentState!.validate()) {
       final history = historyOfCars.text.trim();
 
-      // final selecteCarDetail = selectedCars(image1:imagePaths, pickUpDate: pickup, dropOffDate: dropoff, notes: notes, currentKm: curkm, advanceAmount: adamount, image2: imagePaths, customerName: cutomerName, mobileNumber: mobileNumber, address: address);
-
       final carSelected = CarRental(
           imagex: widget.carRental.imagex,
           car: widget.carRental.car,
@@ -781,7 +715,6 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
       print('validation finished');
       _carRentalService.editDetails(carSelected);
 
-      // await _selectedCarSevice.addDetails(selecteCarDetail);
 
       print('code finished');
 
@@ -815,8 +748,6 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
     if (_formkey.currentState!.validate()) {
       final km = balance.text.trim();
 
-      // final selecteCarDetail = selectedCars(image1:imagePaths, pickUpDate: pickup, dropOffDate: dropoff, notes: notes, currentKm: curkm, advanceAmount: adamount, image2: imagePaths, customerName: cutomerName, mobileNumber: mobileNumber, address: address);
-
       final carSelect = CarRental(
           imagex: widget.carRental.imagex,
           car: widget.carRental.car,
@@ -842,8 +773,6 @@ class _Rented_Car_DetailsState extends State<RentedCarDetails> {
       print('validation finished');
 
       _carRentalService.editDetails(carSelect);
-
-      // await _selectedCarSevice.addDetails(selecteCarDetail);
 
       print('code finished');
 

@@ -144,82 +144,7 @@ class _Selected_carState extends State<SelectedCar> {
                                 ),
                               ),
                             ),
-                            // SingleChildScrollView(
-                            //   scrollDirection: Axis.horizontal,
-                            //   child: Row(
-                            //     children: [
-                            //       ...List.generate(
-                            //         selectedImag.length,
-                            //         (index) => Padding(
-                            //           padding: const EdgeInsets.all(8.0),
-                            //           child: Container(
-                            //             width: 250,
-                            //             height: 150,
-                            //             decoration: BoxDecoration(
-                            //               borderRadius:
-                            //                   BorderRadius.circular(5),
-                            //               border:
-                            //                   Border.all(color: Colors.black),
-                            //               image: DecorationImage(
-                            //                 image: selectedImag.isNotEmpty
-                            //                     ? FileImage(
-                            //                         File(imagePat[index]))
-                            //                     : const AssetImage("")
-                            //                         as ImageProvider,
-                            //                 fit: BoxFit.cover,
-                            //               ),
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       ),
-                            // Padding(
-                            //   padding: const EdgeInsets.all(8.0),
-                            //   child: Container(
-                            //     width: 150,
-                            //     height: 150,
-                            //     decoration: BoxDecoration(
-                            //         border: Border.all(),
-                            //         borderRadius: BorderRadius.circular(5)),
-                            //     child: IconButton(
-                            //       onPressed: () {
-                            //         // addCarImage(context);
-                            //         // pickImage();
-                            //       },
-                            //       icon: Icon(
-                            //         Icons.add_a_photo,
-                            //         size: 50,
-                            //         color: Colors.blueGrey[900],
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
-                            //     ],
-                            //   ),
-                            // ),
-                            // SizedBox(
-                            //   height: MediaQuery.of(context).size.height * 0.5,
-                            //   child: GridView.builder(
-                            //     gridDelegate:
-                            //         const SliverGridDelegateWithFixedCrossAxisCount(
-                            //       crossAxisCount: 3,
-                            //       mainAxisExtent: 130.0,
-                            //       crossAxisSpacing: 4.0,
-                            //     ),
-                            //     itemBuilder: (context, index) {
-                            //       return GestureDetector(
-                            //         onTap: () {},
-                            //         onLongPress: () {
-                            //           // DeleteImage.deleteImageWhileAddingTrip(context, index,selectedImages, onImageDeleted);
-                            //         },
-                            //         child: Image.file(
-                            //           selectedImag[index],
-                            //           fit: BoxFit.cover,
-                            //         ),
-                            //       );
-                            //     },
-                            //     itemCount: selectedImag.length,
-                            //   ),
-                            // ),
+
                             SizedBox(
                               height: 30,
                             ),
@@ -425,59 +350,7 @@ class _Selected_carState extends State<SelectedCar> {
                                 ),
                               ],
                             ),
-                            // SingleChildScrollView(
-                            //   scrollDirection: Axis.horizontal,
-                            //   child: Row(
-                            //     children: [
-                            //       ...List.generate(
-                            //         imagePaths.length,
-                            //         (index) => Padding(
-                            //           padding: const EdgeInsets.all(8.0),
-                            //           child: Container(
-                            //             width: 250,
-                            //             height: 150,
-                            //             decoration: BoxDecoration(
-                            //               borderRadius:
-                            //                   BorderRadius.circular(5),
-                            //               border:
-                            //                   Border.all(color: Colors.black),
-                            //               image: DecorationImage(
-                            //                 image: imagePaths.isNotEmpty
-                            //                     ? FileImage(
-                            //                         File(imagePaths[index]))
-                            //                     : const AssetImage("")
-                            //                         as ImageProvider,
-                            //                 fit: BoxFit.cover,
-                            //               ),
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       ),
-                            //       Padding(
-                            //         padding: const EdgeInsets.all(8.0),
-                            //         child: Container(
-                            //           width: 150,
-                            //           height: 150,
-                            //           decoration: BoxDecoration(
-                            //               border: Border.all(),
-                            //               borderRadius:
-                            //                   BorderRadius.circular(5)),
-                            //           child: IconButton(
-                            //             onPressed: () {
-                            //               addProofImage(context);
-                            //             },
-                            //             icon: Icon(
-                            //               Icons.add_a_photo,
-                            //               size: 50,
-                            //               color: Colors.blueGrey[900],
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       ),
-                            //     ],
-                            //   ),
-                            // ),
-
+                          
                             SizedBox(
                               height: 5,
                             ),
@@ -603,19 +476,20 @@ class _Selected_carState extends State<SelectedCar> {
         ));
   }
 
-  Future<void> _selecteddropoffDate() async {
-    DateTime? pickeded = await showDatePicker(
-        context: context,
-        firstDate: DateTime.now(),
-        lastDate: DateTime(2100),
-        initialDate: DateTime.now());
+Future<void> _selecteddropoffDate() async {
+  DateTime? pickedDate = await showDatePicker(
+    context: context,
+    firstDate: DateTime.now(),
+    lastDate: DateTime(2100),
+    initialDate: DateTime.now(),
+  );
 
-    if (pickeded != null) {
-      setState(() {
-        _dropoffdate.text = DateFormat('dd-MM-yyyy').format(pickeded);
-      });
-    }
+  if (pickedDate != null) {
+    setState(() {
+      _dropoffdate.text = DateFormat('dd-MM-yyyy').format(pickedDate);
+    });
   }
+}
 
   Future<void> _selectedpickupDate() async {
     DateTime? picked = await showDatePicker(
@@ -631,39 +505,6 @@ class _Selected_carState extends State<SelectedCar> {
     }
   }
 
-  // Future<void> addCarImage(BuildContext context) async {
-  //   final imagePicker = ImagePicker();
-  //   final pickedImage = await imagePicker.pickMultiImage();
-  //   setState(() {
-  //     imagePat.clear();
-  //     for (final multiImg in pickedImage) {
-  //       imagePat.add(multiImg.path);
-  //     }
-  //     selecetedCarImg = imagePat.isNotEmpty;
-  //   });
-  // }
-  // Future<void> pickImage() async {
-  //   final List<XFile> images =
-  //       await ImagePicker().pickMultiImage(imageQuality: 50);
-
-  //   if (images.isNotEmpty) {
-  //     setState(() {
-  //       selectedImag.addAll(images.map((xfile) => File(xfile.path)).toList());
-  //     });
-  //   }
-  // }
-
-  // Future<void> addProofImage(BuildContext context) async {
-  //   final imagePick = ImagePicker();
-  //   final pickedProofImage = await imagePick.pickMultiImage();
-  //   setState(() {
-  //     imagePaths.clear();
-  //     for (final multiImges in pickedProofImage) {
-  //       imagePaths.add(multiImges.path);
-  //     }
-  //     selecetedProofImg = imagePaths.isNotEmpty;
-  //   });
-  // }
 
   Future<void> getimage(ImageSource source) async {
     final image = await ImagePicker().pickImage(source: source);

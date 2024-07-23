@@ -3,6 +3,7 @@ import 'package:car_rental/db_helper/car_rental_service.dart';
 import 'package:car_rental/models/carrental.dart';
 import 'package:car_rental/screens/rented_cars_details.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class DueCars extends StatefulWidget {
   const DueCars({super.key});
@@ -19,7 +20,7 @@ class _DueCarsState extends State<DueCars> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Due cars',
+          'Due Cars',
           style: TextStyle(color: Colors.white),
         ),
         iconTheme: IconThemeData(color: Colors.white),
@@ -33,23 +34,14 @@ class _DueCarsState extends State<DueCars> {
             if (element.dropOffDate == null || element.dropOffDate!.isEmpty) {
               return false;
             }
-            var dateParts = element.dropOffDate!.split('-');
-            if (dateParts.length != 3) {
-              return false;
-            }
-
-            DateTime dropOffDate;
             try {
-              dropOffDate = DateTime(
-                int.parse(dateParts[0]),
-                int.parse(dateParts[1]),
-                int.parse(dateParts[2]),
-              );
+              DateTime dropOffDate = DateFormat('dd-MM-yyyy').parse(element.dropOffDate!);
+              print('Car: ${element.car}, Drop Off Date: $dropOffDate, Now: ${DateTime.now()}, Status: ${element.status}');
+              return element.status && DateTime.now().isAfter(dropOffDate);
             } catch (e) {
+              print('Error parsing date for car: ${element.car}');
               return false;
             }
-
-            return element.status && DateTime.now().isAfter(dropOffDate);
           }).toList();
 
           return data.isEmpty
